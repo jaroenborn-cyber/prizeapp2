@@ -10,6 +10,7 @@ import SkeletonLoader from './components/SkeletonLoader';
 function App() {
   const [cryptoData, setCryptoData] = useState([]);
   const [fiatRates, setFiatRates] = useState({});
+  const [eurRates, setEurRates] = useState({});
   const [selectedCrypto, setSelectedCrypto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,12 +25,14 @@ function App() {
   const fetchData = async () => {
     try {
       setError(null);
-      const [cryptos, rates] = await Promise.all([
+      const [cryptos, usdRates, eurRatesData] = await Promise.all([
         getTopCryptos(10),
-        getFiatRates('USD')
+        getFiatRates('USD'),
+        getFiatRates('EUR')
       ]);
       setCryptoData(cryptos);
-      setFiatRates(rates);
+      setFiatRates(usdRates);
+      setEurRates(eurRatesData);
     } catch (err) {
       console.error('Error fetching data:', err);
       setError('Failed to fetch data. API limit may be reached. Retrying in 60 seconds...');
@@ -70,9 +73,11 @@ function App() {
   };
 
   const fiatPairs = [
-    { from: 'EUR', to: 'USD' },
-    { from: 'GBP', to: 'USD' },
-    { from: 'JPY', to: 'USD' }
+    { from: 'EUR', to: 'USD', rate: fiatRates['EUR'] },
+    { from: 'GBP', to: 'USD', rate: fiatRates['GBP'] },
+    { from: 'JPY', to: 'USD', rate: fiatRates['JPY'] },
+    { from: 'EUR', to: 'THB', rate: eurRates['THB'] },
+    { from: 'EUR', to: 'VND', rate: eurRates['VND'] }
   ];
 
   return (
@@ -145,17 +150,17 @@ function App() {
           </h2>
           
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <SkeletonLoader count={3} type="card" />
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <SkeletonLoader count={5} type="card" />
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {fiatPairs.map((pair) => (
                 <FiatCard
                   key={`${pair.from}-${pair.to}`}
                   from={pair.from}
                   to={pair.to}
-                  rate={fiatRates[pair.from]}
+                  rate={pair.rate}
                 />
               ))}
             </div>
