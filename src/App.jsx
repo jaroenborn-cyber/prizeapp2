@@ -34,7 +34,7 @@ function App() {
     try {
       setError(null);
       const [cryptos, usdRates, eurRatesData] = await Promise.all([
-        getTopCryptos(10),
+        getTopCryptos(100),
         getFiatRates('USD'),
         getFiatRates('EUR')
       ]);
@@ -271,31 +271,103 @@ function App() {
         {/* Crypto Section */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-            <span className="text-neon-cyan">Top 10 Cryptocurrencies</span>
+            <span className="text-neon-cyan">Top 100 Cryptocurrencies</span>
             <span className="text-sm font-normal text-slate-400">(Klik voor details)</span>
           </h2>
           
           {loading ? (
             <SkeletonLoader count={10} type="card" />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              {cryptoData.map((crypto) => (
-                <div key={crypto.id} className="relative">
-                  <CryptoCard
-                    crypto={crypto}
-                    onClick={handleCryptoClick}
-                  />
-                  <button
-                    onClick={() => toggleFavorite(crypto)}
-                    className={`absolute top-2 right-2 p-1 rounded-full ${isFavorite(crypto) ? 'text-yellow-400 bg-yellow-400/20' : 'text-slate-500 hover:text-yellow-400 hover:bg-yellow-400/10'}`}
-                    aria-label={isFavorite(crypto) ? "Remove from favorites" : "Add to favorites"}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  </button>
-                </div>
-              ))}
+            <div className="bg-dark-card rounded-xl border border-slate-700 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-slate-800/50 border-b border-slate-700">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">#</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Naam</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">Prijs (USD)</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">24u %</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">7d %</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">Market Cap</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">24u Volume</th>
+                      <th className="px-4 py-3 text-center text-xs font-medium text-slate-400 uppercase tracking-wider">Favorieten</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-700">
+                    {cryptoData.map((crypto) => {
+                      const priceChange24h = crypto.price_change_percentage_24h || 0;
+                      const priceChange7d = crypto.price_change_percentage_7d_in_currency || 0;
+                      const isPositive24h = priceChange24h >= 0;
+                      const isPositive7d = priceChange7d >= 0;
+
+                      const formatPrice = (price) => {
+                        if (price >= 1) {
+                          return price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        }
+                        return price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 });
+                      };
+
+                      const formatMarketCap = (marketCap) => {
+                        if (marketCap >= 1e12) return `$${(marketCap / 1e12).toFixed(2)}T`;
+                        if (marketCap >= 1e9) return `$${(marketCap / 1e9).toFixed(2)}B`;
+                        if (marketCap >= 1e6) return `$${(marketCap / 1e6).toFixed(2)}M`;
+                        return `$${marketCap.toFixed(2)}`;
+                      };
+
+                      return (
+                        <tr 
+                          key={crypto.id} 
+                          onClick={() => handleCryptoClick(crypto)}
+                          className="hover:bg-slate-800/50 cursor-pointer transition-colors"
+                        >
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-400">
+                            {crypto.market_cap_rank}
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <div className="flex items-center gap-3">
+                              <img src={crypto.image} alt={crypto.name} className="w-8 h-8 rounded-full" />
+                              <div>
+                                <div className="text-sm font-medium text-white">{crypto.name}</div>
+                                <div className="text-xs text-slate-400 uppercase">{crypto.symbol}</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-white">
+                            ${formatPrice(crypto.current_price)}
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-semibold">
+                            <span className={isPositive24h ? 'text-green-400' : 'text-red-400'}>
+                              {isPositive24h ? '▲' : '▼'} {Math.abs(priceChange24h).toFixed(2)}%
+                            </span>
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-semibold">
+                            <span className={isPositive7d ? 'text-green-400' : 'text-red-400'}>
+                              {isPositive7d ? '▲' : '▼'} {Math.abs(priceChange7d).toFixed(2)}%
+                            </span>
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm text-slate-300">
+                            {formatMarketCap(crypto.market_cap)}
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm text-slate-300">
+                            {formatMarketCap(crypto.total_volume)}
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
+                            <button
+                              onClick={() => toggleFavorite(crypto)}
+                              className={`p-1 rounded-full ${isFavorite(crypto) ? 'text-yellow-400 bg-yellow-400/20' : 'text-slate-500 hover:text-yellow-400 hover:bg-yellow-400/10'}`}
+                              aria-label={isFavorite(crypto) ? "Verwijder van favorieten" : "Voeg toe aan favorieten"}
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
         </section>
