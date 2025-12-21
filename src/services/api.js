@@ -126,12 +126,13 @@ export const getHistoricalData = async (coinId, days = '7') => {
       const response = await axios.get(`${COINGECKO_BASE_URL}/coins/${coinId}/market_chart`, {
         params: {
           vs_currency: 'usd',
-          days: days,
-          interval: interval
+          days: days
         }
       });
       
       console.log(`Received ${response.data.prices.length} data points for ${days} days chart`);
+      console.log(`First data point:`, new Date(response.data.prices[0][0]).toLocaleString());
+      console.log(`Last data point:`, new Date(response.data.prices[response.data.prices.length - 1][0]).toLocaleString());
       
       return response.data;
     } catch (error) {
