@@ -45,7 +45,7 @@ const SearchBar = ({ onSelectCrypto }) => {
           onChange={(e) => handleSearch(e.target.value)}
           onFocus={() => query.length >= 2 && setShowResults(true)}
           placeholder="Zoek naar cryptocurrencies..."
-          className="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 pl-12 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-neon-purple"
+          className="w-full bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white border border-slate-600 dark:border-slate-600 light:border-slate-300 high-contrast:border-black rounded-lg px-4 py-3 pl-12 text-white dark:text-white light:text-slate-800 high-contrast:text-black placeholder-slate-500 dark:placeholder-slate-500 light:placeholder-slate-400 high-contrast:placeholder-gray-700 focus:outline-none focus:ring-2 focus:ring-neon-purple dark:focus:ring-neon-purple light:focus:ring-neon-purple high-contrast:focus:ring-high-contrast-accent"
         />
         <svg
           className="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500"
@@ -68,17 +68,17 @@ const SearchBar = ({ onSelectCrypto }) => {
       </div>
 
       {showResults && results.length > 0 && (
-        <div className="absolute z-10 w-full mt-2 bg-dark-card border border-slate-700 rounded-lg shadow-xl max-h-96 overflow-y-auto">
+        <div className="absolute z-10 w-full mt-2 bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black rounded-lg shadow-xl max-h-96 overflow-y-auto">
           {results.map((coin) => (
             <div
               key={coin.id}
               onClick={() => handleSelectCrypto(coin)}
-              className="flex items-center gap-3 p-4 hover:bg-slate-700 cursor-pointer transition-colors border-b border-slate-700 last:border-b-0"
+              className="flex items-center gap-3 p-4 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-100 high-contrast:hover:bg-gray-300 cursor-pointer transition-colors border-b border-slate-700 dark:border-slate-700 light:border-slate-200 high-contrast:border-gray-400 last:border-b-0"
             >
               <img src={coin.thumb || coin.large} alt={coin.name} className="w-8 h-8 rounded-full" />
               <div className="flex-1">
-                <p className="font-semibold text-white">{coin.name}</p>
-                <p className="text-sm text-slate-400 uppercase">{coin.symbol}</p>
+                <p className="font-semibold text-white dark:text-white light:text-slate-800 high-contrast:text-black">{coin.name}</p>
+                <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-800 uppercase">{coin.symbol}</p>
               </div>
               <span className="text-xs text-slate-500">#{coin.market_cap_rank || 'N/A'}</span>
             </div>

@@ -8,6 +8,7 @@ import FiatCard from './components/FiatCard';
 import CryptoDetailModal from './components/CryptoDetailModal';
 import SearchBar from './components/SearchBar';
 import SkeletonLoader from './components/SkeletonLoader';
+import ThemeSwitcher from './components/ThemeSwitcher';
 
 function App() {
   const [cryptoData, setCryptoData] = useState([]);
@@ -242,9 +243,9 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-dark-bg text-white">
+    <div className="min-h-screen bg-dark-bg dark:bg-dark-bg light:bg-light-bg high-contrast:bg-high-contrast-bg text-white dark:text-white light:text-slate-800 high-contrast:text-high-contrast-text">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-dark-card/50 backdrop-blur-sm sticky top-0 z-40">
+      <header className="border-b border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white bg-dark-card/50 dark:bg-dark-card/50 light:bg-light-card high-contrast:bg-high-contrast-card backdrop-blur-sm sticky top-0 z-40">
         <div className="w-full px-4 py-6">
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -253,9 +254,12 @@ function App() {
               </h1>
               <p className="text-slate-400 text-sm mt-1">Real-time koersen en marktdata</p>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-sm text-slate-400">Live</span>
+            <div className="flex items-center gap-4">
+              <ThemeSwitcher />
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-sm text-slate-400">Live</span>
+              </div>
             </div>
           </div>
           
@@ -268,7 +272,7 @@ function App() {
 
       <main className="w-full px-4 py-8">
         {error && (
-          <div className="mb-6 bg-red-500/10 border border-red-500/50 rounded-lg p-4 text-red-400">
+          <div className="mb-6 bg-red-500/10 dark:bg-red-500/10 light:bg-red-100 high-contrast:bg-red-900 border border-red-500/50 dark:border-red-500/50 light:border-red-300 high-contrast:border-red-300 rounded-lg p-4 text-red-400 dark:text-red-400 light:text-red-700 high-contrast:text-red-200">
             <p className="font-semibold">⚠️ {error}</p>
           </div>
         )}
@@ -412,14 +416,14 @@ function App() {
                 <table className="w-full">
                   <thead className="bg-slate-800/50 border-b border-slate-700">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">#</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Naam</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">Prijs (USD)</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">24u %</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">7d %</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">Market Cap</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">24u Volume</th>
-                      <th className="px-4 py-3 text-center text-xs font-medium text-slate-400 uppercase tracking-wider">Favorieten</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">#</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Naam</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Prijs (USD)</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">24u %</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">7d %</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Market Cap</th>
+                      <th className="px-4 py-3 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">24u Volume</th>
+                      <th className="px-4 py-3 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Favorieten</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-700">
@@ -458,7 +462,7 @@ function App() {
                               <img src={crypto.image} alt={crypto.name} className="w-8 h-8 rounded-full" />
                               <div>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-sm font-medium text-white">{crypto.name}</span>
+                                  <span className="text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black">{crypto.name}</span>
                                   {cryptoWithLivePrice.isLive && (
                                     <span className="text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded flex items-center gap-1">
                                       <span className="inline-block w-1 h-1 bg-green-400 rounded-full animate-pulse"></span>
@@ -466,11 +470,11 @@ function App() {
                                     </span>
                                   )}
                                 </div>
-                                <div className="text-xs text-slate-400 uppercase">{crypto.symbol}</div>
+                                <div className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-800 uppercase">{crypto.symbol}</div>
                               </div>
                             </div>
                           </td>
-                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-white">
+                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black">
                             ${formatPrice(cryptoWithLivePrice.current_price)}
                           </td>
                           <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-semibold">
@@ -483,10 +487,10 @@ function App() {
                               {isPositive7d ? '▲' : '▼'} {Math.abs(priceChange7d).toFixed(2)}%
                             </span>
                           </td>
-                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm text-slate-300">
+                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
                             {formatMarketCap(crypto.market_cap)}
                           </td>
-                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm text-slate-300">
+                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
                             {formatMarketCap(crypto.total_volume)}
                           </td>
                           <td className="px-4 py-4 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
@@ -545,8 +549,8 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800 mt-16 py-8">
-        <div className="w-full px-4 text-center text-slate-500 text-sm">
+      <footer className="border-t border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white mt-16 py-8">
+        <div className="w-full px-4 text-center text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-400 text-sm">
           <p>Data geleverd door CoinGecko API en ExchangeRate-API</p>
           <p className="mt-2">Updates elke 60 seconden</p>
         </div>
