@@ -10,8 +10,10 @@ import FullscreenCrypto from './components/FullscreenCrypto';
 import SearchBar from './components/SearchBar';
 import SkeletonLoader from './components/SkeletonLoader';
 import ThemeSwitcher from './components/ThemeSwitcher';
+import BlockExplorer from './components/BlockExplorer';
 
 function App() {
+  const [activeTab, setActiveTab] = useState('crypto');
   const [cryptoData, setCryptoData] = useState([]);
   const [favoriteCryptos, setFavoriteCryptos] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
@@ -349,17 +351,46 @@ function App() {
             </div>
           </div>
           
-          {/* Search Bar */}
-          <div className="max-w-2xl">
-            <SearchBar 
-              onSelectCrypto={handleSearchSelect} 
-              onToggleFavorite={toggleFavoriteFromSearch}
-              isFavorite={isFavorite}
-            />
+          {/* Tab Navigation */}
+          <div className="flex gap-2 mt-6 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black">
+            <button
+              onClick={() => setActiveTab('crypto')}
+              className={`px-6 py-3 font-semibold transition-all ${
+                activeTab === 'crypto'
+                  ? 'text-neon-cyan border-b-2 border-neon-cyan'
+                  : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 high-contrast:text-gray-600 high-contrast:hover:text-black'
+              }`}
+            >
+              💰 Crypto Tracker
+            </button>
+            <button
+              onClick={() => setActiveTab('explorer')}
+              className={`px-6 py-3 font-semibold transition-all ${
+                activeTab === 'explorer'
+                  ? 'text-orange-500 border-b-2 border-orange-500'
+                  : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 high-contrast:text-gray-600 high-contrast:hover:text-black'
+              }`}
+            >
+              ₿ Block Explorer
+            </button>
           </div>
+          
+          {/* Search Bar */}
+          {activeTab === 'crypto' && (
+            <div className="max-w-2xl mt-6">
+              <SearchBar 
+                onSelectCrypto={handleSearchSelect} 
+                onToggleFavorite={toggleFavoriteFromSearch}
+                isFavorite={isFavorite}
+              />
+            </div>
+          )}
         </div>
       </header>
 
+      {activeTab === 'explorer' ? (
+        <BlockExplorer />
+      ) : (
       <main className="w-full px-4 py-8">
         {error && (
           <div className="mb-6 bg-red-500/10 dark:bg-red-500/10 light:bg-red-100 high-contrast:bg-red-900 border border-red-500/50 dark:border-red-500/50 light:border-red-300 high-contrast:border-red-300 rounded-lg p-4 text-red-400 dark:text-red-400 light:text-red-700 high-contrast:text-red-200">
@@ -617,6 +648,7 @@ function App() {
           )}
         </div>
       </main>
+      )}
 
       {/* Footer */}
       <footer className="border-t border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white mt-16 py-8">
