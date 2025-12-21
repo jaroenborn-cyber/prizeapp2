@@ -1,8 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
 const FullscreenCrypto = ({ crypto, onClose }) => {
   const { theme } = useTheme();
+  const [lastUpdate, setLastUpdate] = useState(new Date());
+
+  // Update timestamp when crypto data changes
+  useEffect(() => {
+    if (crypto) {
+      setLastUpdate(new Date());
+    }
+  }, [crypto?.current_price, crypto?.price_change_percentage_24h]);
 
   // Close on ESC key
   useEffect(() => {
@@ -126,6 +134,31 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
             <div className="text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-600 text-sm mb-1">24h Low</div>
             <div className="text-white dark:text-white light:text-slate-900 high-contrast:text-black text-2xl font-bold">
               ${crypto.low_24h?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </div>
+          </div>
+        </div>
+
+        {/* Data Source Info */}
+        <div className="mt-6 px-6 py-3 bg-slate-800/30 dark:bg-slate-800/30 light:bg-white/30 high-contrast:bg-gray-50 rounded-lg border border-slate-700/50 dark:border-slate-700/50 light:border-slate-300/50 high-contrast:border-gray-400">
+          <div className="flex items-center justify-center gap-6 flex-wrap text-sm">
+            <div className="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600">
+                Data: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800">CoinGecko</span>
+                {crypto.isLive && (
+                  <span className="ml-2">• Live: <span className="font-semibold text-green-400">Binance</span></span>
+                )}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600">
+                Updated: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800">{lastUpdate.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+              </span>
             </div>
           </div>
         </div>

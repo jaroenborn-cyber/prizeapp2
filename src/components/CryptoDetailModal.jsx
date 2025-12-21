@@ -30,6 +30,14 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
   const [chartData, setChartData] = useState(null);
   const [chartPeriod, setChartPeriod] = useState('7');
   const [loading, setLoading] = useState(true);
+  const [lastUpdate, setLastUpdate] = useState(new Date());
+
+  // Update timestamp when crypto data changes
+  useEffect(() => {
+    if (crypto) {
+      setLastUpdate(new Date());
+    }
+  }, [crypto?.current_price, crypto?.price_change_percentage_24h]);
 
   useEffect(() => {
     const fetchChartData = async () => {
@@ -161,6 +169,33 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
 
         {/* Content */}
         <div className="p-6">
+          {/* Data Source Info */}
+          <div className="mb-6 p-4 bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600">
+                  Data: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800">CoinGecko API</span>
+                  {crypto.isLive && (
+                    <span className="ml-2">
+                      • Live: <span className="font-semibold text-green-400">Binance WebSocket</span>
+                    </span>
+                  )}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600">
+                  Updated: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800">{lastUpdate.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
           {/* Price Info */}
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
