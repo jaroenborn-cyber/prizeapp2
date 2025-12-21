@@ -384,12 +384,12 @@ function App() {
               <SkeletonLoader count={favoriteCryptos.length > 3 ? 3 : favoriteCryptos.length} type="card" />
             ) : (
               <DragDropContext onDragEnd={handleFavoriteDragEnd}>
-                <Droppable droppableId="favorites">
+                <Droppable droppableId="favorites" direction="horizontal">
                   {(provided) => (
                     <div 
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="flex flex-wrap gap-4"
+                      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4"
                     >
                       {favoriteCryptos.map((crypto, index) => {
                         const cryptoWithLivePrice = mergeLivePrices(crypto);
@@ -397,32 +397,18 @@ function App() {
                         <Draggable key={crypto.id} draggableId={crypto.id} index={index}>
                           {(provided, snapshot) => (
                             <div
-                              className="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] xl:w-[calc(20%-0.8rem)] min-h-[200px]"
-                              style={{
-                                position: 'relative',
-                              }}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={provided.draggableProps.style}
                             >
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                style={{
-                                  ...provided.draggableProps.style,
-                                  cursor: snapshot.isDragging ? 'grabbing' : 'grab',
-                                  position: snapshot.isDragging ? 'absolute' : 'static',
-                                  width: snapshot.isDragging ? '100%' : 'auto',
-                                  zIndex: snapshot.isDragging ? 1000 : 'auto',
-                                }}
-                                className={snapshot.isDragging ? 'opacity-50' : 'opacity-100'}
-                              >
-                                <CryptoCard
-                                  crypto={cryptoWithLivePrice}
-                                  onClick={handleCryptoClick}
-                                  onFavoriteToggle={toggleFavorite}
-                                  isFavorite={true}
-                                  showFavoriteButton={true}
-                                />
-                              </div>
+                              <CryptoCard
+                                crypto={cryptoWithLivePrice}
+                                onClick={handleCryptoClick}
+                                onFavoriteToggle={toggleFavorite}
+                                isFavorite={true}
+                                showFavoriteButton={true}
+                              />
                             </div>
                           )}
                         </Draggable>
