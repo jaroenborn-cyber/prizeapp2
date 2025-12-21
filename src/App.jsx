@@ -397,23 +397,26 @@ function App() {
                         <Draggable key={crypto.id} draggableId={crypto.id} index={index}>
                           {(provided, snapshot) => (
                             <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
                               className="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] xl:w-[calc(20%-0.8rem)]"
-                              style={{
-                                ...provided.draggableProps.style,
-                                opacity: snapshot.isDragging ? 0.5 : 1,
-                                cursor: snapshot.isDragging ? 'grabbing' : 'grab',
-                              }}
                             >
-                              <CryptoCard
-                                crypto={cryptoWithLivePrice}
-                                onClick={handleCryptoClick}
-                                onFavoriteToggle={toggleFavorite}
-                                isFavorite={true}
-                                showFavoriteButton={true}
-                              />
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  ...provided.draggableProps.style,
+                                  cursor: snapshot.isDragging ? 'grabbing' : 'grab',
+                                }}
+                                className={snapshot.isDragging ? 'opacity-50' : 'opacity-100'}
+                              >
+                                <CryptoCard
+                                  crypto={cryptoWithLivePrice}
+                                  onClick={handleCryptoClick}
+                                  onFavoriteToggle={toggleFavorite}
+                                  isFavorite={true}
+                                  showFavoriteButton={true}
+                                />
+                              </div>
                             </div>
                           )}
                         </Draggable>
