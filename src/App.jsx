@@ -13,7 +13,7 @@ import ThemeSwitcher from './components/ThemeSwitcher';
 function App() {
   const [cryptoData, setCryptoData] = useState([]);
   const [favoriteCryptos, setFavoriteCryptos] = useState([]);
-  const [customWatchlist, setCustomWatchlist] = useState([]);
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [fiatRates, setFiatRates] = useState({});
   const [eurRates, setEurRates] = useState({});
   const [selectedCrypto, setSelectedCrypto] = useState(null);
@@ -24,11 +24,14 @@ function App() {
 
   useEffect(() => {
     fetchData();
-    // Load favorites and custom watchlist from localStorage
+    // Load favorites and recently viewed from localStorage
     const savedFavorites = JSON.parse(localStorage.getItem('favoriteCryptos') || '[]');
-    const savedWatchlist = JSON.parse(localStorage.getItem('customWatchlist') || '[]');
+    const savedRecentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
     setFavoriteCryptos(savedFavorites);
-    setCustomWatchlist(savedWatchlist);
+    setRecentlyViewed(savedRecentlyViewed);
+    
+    // Clean up old customWatchlist data
+    localStorage.removeItem('customWatchlist');
     
     // Refresh data every 5 minutes (300 seconds) to avoid API rate limits
     // The API will use cached data if it's less than 5 minutes old
@@ -58,9 +61,9 @@ function App() {
         localStorage.setItem('favoriteCryptos', JSON.stringify(updatedFavorites));
       }
       
-      // Update custom watchlist with fresh data
-      if (customWatchlist.length > 0) {
-        updateWatchlistData();
+      // Update recently viewed with fresh data
+      if (recentlyViewed.length > 0) {
+        updateRecentlyViewedData();
       }
     } catch (err) {
       console.error('Error fetching data:', err);
@@ -79,7 +82,7 @@ function App() {
     if (cryptoData.length === 0) return;
 
     // Get all unique coins that need live prices
-    const allCoins = [...cryptoData, ...favoriteCryptos, ...customWatchlist];
+    const allCoins = [...cryptoData, ...favoriteCryptos, ...recentlyViewed];
     const uniqueCoins = Array.from(new Map(allCoins.map(coin => [coin.id, coin])).values());
 
     // Subscribe to Binance-listed coins
@@ -108,10 +111,28 @@ function App() {
       });
       priceCallbacksRef.current = {};
     };
-  }, [cryptoData, favoriteCryptos, customWatchlist]);
+    }, [cryptoData, favoriteCryptos, recentlyViewed]);
 
   const handleCryptoClick = (crypto) => {
     setSelectedCrypto(crypto);
+    
+    // Add to recently viewed (max 20 items)
+    const isAlreadyViewed = recentlyViewed.some(item => item.id === crypto.id);
+    let updatedRecentlyViewed;
+    
+    if (isAlreadyViewed) {
+      // Move to front if already exists
+      updatedRecentlyViewed = [
+        crypto,
+        ...recentlyViewed.filter(item => item.id !== crypto.id)
+      ];
+    } else {
+      // Add to front, limit to 20 items
+      updatedRecentlyViewed = [crypto, ...recentlyViewed].slice(0, 20);
+    }
+    
+    setRecentlyViewed(updatedRecentlyViewed);
+    localStorage.setItem('recentlyViewed', JSON.stringify(updatedRecentlyViewed));
   };
 
   const toggleFavorite = (crypto) => {
@@ -221,33 +242,26 @@ function App() {
         sparkline_in_7d: details.market_data?.sparkline_7d,
       };
       
-      // Add to custom watchlist
-      addToWatchlist(transformedData);
+      // Open the detail modal
       setSelectedCrypto(transformedData);
+      
+      // Add to recently viewed
+      handleCryptoClick(transformedData);
     } catch (err) {
       console.error('Error fetching crypto details:', err);
     }
   };
 
-  const addToWatchlist = (crypto) => {
-    const isAlreadyInWatchlist = customWatchlist.some(item => item.id === crypto.id);
-    if (!isAlreadyInWatchlist) {
-      const updatedWatchlist = [...customWatchlist, crypto];
-      setCustomWatchlist(updatedWatchlist);
-      localStorage.setItem('customWatchlist', JSON.stringify(updatedWatchlist));
-    }
+  const removeFromRecentlyViewed = (cryptoId) => {
+    const updatedRecentlyViewed = recentlyViewed.filter(item => item.id !== cryptoId);
+    setRecentlyViewed(updatedRecentlyViewed);
+    localStorage.setItem('recentlyViewed', JSON.stringify(updatedRecentlyViewed));
   };
 
-  const removeFromWatchlist = (cryptoId) => {
-    const updatedWatchlist = customWatchlist.filter(item => item.id !== cryptoId);
-    setCustomWatchlist(updatedWatchlist);
-    localStorage.setItem('customWatchlist', JSON.stringify(updatedWatchlist));
-  };
-
-  const updateWatchlistData = async () => {
+  const updateRecentlyViewedData = async () => {
     try {
-      const updatedWatchlist = await Promise.all(
-        customWatchlist.map(async (crypto) => {
+      const updatedRecentlyViewed = await Promise.all(
+        recentlyViewed.map(async (crypto) => {
           try {
             const details = await getCryptoDetails(crypto.id);
             return {
@@ -273,10 +287,10 @@ function App() {
           }
         })
       );
-      setCustomWatchlist(updatedWatchlist);
-      localStorage.setItem('customWatchlist', JSON.stringify(updatedWatchlist));
+      setRecentlyViewed(updatedRecentlyViewed);
+      localStorage.setItem('recentlyViewed', JSON.stringify(updatedRecentlyViewed));
     } catch (err) {
-      console.error('Error updating watchlist:', err);
+      console.error('Error updating recently viewed:', err);
     }
   };
 
@@ -386,54 +400,6 @@ function App() {
                 </Droppable>
               </DragDropContext>
             )}
-          </section>
-        )}
-
-        {/* Custom Watchlist */}
-        {customWatchlist.length > 0 && (
-          <section className="mb-12">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">
-                <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">Mijn Persoonlijke Watchlist</span>
-              </h2>
-              <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({customWatchlist.length} gevolgd)</span>
-            </div>
-            
-            <div className="bg-dark-card/30 dark:bg-dark-card/30 light:bg-slate-50 high-contrast:bg-gray-100 border border-neon-cyan/30 dark:border-neon-cyan/30 light:border-slate-300 high-contrast:border-black rounded-xl p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {customWatchlist.map((crypto) => {
-                  const cryptoWithLivePrice = mergeLivePrices(crypto);
-                  return (
-                  <div key={crypto.id} className="relative">
-                    <CryptoCard
-                      crypto={cryptoWithLivePrice}
-                      onClick={handleCryptoClick}
-                      onFavoriteToggle={toggleFavorite}
-                      isFavorite={isFavorite(crypto)}
-                      showFavoriteButton={true}
-                    />
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        removeFromWatchlist(crypto.id);
-                      }}
-                      className="absolute top-2 right-2 p-1.5 rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
-                      aria-label="Remove from watchlist"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    </button>
-                  </div>
-                );
-                })}
-              </div>
-              <div className="mt-4 pt-4 border-t border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
-                <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-center">
-                  💡 Gebruik de zoekbalk hierboven om elke cryptocurrency toe te voegen aan je watchlist
-                </p>
-              </div>
-            </div>
           </section>
         )}
 
@@ -573,6 +539,54 @@ function App() {
             </div>
           )}
         </section>
+
+        {/* Recently Viewed */}
+        {recentlyViewed.length > 0 && (
+          <section className="mb-12">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold">
+                <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">Laatst Bezocht</span>
+              </h2>
+              <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({recentlyViewed.length} bekeken)</span>
+            </div>
+            
+            <div className="bg-dark-card/30 dark:bg-dark-card/30 light:bg-slate-50 high-contrast:bg-gray-100 border border-neon-cyan/30 dark:border-neon-cyan/30 light:border-slate-300 high-contrast:border-black rounded-xl p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {recentlyViewed.map((crypto) => {
+                  const cryptoWithLivePrice = mergeLivePrices(crypto);
+                  return (
+                  <div key={crypto.id} className="relative">
+                    <CryptoCard
+                      crypto={cryptoWithLivePrice}
+                      onClick={handleCryptoClick}
+                      onFavoriteToggle={toggleFavorite}
+                      isFavorite={isFavorite(crypto)}
+                      showFavoriteButton={true}
+                    />
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeFromRecentlyViewed(crypto.id);
+                      }}
+                      className="absolute top-2 right-2 p-1.5 rounded-full bg-slate-500/20 text-slate-400 hover:bg-slate-500/30 transition-colors"
+                      aria-label="Remove from recently viewed"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
+                );
+                })}
+              </div>
+              <div className="mt-4 pt-4 border-t border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
+                <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-center">
+                  🔍 Je laatst bekeken cryptocurrencies (max 20)
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Currency Converter */}
         <div className="mb-8">
