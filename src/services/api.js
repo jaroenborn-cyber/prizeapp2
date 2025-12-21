@@ -8,7 +8,8 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
 const cache = {
   topCryptos: { data: null, timestamp: null },
   fiatRates: {},
-  cryptoDetails: {}
+  cryptoDetails: {},
+  historicalData: {}
 };
 
 // Helper function to check if cache is still valid
@@ -97,6 +98,43 @@ export const getCryptoDetails = async (coinId) => {
   console.log(`Fetching fresh data for crypto details: ${coinId}`);
   const data = await fetchFunction();
   cache.cryptoDetails[coinId] = { data, timestamp: Date.now() };
+  return data;
+};
+
+export const getHistoricalData = async (coinId, days = '7') => {
+  const cacheKey = `historicalData_${coinId}_${days}`;
+  
+  const fetchFunction = async () => {
+    try {
+      const response = await axios.get(`${COINGECKO_BASE_URL}/coins/${coinId}/market_chart`, {
+        params: {
+          vs_currency: 'usd',
+          days: days,
+          interval: days === '1' ? 'hourly' : 'daily'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching historical data:', error);
+      // If API fails and we have cached data, return it even if expired
+      if (cache.historicalData[cacheKey]) {
+        console.log(`API failed, using stale cache for historical data: ${coinId}`);
+        return cache.historicalData[cacheKey].data;
+      }
+      throw error;
+    }
+  };
+  
+  // Check if we have valid cached data
+  const cachedEntry = cache.historicalData[cacheKey];
+  if (cachedEntry && isCacheValid(cachedEntry.timestamp)) {
+    console.log(`Using cached data for historical data: ${coinId} (${days} days)`);
+    return cachedEntry.data;
+  }
+  
+  console.log(`Fetching fresh historical data: ${coinId} (${days} days)`);
+  const data = await fetchFunction();
+  cache.historicalData[cacheKey] = { data, timestamp: Date.now() };
   return data;
 };
 
