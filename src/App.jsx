@@ -400,12 +400,12 @@ function App() {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className={`transition-transform ${
-                                snapshot.isDragging ? 'scale-105 z-50' : ''
-                              }`}
                               style={{
                                 ...provided.draggableProps.style,
+                                opacity: snapshot.isDragging ? 0.9 : 1,
+                                boxShadow: snapshot.isDragging ? '0 20px 40px rgba(0, 0, 0, 0.3)' : 'none',
                                 cursor: snapshot.isDragging ? 'grabbing' : 'grab',
+                                transition: snapshot.isDragging ? 'none' : 'opacity 0.2s ease, box-shadow 0.2s ease',
                               }}
                             >
                               <CryptoCard
