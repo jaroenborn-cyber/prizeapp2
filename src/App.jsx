@@ -621,6 +621,8 @@ function App() {
         <CryptoDetailModal
           crypto={selectedCrypto}
           onClose={() => setSelectedCrypto(null)}
+          onToggleFavorite={toggleFavorite}
+          isFavorite={isFavorite}
         />
       )}
     </div>
