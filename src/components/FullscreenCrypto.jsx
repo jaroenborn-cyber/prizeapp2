@@ -23,15 +23,17 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
   const { theme, setTheme } = useTheme();
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [showThemeMenu, setShowThemeMenu] = useState(false);
+  const [showTimeframeMenu, setShowTimeframeMenu] = useState(false);
   const [chartData, setChartData] = useState(null);
+  const [chartPeriod, setChartPeriod] = useState('1');
 
-  // Fetch 24H chart data
+  // Fetch chart data based on selected period
   useEffect(() => {
     const fetchChartData = async () => {
       if (!crypto) return;
       
       try {
-        const data = await getHistoricalData(crypto.id, '1');
+        const data = await getHistoricalData(crypto.id, chartPeriod);
         const prices = data.prices || [];
         
         setChartData({
@@ -54,7 +56,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
     };
 
     fetchChartData();
-  }, [crypto?.id]);
+  }, [crypto?.id, chartPeriod]);
 
   // Update timestamp when crypto data changes
   useEffect(() => {
@@ -69,6 +71,8 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
       if (e.key === 'Escape') {
         if (showThemeMenu) {
           setShowThemeMenu(false);
+        } else if (showTimeframeMenu) {
+          setShowTimeframeMenu(false);
         } else {
           onClose();
         }
@@ -76,20 +80,23 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
     };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
-  }, [onClose, showThemeMenu]);
+  }, [onClose, showThemeMenu, showTimeframeMenu]);
 
-  // Close theme menu when clicking outside
+  // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (showThemeMenu && !e.target.closest('.theme-switcher-container')) {
         setShowThemeMenu(false);
       }
+      if (showTimeframeMenu && !e.target.closest('.timeframe-switcher-container')) {
+        setShowTimeframeMenu(false);
+      }
     };
-    if (showThemeMenu) {
+    if (showThemeMenu || showTimeframeMenu) {
       document.addEventListener('click', handleClickOutside);
       return () => document.removeEventListener('click', handleClickOutside);
     }
-  }, [showThemeMenu]);
+  }, [showThemeMenu, showTimeframeMenu]);
 
   if (!crypto) return null;
 
@@ -128,7 +135,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         </div>
       )}
       {/* Theme Switcher - Top Right */}
-      <div className="absolute top-8 right-20 z-10 theme-switcher-container">
+      <div className="absolute top-8 right-32 z-10 theme-switcher-container">
         <div className="relative">
           <button
             onClick={() => setShowThemeMenu(!showThemeMenu)}
@@ -204,6 +211,79 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
                 <span className="text-sm font-medium">Hoog Contrast</span>
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Timeframe Switcher */}
+      <div className="absolute top-8 right-20 z-10 timeframe-switcher-container">
+        <div className="relative">
+          <button
+            onClick={() => setShowTimeframeMenu(!showTimeframeMenu)}
+            className="p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
+            aria-label="Change timeframe"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </button>
+
+          {/* Dropdown Menu */}
+          {showTimeframeMenu && (
+            <div className="absolute top-12 right-0 w-36 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
+              <button
+                onClick={() => {
+                  setChartPeriod('1');
+                  setShowTimeframeMenu(false);
+                }}
+                className={`w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                  chartPeriod === '1'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                }`}
+              >
+                <span className="text-sm">24 Uur</span>
+              </button>
+              <button
+                onClick={() => {
+                  setChartPeriod('7');
+                  setShowTimeframeMenu(false);
+                }}
+                className={`w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                  chartPeriod === '7'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                }`}
+              >
+                <span className="text-sm">7 Dagen</span>
+              </button>
+              <button
+                onClick={() => {
+                  setChartPeriod('30');
+                  setShowTimeframeMenu(false);
+                }}
+                className={`w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                  chartPeriod === '30'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                }`}
+              >
+                <span className="text-sm">30 Dagen</span>
+              </button>
+              <button
+                onClick={() => {
+                  setChartPeriod('365');
+                  setShowTimeframeMenu(false);
+                }}
+                className={`w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                  chartPeriod === '365'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                }`}
+              >
+                <span className="text-sm">1 Jaar</span>
               </button>
             </div>
           )}
