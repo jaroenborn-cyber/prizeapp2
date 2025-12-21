@@ -12,6 +12,15 @@ const cache = {
   historicalData: {}
 };
 
+// Function to clear cache (useful for debugging)
+export const clearCache = () => {
+  cache.topCryptos = { data: null, timestamp: null };
+  cache.fiatRates = {};
+  cache.cryptoDetails = {};
+  cache.historicalData = {};
+  console.log('Cache cleared');
+};
+
 // Helper function to check if cache is still valid
 const isCacheValid = (timestamp) => {
   if (!timestamp) return false;
@@ -106,11 +115,17 @@ export const getHistoricalData = async (coinId, days = '7') => {
   
   const fetchFunction = async () => {
     try {
+      // Determine the interval based on the days parameter
+      let interval = 'daily';
+      if (days === '1') {
+        interval = 'hourly';
+      }
+      
       const response = await axios.get(`${COINGECKO_BASE_URL}/coins/${coinId}/market_chart`, {
         params: {
           vs_currency: 'usd',
           days: days,
-          interval: days === '1' ? 'hourly' : 'daily'
+          interval: interval
         }
       });
       return response.data;
