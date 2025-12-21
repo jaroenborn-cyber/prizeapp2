@@ -146,12 +146,14 @@ function App() {
   };
 
   // Merge live prices with crypto data
-  const mergeLivePrices = (crypto) => {
-    if (livePrices[crypto.id]) {
+  const mergeLivePrices = (crypto) => {  if (livePrices[crypto.id]) {
       return {
         ...crypto,
         current_price: livePrices[crypto.id].price,
-        price_change_percentage_24h: livePrices[crypto.id].priceChange24h,
+        // Only use Binance 24h change if it's valid (not 0 and reasonable)
+        price_change_percentage_24h: livePrices[crypto.id].priceChange24h !== 0 && Math.abs(livePrices[crypto.id].priceChange24h) > 0.01
+          ? livePrices[crypto.id].priceChange24h
+          : crypto.price_change_percentage_24h,
         isLive: true
       };
     }
@@ -332,7 +334,7 @@ function App() {
                                   e.stopPropagation();
                                   toggleFavorite(crypto);
                                 }}
-                                className="absolute top-2 right-2 p-1 rounded-full text-yellow-400 bg-yellow-400/20 hover:bg-yellow-400/30"
+                                className="absolute top-2 left-2 p-1.5 rounded-full text-yellow-400 bg-yellow-400/20 hover:bg-yellow-400/30 backdrop-blur-sm z-10 transition-all"
                                 aria-label="Remove from favorites"
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

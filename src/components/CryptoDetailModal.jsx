@@ -1,30 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-} from 'chart.js';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
+import { useTheme } from '../context/ThemeContext';
+import AdvancedChart from './AdvancedChart';
 
 const CryptoDetailModal = ({ crypto, onClose }) => {
-  const [timeRange, setTimeRange] = useState('24h');
+  const { theme } = useTheme();
 
   if (!crypto) return null;
 
@@ -51,61 +30,6 @@ const CryptoDetailModal = ({ crypto, onClose }) => {
     if (volume >= 1e9) return `$${(volume / 1e9).toFixed(2)}B`;
     if (volume >= 1e6) return `$${(volume / 1e6).toFixed(2)}M`;
     return `$${volume.toFixed(2)}`;
-  };
-
-  // Prepare chart data
-  const sparklineData = crypto.sparkline_in_7d?.price || [];
-  const chartData = timeRange === '24h' 
-    ? sparklineData.slice(-24) 
-    : sparklineData;
-
-  const data = {
-    labels: chartData.map((_, index) => ''),
-    datasets: [
-      {
-        label: 'Price',
-        data: chartData,
-        borderColor: '#06b6d4',
-        backgroundColor: 'rgba(6, 182, 212, 0.1)',
-        fill: true,
-        tension: 0.4,
-        pointRadius: 0,
-        borderWidth: 2,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        mode: 'index',
-        intersect: false,
-        backgroundColor: '#1e293b',
-        titleColor: '#f1f5f9',
-        bodyColor: '#f1f5f9',
-        borderColor: '#06b6d4',
-        borderWidth: 1,
-      },
-    },
-    scales: {
-      x: {
-        display: false,
-      },
-      y: {
-        display: true,
-        grid: {
-          color: '#334155',
-        },
-        ticks: {
-          color: '#94a3b8',
-        },
-      },
-    },
   };
 
   return (
@@ -155,34 +79,8 @@ const CryptoDetailModal = ({ crypto, onClose }) => {
 
           {/* Chart */}
           <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">Price Chart</h3>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setTimeRange('24h')}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                    timeRange === '24h'
-                      ? 'bg-neon-cyan text-dark-bg dark:bg-neon-cyan dark:text-dark-bg light:bg-neon-purple light:text-white high-contrast:bg-yellow-400 high-contrast:text-black'
-                      : 'bg-slate-700 dark:bg-slate-700 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800 hover:bg-slate-600 dark:hover:bg-slate-600 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300'
-                  }`}
-                >
-                  24H
-                </button>
-                <button
-                  onClick={() => setTimeRange('7d')}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                    timeRange === '7d'
-                      ? 'bg-neon-cyan text-dark-bg dark:bg-neon-cyan dark:text-dark-bg light:bg-neon-purple light:text-white high-contrast:bg-yellow-400 high-contrast:text-black'
-                      : 'bg-slate-700 dark:bg-slate-700 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800 hover:bg-slate-600 dark:hover:bg-slate-600 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300'
-                  }`}
-                >
-                  7D
-                </button>
-              </div>
-            </div>
-            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4 h-64">
-              <Line data={data} options={options} />
-            </div>
+            <h3 className="text-xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black mb-4">Advanced Price Chart</h3>
+            <AdvancedChart crypto={crypto} theme={theme} />
           </div>
 
           {/* Stats Grid */}
