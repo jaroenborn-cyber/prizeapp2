@@ -69,8 +69,12 @@ const CryptoDetailModal = ({ crypto, onClose }) => {
 
     if (crypto) {
       fetchChartData();
+      
+      // Refresh chart data every 60 seconds
+      const interval = setInterval(fetchChartData, 60000);
+      return () => clearInterval(interval);
     }
-  }, [crypto, chartPeriod, theme]);
+  }, [crypto.id, chartPeriod, theme]);
 
   if (!crypto) return null;
 
