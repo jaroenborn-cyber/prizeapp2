@@ -26,8 +26,8 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
   const [showTimeframeMenu, setShowTimeframeMenu] = useState(false);
   const [showOpacityMenu, setShowOpacityMenu] = useState(false);
   const [chartData, setChartData] = useState(null);
-  const [chartPeriod, setChartPeriod] = useState('1');
-  const [chartOpacity, setChartOpacity] = useState(0.2);
+  const [chartPeriod, setChartPeriod] = useState('365');
+  const [chartOpacity, setChartOpacity] = useState(0.5);
 
   // Fetch chart data based on selected period
   useEffect(() => {
