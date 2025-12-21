@@ -1,10 +1,60 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
+import { getHistoricalData } from '../services/api';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Filler
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Filler
+);
 
 const FullscreenCrypto = ({ crypto, onClose }) => {
   const { theme, setTheme } = useTheme();
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [showThemeMenu, setShowThemeMenu] = useState(false);
+  const [chartData, setChartData] = useState(null);
+
+  // Fetch 24H chart data
+  useEffect(() => {
+    const fetchChartData = async () => {
+      if (!crypto) return;
+      
+      try {
+        const data = await getHistoricalData(crypto.id, '1');
+        const prices = data.prices || [];
+        
+        setChartData({
+          labels: prices.map(() => ''), // Hide labels
+          datasets: [
+            {
+              data: prices.map(p => p[1]),
+              borderColor: 'rgba(59, 130, 246, 0.3)',
+              backgroundColor: 'rgba(59, 130, 246, 0.05)',
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2,
+              pointRadius: 0,
+            },
+          ],
+        });
+      } catch (error) {
+        console.error('Error fetching fullscreen chart data:', error);
+      }
+    };
+
+    fetchChartData();
+  }, [crypto?.id]);
 
   // Update timestamp when crypto data changes
   useEffect(() => {
@@ -48,6 +98,35 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 light:from-slate-100 light:via-slate-50 light:to-slate-100 high-contrast:from-white high-contrast:via-gray-50 high-contrast:to-white">
+      {/* Background Chart */}
+      {chartData && (
+        <div className="absolute inset-0 opacity-20 dark:opacity-20 light:opacity-10 high-contrast:opacity-5">
+          <div className="w-full h-full p-20">
+            <Line
+              data={chartData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: { display: false },
+                  tooltip: { enabled: false },
+                },
+                scales: {
+                  x: {
+                    display: false,
+                  },
+                  y: {
+                    display: false,
+                  },
+                },
+                elements: {
+                  point: { radius: 0 },
+                },
+              }}
+            />
+          </div>
+        </div>
+      )}
       {/* Theme Switcher - Top Right */}
       <div className="absolute top-8 right-20 z-10 theme-switcher-container">
         <div className="relative">
