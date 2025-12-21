@@ -75,22 +75,22 @@ const CurrencyConverter = ({ cryptoData, fiatRates }) => {
 
   return (
     <div className="bg-dark-card rounded-xl p-6 shadow-lg border border-slate-700">
-      <h2 className="text-2xl font-bold mb-6 text-neon-cyan">Currency Converter</h2>
+      <h2 className="text-2xl font-bold mb-6 text-neon-cyan">Valuta Converter</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div>
-          <label className="block text-sm font-medium text-slate-400 mb-2">Amount</label>
+          <label className="block text-sm font-medium text-slate-400 mb-2">Bedrag</label>
           <input
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             className="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan"
-            placeholder="Enter amount"
+            placeholder="Voer bedrag in"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-400 mb-2">From</label>
+          <label className="block text-sm font-medium text-slate-400 mb-2">Van</label>
           <select
             value={fromCurrency}
             onChange={(e) => setFromCurrency(e.target.value)}
@@ -105,7 +105,7 @@ const CurrencyConverter = ({ cryptoData, fiatRates }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-400 mb-2">To</label>
+          <label className="block text-sm font-medium text-slate-400 mb-2">Naar</label>
           <select
             value={toCurrency}
             onChange={(e) => setToCurrency(e.target.value)}
@@ -122,7 +122,7 @@ const CurrencyConverter = ({ cryptoData, fiatRates }) => {
 
       {result !== null && (
         <div className="bg-gradient-to-r from-neon-cyan/10 to-neon-purple/10 border border-neon-cyan/30 rounded-lg p-6 text-center">
-          <p className="text-sm text-slate-400 mb-2">Converted Amount</p>
+          <p className="text-sm text-slate-400 mb-2">Omgerekend Bedrag</p>
           <p className="text-3xl font-bold text-neon-cyan">
             {result.toLocaleString(undefined, { 
               minimumFractionDigits: 2, 

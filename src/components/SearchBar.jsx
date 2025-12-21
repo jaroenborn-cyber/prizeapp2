@@ -44,7 +44,7 @@ const SearchBar = ({ onSelectCrypto }) => {
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
           onFocus={() => query.length >= 2 && setShowResults(true)}
-          placeholder="Search for cryptocurrencies..."
+          placeholder="Zoek naar cryptocurrencies..."
           className="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 pl-12 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-neon-purple"
         />
         <svg

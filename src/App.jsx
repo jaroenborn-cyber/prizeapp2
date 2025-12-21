@@ -58,7 +58,7 @@ function App() {
       }
     } catch (err) {
       console.error('Error fetching data:', err);
-      setError('Failed to fetch data. API limit may be reached. Retrying in 60 seconds...');
+      setError('Fout bij het ophalen van data. API limiet mogelijk bereikt. Opnieuw proberen over 60 seconden...');
     } finally {
       setLoading(false);
     }
@@ -185,9 +185,9 @@ function App() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
-                Crypto & Currency Tracker
+                CoinMarkt.nl
               </h1>
-              <p className="text-slate-400 text-sm mt-1">Real-time exchange rates and market data</p>
+              <p className="text-slate-400 text-sm mt-1">Real-time koersen en marktdata</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
@@ -223,9 +223,9 @@ function App() {
           <section className="mb-12">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">
-                <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">My Custom Watchlist</span>
+                <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">Mijn Persoonlijke Watchlist</span>
               </h2>
-              <span className="text-sm text-slate-400">({customWatchlist.length} tracked)</span>
+              <span className="text-sm text-slate-400">({customWatchlist.length} gevolgd)</span>
             </div>
             
             <div className="bg-dark-card/30 border border-neon-cyan/30 rounded-xl p-6">
@@ -261,7 +261,7 @@ function App() {
               </div>
               <div className="mt-4 pt-4 border-t border-slate-700">
                 <p className="text-sm text-slate-400 text-center">
-                  💡 Use the search bar above to find and add any cryptocurrency to your watchlist
+                  💡 Gebruik de zoekbalk hierboven om elke cryptocurrency toe te voegen aan je watchlist
                 </p>
               </div>
             </div>
@@ -272,7 +272,7 @@ function App() {
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
             <span className="text-neon-cyan">Top 10 Cryptocurrencies</span>
-            <span className="text-sm font-normal text-slate-400">(Click for details)</span>
+            <span className="text-sm font-normal text-slate-400">(Klik voor details)</span>
           </h2>
           
           {loading ? (
@@ -305,7 +305,7 @@ function App() {
           <section className="mb-12">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">
-                <span className="text-yellow-400">My Favorite Cryptocurrencies</span>
+                <span className="text-yellow-400">Mijn Favoriete Cryptocurrencies</span>
               </h2>
               <span className="text-sm text-slate-400">({favoriteCryptos.length})</span>
             </div>
@@ -339,7 +339,7 @@ function App() {
         {/* Fiat Exchange Rates */}
         <section>
           <h2 className="text-2xl font-bold mb-6">
-            <span className="text-neon-purple">Fiat Exchange Rates</span>
+            <span className="text-neon-purple">Fiat Wisselkoersen</span>
           </h2>
           
           {loading ? (
@@ -364,8 +364,8 @@ function App() {
       {/* Footer */}
       <footer className="border-t border-slate-800 mt-16 py-8">
         <div className="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
-          <p>Data provided by CoinGecko API and ExchangeRate-API</p>
-          <p className="mt-2">Updates every 60 seconds</p>
+          <p>Data geleverd door CoinGecko API en ExchangeRate-API</p>
+          <p className="mt-2">Updates elke 60 seconden</p>
         </div>
       </footer>
 
