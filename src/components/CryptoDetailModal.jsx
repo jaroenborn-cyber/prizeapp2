@@ -110,7 +110,15 @@ const CryptoDetailModal = ({ crypto, onClose }) => {
           <div className="flex items-center gap-4">
             <img src={crypto.image} alt={crypto.name} className="w-16 h-16 rounded-full" />
             <div>
-              <h2 className="text-3xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">{crypto.name}</h2>
+              <div className="flex items-center gap-3">
+                <h2 className="text-3xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">{crypto.name}</h2>
+                {crypto.isLive && (
+                  <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded flex items-center gap-1">
+                    <span className="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                    LIVE
+                  </span>
+                )}
+              </div>
               <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 uppercase">{crypto.symbol}</p>
             </div>
           </div>
@@ -126,7 +134,12 @@ const CryptoDetailModal = ({ crypto, onClose }) => {
         <div className="p-6">
           {/* Price Info */}
           <div className="mb-8">
-            <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 mb-2">Current Price</p>
+            <div className="flex items-center gap-2 mb-2">
+              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">Current Price</p>
+              {crypto.isLive && (
+                <span className="text-xs text-green-400">(Realtime)</span>
+              )}
+            </div>
             <p className="text-5xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black mb-4">
               ${formatPrice(crypto.current_price)}
             </p>

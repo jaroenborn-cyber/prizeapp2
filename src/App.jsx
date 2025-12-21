@@ -220,6 +220,20 @@ function App() {
     return { ...crypto, isLive: false };
   };
 
+  // Update selected crypto with live prices
+  useEffect(() => {
+    if (selectedCrypto && livePrices[selectedCrypto.id]) {
+      setSelectedCrypto(prevCrypto => ({
+        ...prevCrypto,
+        current_price: livePrices[selectedCrypto.id].price,
+        price_change_percentage_24h: livePrices[selectedCrypto.id].priceChange24h !== 0 && Math.abs(livePrices[selectedCrypto.id].priceChange24h) > 0.01
+          ? livePrices[selectedCrypto.id].priceChange24h
+          : prevCrypto.price_change_percentage_24h,
+        isLive: true
+      }));
+    }
+  }, [livePrices, selectedCrypto?.id]);
+
   const handleSearchSelect = async (coin) => {
     try {
       const details = await getCryptoDetails(coin.id);
