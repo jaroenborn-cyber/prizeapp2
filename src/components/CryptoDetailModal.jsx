@@ -25,7 +25,7 @@ ChartJS.register(
   Filler
 );
 
-const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite }) => {
+const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFullscreen }) => {
   const { theme } = useTheme();
   const [chartData, setChartData] = useState(null);
   const [chartPeriod, setChartPeriod] = useState('7');
@@ -127,6 +127,16 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite }) =>
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={onFullscreen}
+              className="p-2 rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black hover:bg-slate-600/50 dark:hover:bg-slate-600/50 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300"
+              aria-label="Open fullscreen"
+              title="Fullscreen mode"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+              </svg>
+            </button>
             <button
               onClick={() => onToggleFavorite(crypto)}
               className={`p-2 rounded-full transition-all ${

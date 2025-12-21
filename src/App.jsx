@@ -6,6 +6,7 @@ import CurrencyConverter from './components/CurrencyConverter';
 import CryptoCard from './components/CryptoCard';
 import FiatCard from './components/FiatCard';
 import CryptoDetailModal from './components/CryptoDetailModal';
+import FullscreenCrypto from './components/FullscreenCrypto';
 import SearchBar from './components/SearchBar';
 import SkeletonLoader from './components/SkeletonLoader';
 import ThemeSwitcher from './components/ThemeSwitcher';
@@ -17,6 +18,7 @@ function App() {
   const [fiatRates, setFiatRates] = useState({});
   const [eurRates, setEurRates] = useState({});
   const [selectedCrypto, setSelectedCrypto] = useState(null);
+  const [fullscreenCrypto, setFullscreenCrypto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [livePrices, setLivePrices] = useState({});
@@ -233,6 +235,20 @@ function App() {
       }));
     }
   }, [livePrices, selectedCrypto?.id]);
+
+  // Update fullscreen crypto with live prices
+  useEffect(() => {
+    if (fullscreenCrypto && livePrices[fullscreenCrypto.id]) {
+      setFullscreenCrypto(prevCrypto => ({
+        ...prevCrypto,
+        current_price: livePrices[fullscreenCrypto.id].price,
+        price_change_percentage_24h: livePrices[fullscreenCrypto.id].priceChange24h !== 0 && Math.abs(livePrices[fullscreenCrypto.id].priceChange24h) > 0.01
+          ? livePrices[fullscreenCrypto.id].priceChange24h
+          : prevCrypto.price_change_percentage_24h,
+        isLive: true
+      }));
+    }
+  }, [livePrices, fullscreenCrypto?.id]);
 
   const handleSearchSelect = async (coin) => {
     try {
@@ -623,6 +639,18 @@ function App() {
           onClose={() => setSelectedCrypto(null)}
           onToggleFavorite={toggleFavorite}
           isFavorite={isFavorite}
+          onFullscreen={() => {
+            setFullscreenCrypto(selectedCrypto);
+            setSelectedCrypto(null);
+          }}
+        />
+      )}
+
+      {/* Fullscreen Mode */}
+      {fullscreenCrypto && (
+        <FullscreenCrypto
+          crypto={fullscreenCrypto}
+          onClose={() => setFullscreenCrypto(null)}
         />
       )}
     </div>
