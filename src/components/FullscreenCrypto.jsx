@@ -24,8 +24,10 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [showThemeMenu, setShowThemeMenu] = useState(false);
   const [showTimeframeMenu, setShowTimeframeMenu] = useState(false);
+  const [showOpacityMenu, setShowOpacityMenu] = useState(false);
   const [chartData, setChartData] = useState(null);
   const [chartPeriod, setChartPeriod] = useState('1');
+  const [chartOpacity, setChartOpacity] = useState(0.2);
 
   // Fetch chart data based on selected period
   useEffect(() => {
@@ -37,7 +39,18 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         const prices = data.prices || [];
         
         setChartData({
-          labels: prices.map(() => ''), // Hide labels
+          labels: prices.map(p => {
+            const date = new Date(p[0]);
+            if (chartPeriod === '1') {
+              return date.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+            } else if (chartPeriod === '7') {
+              return date.toLocaleDateString('nl-NL', { weekday: 'short' });
+            } else if (chartPeriod === '30') {
+              return date.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' });
+            } else {
+              return date.toLocaleDateString('nl-NL', { month: 'short' });
+            }
+          }),
           datasets: [
             {
               data: prices.map(p => p[1]),
@@ -73,6 +86,8 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
           setShowThemeMenu(false);
         } else if (showTimeframeMenu) {
           setShowTimeframeMenu(false);
+        } else if (showOpacityMenu) {
+          setShowOpacityMenu(false);
         } else {
           onClose();
         }
@@ -80,7 +95,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
     };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
-  }, [onClose, showThemeMenu, showTimeframeMenu]);
+  }, [onClose, showThemeMenu, showTimeframeMenu, showOpacityMenu]);
 
   // Close menus when clicking outside
   useEffect(() => {
@@ -91,12 +106,15 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
       if (showTimeframeMenu && !e.target.closest('.timeframe-switcher-container')) {
         setShowTimeframeMenu(false);
       }
+      if (showOpacityMenu && !e.target.closest('.opacity-switcher-container')) {
+        setShowOpacityMenu(false);
+      }
     };
-    if (showThemeMenu || showTimeframeMenu) {
+    if (showThemeMenu || showTimeframeMenu || showOpacityMenu) {
       document.addEventListener('click', handleClickOutside);
       return () => document.removeEventListener('click', handleClickOutside);
     }
-  }, [showThemeMenu, showTimeframeMenu]);
+  }, [showThemeMenu, showTimeframeMenu, showOpacityMenu]);
 
   if (!crypto) return null;
 
@@ -107,7 +125,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 light:from-slate-100 light:via-slate-50 light:to-slate-100 high-contrast:from-white high-contrast:via-gray-50 high-contrast:to-white">
       {/* Background Chart */}
       {chartData && (
-        <div className="absolute inset-0 opacity-20 dark:opacity-20 light:opacity-10 high-contrast:opacity-5">
+        <div className="absolute inset-0" style={{ opacity: chartOpacity }}>
           <div className="w-full h-full p-20">
             <Line
               data={chartData}
@@ -120,10 +138,38 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                 },
                 scales: {
                   x: {
-                    display: false,
+                    display: true,
+                    grid: {
+                      color: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'),
+                      drawBorder: true,
+                      borderColor: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.2)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.2)'),
+                    },
+                    ticks: {
+                      color: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.4)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)'),
+                      maxTicksLimit: 8,
+                      font: {
+                        size: 10,
+                      },
+                    },
                   },
                   y: {
-                    display: false,
+                    display: true,
+                    position: 'right',
+                    grid: {
+                      color: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'),
+                      drawBorder: true,
+                      borderColor: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.2)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.2)'),
+                    },
+                    ticks: {
+                      color: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.4)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)'),
+                      maxTicksLimit: 6,
+                      font: {
+                        size: 10,
+                      },
+                      callback: function(value) {
+                        return '$' + value.toLocaleString();
+                      },
+                    },
                   },
                 },
                 elements: {
@@ -135,7 +181,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         </div>
       )}
       {/* Theme Switcher - Top Right */}
-      <div className="absolute top-8 right-32 z-10 theme-switcher-container">
+      <div className="absolute top-8 right-44 z-10 theme-switcher-container">
         <div className="relative">
           <button
             onClick={() => setShowThemeMenu(!showThemeMenu)}
@@ -218,7 +264,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
       </div>
 
       {/* Timeframe Switcher */}
-      <div className="absolute top-8 right-20 z-10 timeframe-switcher-container">
+      <div className="absolute top-8 right-32 z-10 timeframe-switcher-container">
         <div className="relative">
           <button
             onClick={() => setShowTimeframeMenu(!showTimeframeMenu)}
@@ -290,6 +336,38 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         </div>
       </div>
 
+      {/* Opacity Switcher */}
+      <div className="absolute top-8 right-20 z-10 opacity-switcher-container">
+        <div className="relative">
+          <button
+            onClick={() => setShowOpacityMenu(!showOpacityMenu)}
+            className="p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
+            aria-label="Change opacity"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </button>
+
+          {/* Dropdown Menu */}
+          {showOpacityMenu && (
+            <div className="absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden p-4">
+              <label className="text-sm font-medium text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800 block mb-2">
+                Transparantie: {Math.round(chartOpacity * 100)}%
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={chartOpacity * 100}
+                onChange={(e) => setChartOpacity(e.target.value / 100)}
+                className="w-full h-2 bg-slate-700 dark:bg-slate-700 light:bg-slate-300 high-contrast:bg-gray-300 rounded-lg appearance-none cursor-pointer slider"
+              />
+            </div>
+          )}
+        </div>
+      </div>
       {/* Close button */}
       <button
         onClick={onClose}
