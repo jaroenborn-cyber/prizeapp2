@@ -121,6 +121,8 @@ export const getHistoricalData = async (coinId, days = '7') => {
         interval = 'hourly';
       }
       
+      console.log(`Fetching chart data for ${coinId}: ${days} days with ${interval} interval`);
+      
       const response = await axios.get(`${COINGECKO_BASE_URL}/coins/${coinId}/market_chart`, {
         params: {
           vs_currency: 'usd',
@@ -128,6 +130,9 @@ export const getHistoricalData = async (coinId, days = '7') => {
           interval: interval
         }
       });
+      
+      console.log(`Received ${response.data.prices.length} data points for ${days} days chart`);
+      
       return response.data;
     } catch (error) {
       console.error('Error fetching historical data:', error);

@@ -43,8 +43,11 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
     const fetchChartData = async () => {
       setLoading(true);
       try {
+        console.log(`Fetching chart for period: ${chartPeriod} days`);
         const data = await getHistoricalData(crypto.id, chartPeriod);
         const prices = data.prices || [];
+        
+        console.log(`Chart data received: ${prices.length} data points`);
         
         setChartData({
           labels: prices.map(p => {
