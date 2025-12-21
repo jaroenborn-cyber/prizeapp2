@@ -384,12 +384,12 @@ function App() {
               <SkeletonLoader count={favoriteCryptos.length > 3 ? 3 : favoriteCryptos.length} type="card" />
             ) : (
               <DragDropContext onDragEnd={handleFavoriteDragEnd}>
-                <Droppable droppableId="favorites" direction="horizontal">
+                <Droppable droppableId="favorites">
                   {(provided) => (
                     <div 
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4"
+                      className="flex flex-wrap gap-4"
                     >
                       {favoriteCryptos.map((crypto, index) => {
                         const cryptoWithLivePrice = mergeLivePrices(crypto);
@@ -400,12 +400,11 @@ function App() {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
+                              className="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] xl:w-[calc(20%-0.8rem)]"
                               style={{
                                 ...provided.draggableProps.style,
-                                opacity: snapshot.isDragging ? 0.9 : 1,
-                                boxShadow: snapshot.isDragging ? '0 20px 40px rgba(0, 0, 0, 0.3)' : 'none',
+                                opacity: snapshot.isDragging ? 0.5 : 1,
                                 cursor: snapshot.isDragging ? 'grabbing' : 'grab',
-                                transition: snapshot.isDragging ? 'none' : 'opacity 0.2s ease, box-shadow 0.2s ease',
                               }}
                             >
                               <CryptoCard
