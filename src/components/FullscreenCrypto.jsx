@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
 const FullscreenCrypto = ({ crypto, onClose }) => {
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [lastUpdate, setLastUpdate] = useState(new Date());
+  const [showThemeMenu, setShowThemeMenu] = useState(false);
 
   // Update timestamp when crypto data changes
   useEffect(() => {
@@ -16,12 +17,29 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') {
-        onClose();
+        if (showThemeMenu) {
+          setShowThemeMenu(false);
+        } else {
+          onClose();
+        }
       }
     };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
-  }, [onClose]);
+  }, [onClose, showThemeMenu]);
+
+  // Close theme menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (showThemeMenu && !e.target.closest('.theme-switcher-container')) {
+        setShowThemeMenu(false);
+      }
+    };
+    if (showThemeMenu) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [showThemeMenu]);
 
   if (!crypto) return null;
 
@@ -30,6 +48,89 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 light:from-slate-100 light:via-slate-50 light:to-slate-100 high-contrast:from-white high-contrast:via-gray-50 high-contrast:to-white">
+      {/* Theme Switcher - Top Right */}
+      <div className="absolute top-8 right-20 z-10 theme-switcher-container">
+        <div className="relative">
+          <button
+            onClick={() => setShowThemeMenu(!showThemeMenu)}
+            className="p-2 rounded-lg bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all hover:bg-slate-600/50 dark:hover:bg-slate-600/50 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300"
+            aria-label="Change theme"
+          >
+            {theme === 'dark' && (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            )}
+            {theme === 'light' && (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            )}
+            {theme === 'high-contrast' && (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            )}
+          </button>
+
+          {/* Dropdown Menu */}
+          {showThemeMenu && (
+            <div className="absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
+              <button
+                onClick={() => {
+                  setTheme('dark');
+                  setShowThemeMenu(false);
+                }}
+                className={`w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                  theme === 'dark'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <span className="text-sm font-medium">Donker</span>
+              </button>
+              <button
+                onClick={() => {
+                  setTheme('light');
+                  setShowThemeMenu(false);
+                }}
+                className={`w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                  theme === 'light'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <span className="text-sm font-medium">Licht</span>
+              </button>
+              <button
+                onClick={() => {
+                  setTheme('high-contrast');
+                  setShowThemeMenu(false);
+                }}
+                className={`w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                  theme === 'high-contrast'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                <span className="text-sm font-medium">Hoog Contrast</span>
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Close button */}
       <button
         onClick={onClose}
