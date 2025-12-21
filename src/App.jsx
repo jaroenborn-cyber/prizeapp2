@@ -397,7 +397,10 @@ function App() {
                         <Draggable key={crypto.id} draggableId={crypto.id} index={index}>
                           {(provided, snapshot) => (
                             <div
-                              className="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] xl:w-[calc(20%-0.8rem)]"
+                              className="w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] xl:w-[calc(20%-0.8rem)] min-h-[200px]"
+                              style={{
+                                position: 'relative',
+                              }}
                             >
                               <div
                                 ref={provided.innerRef}
@@ -406,6 +409,9 @@ function App() {
                                 style={{
                                   ...provided.draggableProps.style,
                                   cursor: snapshot.isDragging ? 'grabbing' : 'grab',
+                                  position: snapshot.isDragging ? 'absolute' : 'static',
+                                  width: snapshot.isDragging ? '100%' : 'auto',
+                                  zIndex: snapshot.isDragging ? 1000 : 'auto',
                                 }}
                                 className={snapshot.isDragging ? 'opacity-50' : 'opacity-100'}
                               >
