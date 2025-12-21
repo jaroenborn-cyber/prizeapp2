@@ -36,7 +36,7 @@ const CryptoCard = ({ crypto, onClick }) => {
               LIVE
             </span>
           )}
-          <span className="text-xs bg-slate-700 px-2 py-1 rounded">#{crypto.market_cap_rank}</span>
+          <span className="text-xs bg-slate-700 dark:bg-slate-700 light:bg-slate-200 high-contrast:bg-gray-300 text-white dark:text-white light:text-slate-800 high-contrast:text-black px-2 py-1 rounded">#{crypto.market_cap_rank}</span>
         </div>
       </div>
 

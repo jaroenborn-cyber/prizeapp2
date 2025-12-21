@@ -30,8 +30,9 @@ function App() {
     setFavoriteCryptos(savedFavorites);
     setCustomWatchlist(savedWatchlist);
     
-    // Refresh data every 60 seconds
-    const interval = setInterval(fetchData, 60000);
+    // Refresh data every 5 minutes (300 seconds) to avoid API rate limits
+    // The API will use cached data if it's less than 5 minutes old
+    const interval = setInterval(fetchData, 300000);
     return () => clearInterval(interval);
   }, []);
 
@@ -63,7 +64,11 @@ function App() {
       }
     } catch (err) {
       console.error('Error fetching data:', err);
-      setError('Fout bij het ophalen van data. API limiet mogelijk bereikt. Opnieuw proberen over 60 seconden...');
+      // Only show error if we don't have any data yet (first load)
+      if (cryptoData.length === 0) {
+        setError('Kon geen data ophalen. Controleer je internetverbinding.');
+      }
+      // If we have cached data, silently continue using it
     } finally {
       setLoading(false);
     }
@@ -252,13 +257,13 @@ function App() {
               <h1 className="text-3xl font-bold bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
                 CoinMarkt.nl
               </h1>
-              <p className="text-slate-400 text-sm mt-1">Real-time koersen en marktdata</p>
+              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-sm mt-1">Real-time koersen en marktdata</p>
             </div>
             <div className="flex items-center gap-4">
               <ThemeSwitcher />
               <div className="flex items-center gap-3">
                 <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm text-slate-400">Live</span>
+                <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">Live</span>
               </div>
             </div>
           </div>
@@ -285,8 +290,8 @@ function App() {
                 <span className="text-yellow-400">Mijn Favoriete Cryptocurrencies</span>
               </h2>
               <div className="flex items-center gap-3">
-                <span className="text-xs text-slate-500">👆 Sleep om te ordenen</span>
-                <span className="text-sm text-slate-400">({favoriteCryptos.length})</span>
+                <span className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-700">👆 Sleep om te ordenen</span>
+                <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({favoriteCryptos.length})</span>
               </div>
             </div>
             
@@ -355,10 +360,10 @@ function App() {
               <h2 className="text-2xl font-bold">
                 <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">Mijn Persoonlijke Watchlist</span>
               </h2>
-              <span className="text-sm text-slate-400">({customWatchlist.length} gevolgd)</span>
+              <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({customWatchlist.length} gevolgd)</span>
             </div>
             
-            <div className="bg-dark-card/30 border border-neon-cyan/30 rounded-xl p-6">
+            <div className="bg-dark-card/30 dark:bg-dark-card/30 light:bg-slate-50 high-contrast:bg-gray-100 border border-neon-cyan/30 dark:border-neon-cyan/30 light:border-slate-300 high-contrast:border-black rounded-xl p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {customWatchlist.map((crypto) => {
                   const cryptoWithLivePrice = mergeLivePrices(crypto);
@@ -392,8 +397,8 @@ function App() {
                 );
                 })}
               </div>
-              <div className="mt-4 pt-4 border-t border-slate-700">
-                <p className="text-sm text-slate-400 text-center">
+              <div className="mt-4 pt-4 border-t border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
+                <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-center">
                   💡 Gebruik de zoekbalk hierboven om elke cryptocurrency toe te voegen aan je watchlist
                 </p>
               </div>
@@ -405,16 +410,16 @@ function App() {
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
             <span className="text-neon-cyan">Top 100 Cryptocurrencies</span>
-            <span className="text-sm font-normal text-slate-400">(Klik voor details)</span>
+            <span className="text-sm font-normal text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">(Klik voor details)</span>
           </h2>
           
           {loading ? (
             <SkeletonLoader count={10} type="card" />
           ) : (
-            <div className="bg-dark-card rounded-xl border border-slate-700 overflow-hidden">
+            <div className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-slate-800/50 border-b border-slate-700">
+                  <thead className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-200 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black">
                     <tr>
                       <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">#</th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Naam</th>
@@ -426,7 +431,7 @@ function App() {
                       <th className="px-4 py-3 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Favorieten</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-700">
+                  <tbody className="divide-y divide-slate-700 dark:divide-slate-700 light:divide-slate-300 high-contrast:divide-black">
                     {cryptoData.map((crypto) => {
                       const cryptoWithLivePrice = mergeLivePrices(crypto);
                       const priceChange24h = cryptoWithLivePrice.price_change_percentage_24h || 0;
@@ -452,9 +457,9 @@ function App() {
                         <tr 
                           key={crypto.id} 
                           onClick={() => handleCryptoClick(cryptoWithLivePrice)}
-                          className="hover:bg-slate-800/50 cursor-pointer transition-colors"
+                          className="hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-50 high-contrast:hover:bg-gray-100 cursor-pointer transition-colors"
                         >
-                          <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-400">
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-800">
                             {crypto.market_cap_rank}
                           </td>
                           <td className="px-4 py-4 whitespace-nowrap">

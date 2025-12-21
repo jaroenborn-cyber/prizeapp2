@@ -8,13 +8,15 @@ export const ThemeProvider = ({ children }) => {
     return localStorage.getItem('theme') || 'dark';
   });
 
-  // Apply theme class to document
+  // Apply theme class to document body
   useEffect(() => {
-    // Remove all theme classes
+    // Remove all theme classes from both html and body
     document.documentElement.classList.remove('dark', 'light', 'high-contrast');
+    document.body.classList.remove('dark', 'light', 'high-contrast');
     
-    // Add current theme class
+    // Add current theme class to both html and body
     document.documentElement.classList.add(theme);
+    document.body.classList.add(theme);
     
     // Save to localStorage
     localStorage.setItem('theme', theme);
