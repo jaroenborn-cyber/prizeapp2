@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { searchCrypto } from '../services/api';
 
-const SearchBar = ({ onSelectCrypto }) => {
+const SearchBar = ({ onSelectCrypto, onToggleFavorite, isFavorite }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -72,15 +72,35 @@ const SearchBar = ({ onSelectCrypto }) => {
           {results.map((coin) => (
             <div
               key={coin.id}
-              onClick={() => handleSelectCrypto(coin)}
-              className="flex items-center gap-3 p-4 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-100 high-contrast:hover:bg-gray-300 cursor-pointer transition-colors border-b border-slate-700 dark:border-slate-700 light:border-slate-200 high-contrast:border-gray-400 last:border-b-0"
+              className="flex items-center gap-3 p-4 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-100 high-contrast:hover:bg-gray-300 transition-colors border-b border-slate-700 dark:border-slate-700 light:border-slate-200 high-contrast:border-gray-400 last:border-b-0"
             >
               <img src={coin.thumb || coin.large} alt={coin.name} className="w-8 h-8 rounded-full" />
-              <div className="flex-1">
+              <div 
+                className="flex-1 cursor-pointer"
+                onClick={() => handleSelectCrypto(coin)}
+              >
                 <p className="font-semibold text-white dark:text-white light:text-slate-800 high-contrast:text-black">{coin.name}</p>
                 <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-800 uppercase">{coin.symbol}</p>
               </div>
-              <span className="text-xs text-slate-500">#{coin.market_cap_rank || 'N/A'}</span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleFavorite(coin);
+                  }}
+                  className={`p-1.5 rounded-full transition-all ${
+                    isFavorite(coin)
+                      ? 'text-yellow-400 bg-yellow-400/20 hover:bg-yellow-400/30'
+                      : 'text-slate-500 bg-slate-700/50 hover:text-yellow-400 hover:bg-yellow-400/10'
+                  }`}
+                  aria-label={isFavorite(coin) ? "Remove from favorites" : "Add to favorites"}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </button>
+                <span className="text-xs text-slate-500">#{coin.market_cap_rank || 'N/A'}</span>
+              </div>
             </div>
           ))}
         </div>

@@ -130,6 +130,45 @@ function App() {
     localStorage.setItem('favoriteCryptos', JSON.stringify(updatedFavorites));
   };
 
+  const toggleFavoriteFromSearch = async (coin) => {
+    const existingFavorite = favoriteCryptos.find(fav => fav.id === coin.id);
+    
+    if (existingFavorite) {
+      // Remove from favorites
+      const updatedFavorites = favoriteCryptos.filter(fav => fav.id !== coin.id);
+      setFavoriteCryptos(updatedFavorites);
+      localStorage.setItem('favoriteCryptos', JSON.stringify(updatedFavorites));
+    } else {
+      // Fetch full details and add to favorites
+      try {
+        const details = await getCryptoDetails(coin.id);
+        const transformedData = {
+          id: details.id,
+          symbol: details.symbol,
+          name: details.name,
+          image: details.image?.large || details.image?.small,
+          current_price: details.market_data?.current_price?.usd,
+          market_cap: details.market_data?.market_cap?.usd,
+          market_cap_rank: details.market_cap_rank,
+          total_volume: details.market_data?.total_volume?.usd,
+          high_24h: details.market_data?.high_24h?.usd,
+          low_24h: details.market_data?.low_24h?.usd,
+          price_change_percentage_24h: details.market_data?.price_change_percentage_24h,
+          price_change_percentage_7d_in_currency: details.market_data?.price_change_percentage_7d,
+          circulating_supply: details.market_data?.circulating_supply,
+          ath: details.market_data?.ath?.usd,
+          sparkline_in_7d: details.market_data?.sparkline_7d,
+        };
+        
+        const updatedFavorites = [...favoriteCryptos, transformedData];
+        setFavoriteCryptos(updatedFavorites);
+        localStorage.setItem('favoriteCryptos', JSON.stringify(updatedFavorites));
+      } catch (err) {
+        console.error('Error adding to favorites:', err);
+      }
+    }
+  };
+
   const isFavorite = (crypto) => {
     return favoriteCryptos.some(fav => fav.id === crypto.id);
   };
@@ -272,7 +311,11 @@ function App() {
           
           {/* Search Bar */}
           <div className="max-w-2xl">
-            <SearchBar onSelectCrypto={handleSearchSelect} />
+            <SearchBar 
+              onSelectCrypto={handleSearchSelect} 
+              onToggleFavorite={toggleFavoriteFromSearch}
+              isFavorite={isFavorite}
+            />
           </div>
         </div>
       </header>
