@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { getTopCryptos, getFiatRates, getCryptoDetails } from './services/api';
+import binanceService from './services/binance';
 import CurrencyConverter from './components/CurrencyConverter';
 import CryptoCard from './components/CryptoCard';
 import FiatCard from './components/FiatCard';
@@ -17,6 +18,8 @@ function App() {
   const [selectedCrypto, setSelectedCrypto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [livePrices, setLivePrices] = useState({});
+  const priceCallbacksRef = useRef({});
 
   useEffect(() => {
     fetchData();
@@ -65,6 +68,42 @@ function App() {
     }
   };
 
+  // Subscribe to Binance live prices for all visible crypto
+  useEffect(() => {
+    if (cryptoData.length === 0) return;
+
+    // Get all unique coins that need live prices
+    const allCoins = [...cryptoData, ...favoriteCryptos, ...customWatchlist];
+    const uniqueCoins = Array.from(new Map(allCoins.map(coin => [coin.id, coin])).values());
+
+    // Subscribe to Binance-listed coins
+    uniqueCoins.forEach(coin => {
+      if (binanceService.isBinanceListed(coin.id)) {
+        const callback = (priceData) => {
+          setLivePrices(prev => ({
+            ...prev,
+            [coin.id]: {
+              price: priceData.price,
+              priceChange24h: priceData.priceChange24h,
+              timestamp: priceData.timestamp
+            }
+          }));
+        };
+
+        priceCallbacksRef.current[coin.id] = callback;
+        binanceService.subscribe(coin.id, callback);
+      }
+    });
+
+    // Cleanup function
+    return () => {
+      Object.keys(priceCallbacksRef.current).forEach(coinId => {
+        binanceService.unsubscribe(coinId, priceCallbacksRef.current[coinId]);
+      });
+      priceCallbacksRef.current = {};
+    };
+  }, [cryptoData, favoriteCryptos, customWatchlist]);
+
   const handleCryptoClick = (crypto) => {
     setSelectedCrypto(crypto);
   };
@@ -98,6 +137,19 @@ function App() {
 
     setFavoriteCryptos(items);
     localStorage.setItem('favoriteCryptos', JSON.stringify(items));
+  };
+
+  // Merge live prices with crypto data
+  const mergeLivePrices = (crypto) => {
+    if (livePrices[crypto.id]) {
+      return {
+        ...crypto,
+        current_price: livePrices[crypto.id].price,
+        price_change_percentage_24h: livePrices[crypto.id].priceChange24h,
+        isLive: true
+      };
+    }
+    return { ...crypto, isLive: false };
   };
 
   const handleSearchSelect = async (coin) => {
@@ -245,7 +297,9 @@ function App() {
                       ref={provided.innerRef}
                       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4"
                     >
-                      {favoriteCryptos.map((crypto, index) => (
+                      {favoriteCryptos.map((crypto, index) => {
+                        const cryptoWithLivePrice = mergeLivePrices(crypto);
+                        return (
                         <Draggable key={crypto.id} draggableId={crypto.id} index={index}>
                           {(provided, snapshot) => (
                             <div
@@ -261,7 +315,7 @@ function App() {
                               }}
                             >
                               <CryptoCard
-                                crypto={crypto}
+                                crypto={cryptoWithLivePrice}
                                 onClick={handleCryptoClick}
                               />
                               <button
@@ -279,7 +333,8 @@ function App() {
                             </div>
                           )}
                         </Draggable>
-                      ))}
+                      );
+                      })}
                       {provided.placeholder}
                     </div>
                   )}
@@ -301,10 +356,12 @@ function App() {
             
             <div className="bg-dark-card/30 border border-neon-cyan/30 rounded-xl p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {customWatchlist.map((crypto) => (
+                {customWatchlist.map((crypto) => {
+                  const cryptoWithLivePrice = mergeLivePrices(crypto);
+                  return (
                   <div key={crypto.id} className="relative">
                     <CryptoCard
-                      crypto={crypto}
+                      crypto={cryptoWithLivePrice}
                       onClick={handleCryptoClick}
                     />
                     <div className="absolute top-2 right-2 flex gap-1">
@@ -328,7 +385,8 @@ function App() {
                       </button>
                     </div>
                   </div>
-                ))}
+                );
+                })}
               </div>
               <div className="mt-4 pt-4 border-t border-slate-700">
                 <p className="text-sm text-slate-400 text-center">
@@ -366,8 +424,9 @@ function App() {
                   </thead>
                   <tbody className="divide-y divide-slate-700">
                     {cryptoData.map((crypto) => {
-                      const priceChange24h = crypto.price_change_percentage_24h || 0;
-                      const priceChange7d = crypto.price_change_percentage_7d_in_currency || 0;
+                      const cryptoWithLivePrice = mergeLivePrices(crypto);
+                      const priceChange24h = cryptoWithLivePrice.price_change_percentage_24h || 0;
+                      const priceChange7d = cryptoWithLivePrice.price_change_percentage_7d_in_currency || 0;
                       const isPositive24h = priceChange24h >= 0;
                       const isPositive7d = priceChange7d >= 0;
 
@@ -388,7 +447,7 @@ function App() {
                       return (
                         <tr 
                           key={crypto.id} 
-                          onClick={() => handleCryptoClick(crypto)}
+                          onClick={() => handleCryptoClick(cryptoWithLivePrice)}
                           className="hover:bg-slate-800/50 cursor-pointer transition-colors"
                         >
                           <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-400">
@@ -398,13 +457,21 @@ function App() {
                             <div className="flex items-center gap-3">
                               <img src={crypto.image} alt={crypto.name} className="w-8 h-8 rounded-full" />
                               <div>
-                                <div className="text-sm font-medium text-white">{crypto.name}</div>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm font-medium text-white">{crypto.name}</span>
+                                  {cryptoWithLivePrice.isLive && (
+                                    <span className="text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded flex items-center gap-1">
+                                      <span className="inline-block w-1 h-1 bg-green-400 rounded-full animate-pulse"></span>
+                                      LIVE
+                                    </span>
+                                  )}
+                                </div>
                                 <div className="text-xs text-slate-400 uppercase">{crypto.symbol}</div>
                               </div>
                             </div>
                           </td>
                           <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-white">
-                            ${formatPrice(crypto.current_price)}
+                            ${formatPrice(cryptoWithLivePrice.current_price)}
                           </td>
                           <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-semibold">
                             <span className={isPositive24h ? 'text-green-400' : 'text-red-400'}>

@@ -29,7 +29,15 @@ const CryptoCard = ({ crypto, onClick }) => {
             <p className="text-sm text-slate-400 uppercase">{crypto.symbol}</p>
           </div>
         </div>
-        <span className="text-xs bg-slate-700 px-2 py-1 rounded">#{crypto.market_cap_rank}</span>
+        <div className="flex items-center gap-2">
+          {crypto.isLive && (
+            <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded flex items-center gap-1">
+              <span className="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+              LIVE
+            </span>
+          )}
+          <span className="text-xs bg-slate-700 px-2 py-1 rounded">#{crypto.market_cap_rank}</span>
+        </div>
       </div>
 
       <div className="mb-3">
