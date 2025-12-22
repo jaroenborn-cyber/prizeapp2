@@ -10,9 +10,15 @@ import FullscreenCrypto from './components/FullscreenCrypto';
 import SearchBar from './components/SearchBar';
 import SkeletonLoader from './components/SkeletonLoader';
 import ThemeSwitcher from './components/ThemeSwitcher';
+import LanguageSwitcher from './components/LanguageSwitcher';
 import BlockExplorer from './components/BlockExplorer';
+import { useLanguage } from './context/LanguageContext';
+import { translations } from './utils/translations';
 
 function App() {
+  const { language } = useLanguage();
+  const t = translations[language];
+  
   const [activeTab, setActiveTab] = useState('crypto');
   const [cryptoData, setCryptoData] = useState([]);
   const [favoriteCryptos, setFavoriteCryptos] = useState([]);
@@ -342,11 +348,12 @@ function App() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
-                CoinMarkt.nl
+                {t.appTitle}
               </h1>
-              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-sm mt-1">Real-time koersen en marktdata</p>
+              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-sm mt-1">{t.appSubtitle}</p>
             </div>
             <div className="flex items-center gap-4">
+              <LanguageSwitcher />
               <ThemeSwitcher />
             </div>
           </div>
@@ -361,7 +368,7 @@ function App() {
                   : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 high-contrast:text-gray-600 high-contrast:hover:text-black'
               }`}
             >
-              💰 Crypto Tracker
+              💰 {t.cryptoTracker}
             </button>
             <button
               onClick={() => setActiveTab('explorer')}
@@ -371,7 +378,7 @@ function App() {
                   : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 high-contrast:text-gray-600 high-contrast:hover:text-black'
               }`}
             >
-              ₿ Block Explorer
+              ₿ {t.blockExplorer}
             </button>
           </div>
           
@@ -403,10 +410,10 @@ function App() {
           <section className="mb-12">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">
-                <span className="text-yellow-400">Mijn Favoriete Cryptocurrencies</span>
+                <span className="text-yellow-400">{t.myFavorites}</span>
               </h2>
               <div className="flex items-center gap-3">
-                <span className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-700">👆 Sleep om te ordenen</span>
+                <span className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-700">👆 {t.dragToReorder}</span>
                 <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({favoriteCryptos.length})</span>
               </div>
             </div>
@@ -457,8 +464,8 @@ function App() {
         {/* Crypto Section */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-            <span className="text-neon-cyan">Top 100 Cryptocurrencies</span>
-            <span className="text-sm font-normal text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">(Klik voor details)</span>
+            <span className="text-neon-cyan">{t.topCryptos}</span>
+            <span className="text-sm font-normal text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({t.clickForDetails})</span>
           </h2>
           
           {loading ? (
@@ -469,14 +476,14 @@ function App() {
                 <table className="w-full">
                   <thead className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-200 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black">
                     <tr>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">#</th>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Naam</th>
-                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Prijs (USD)</th>
-                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">24u %</th>
-                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">7d %</th>
-                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Market Cap</th>
-                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">24u Volume</th>
-                      <th className="px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">★</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.rank}</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.name}</th>
+                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.price}</th>
+                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.change24h}</th>
+                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.change7d}</th>
+                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.marketCap}</th>
+                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.volume24h}</th>
+                      <th className="px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.favorite}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-700 dark:divide-slate-700 light:divide-slate-300 high-contrast:divide-black">
@@ -519,7 +526,7 @@ function App() {
                                   {cryptoWithLivePrice.isLive && (
                                     <span className="text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded flex items-center gap-1">
                                       <span className="inline-block w-1 h-1 bg-green-400 rounded-full animate-pulse"></span>
-                                      LIVE
+                                      {t.live}
                                     </span>
                                   )}
                                 </div>
@@ -570,7 +577,7 @@ function App() {
         {/* Fiat Exchange Rates */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6">
-            <span className="text-neon-purple">Fiat Wisselkoersen</span>
+            <span className="text-neon-purple">{t.fiatRates}</span>
           </h2>
           
           {loading ? (
@@ -596,9 +603,9 @@ function App() {
           <section className="mb-12">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">
-                <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">Laatst Bezocht</span>
+                <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">{t.recentlyViewed}</span>
               </h2>
-              <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({recentlyViewed.length} bekeken)</span>
+              <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({recentlyViewed.length} {t.viewed})</span>
             </div>
             
             <div className="bg-dark-card/30 dark:bg-dark-card/30 light:bg-slate-50 high-contrast:bg-gray-100 border border-neon-cyan/30 dark:border-neon-cyan/30 light:border-slate-300 high-contrast:border-black rounded-xl p-6">
@@ -632,7 +639,7 @@ function App() {
               </div>
               <div className="mt-4 pt-4 border-t border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
                 <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-center">
-                  🔍 Je laatst bekeken cryptocurrencies (max 20)
+                  🔍 {t.recentlyViewedDesc}
                 </p>
               </div>
             </div>
@@ -653,8 +660,8 @@ function App() {
       {/* Footer */}
       <footer className="border-t border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white mt-16 py-8">
         <div className="w-full px-4 text-center text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-400 text-sm">
-          <p>Data geleverd door CoinGecko API en ExchangeRate-API</p>
-          <p className="mt-2">Updates elke 60 seconden</p>
+          <p>{t.dataProvidedBy}</p>
+          <p className="mt-2">{t.updatesEvery}</p>
         </div>
       </footer>
 
