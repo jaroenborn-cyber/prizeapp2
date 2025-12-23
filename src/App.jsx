@@ -344,25 +344,25 @@ function App() {
     <div className="min-h-screen bg-dark-bg dark:bg-dark-bg light:bg-light-bg high-contrast:bg-high-contrast-bg text-white dark:text-white light:text-slate-800 high-contrast:text-high-contrast-text">
       {/* Header */}
       <header className="border-b border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white bg-dark-card/50 dark:bg-dark-card/50 light:bg-light-card high-contrast:bg-high-contrast-card backdrop-blur-sm sticky top-0 z-40">
-        <div className="w-full px-4 py-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="w-full px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
                 {t.appTitle}
               </h1>
-              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-sm mt-1">{t.appSubtitle}</p>
+              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-xs sm:text-sm mt-1">{t.appSubtitle}</p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <LanguageSwitcher />
               <ThemeSwitcher />
             </div>
           </div>
           
           {/* Tab Navigation */}
-          <div className="flex gap-2 mt-6 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black">
+          <div className="flex gap-1 sm:gap-2 mt-4 sm:mt-6 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-x-auto">
             <button
               onClick={() => setActiveTab('crypto')}
-              className={`px-6 py-3 font-semibold transition-all ${
+              className={`px-4 sm:px-6 py-2 sm:py-3 font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'crypto'
                   ? 'text-neon-cyan border-b-2 border-neon-cyan'
                   : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 high-contrast:text-gray-600 high-contrast:hover:text-black'
@@ -372,7 +372,7 @@ function App() {
             </button>
             <button
               onClick={() => setActiveTab('explorer')}
-              className={`px-6 py-3 font-semibold transition-all ${
+              className={`px-4 sm:px-6 py-2 sm:py-3 font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'explorer'
                   ? 'text-orange-500 border-b-2 border-orange-500'
                   : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 high-contrast:text-gray-600 high-contrast:hover:text-black'
@@ -384,7 +384,7 @@ function App() {
           
           {/* Search Bar */}
           {activeTab === 'crypto' && (
-            <div className="max-w-2xl mt-6">
+            <div className="w-full sm:max-w-2xl mt-4 sm:mt-6">
               <SearchBar 
                 onSelectCrypto={handleSearchSelect} 
                 onToggleFavorite={toggleFavoriteFromSearch}
@@ -398,21 +398,21 @@ function App() {
       {activeTab === 'explorer' ? (
         <BlockExplorer />
       ) : (
-      <main className="w-full px-4 py-8">
+      <main className="w-full px-3 sm:px-4 py-6 sm:py-8">
         {error && (
-          <div className="mb-6 bg-red-500/10 dark:bg-red-500/10 light:bg-red-100 high-contrast:bg-red-900 border border-red-500/50 dark:border-red-500/50 light:border-red-300 high-contrast:border-red-300 rounded-lg p-4 text-red-400 dark:text-red-400 light:text-red-700 high-contrast:text-red-200">
-            <p className="font-semibold">⚠️ {error}</p>
+          <div className="mb-4 sm:mb-6 bg-red-500/10 dark:bg-red-500/10 light:bg-red-100 high-contrast:bg-red-900 border border-red-500/50 dark:border-red-500/50 light:border-red-300 high-contrast:border-red-300 rounded-lg p-3 sm:p-4 text-red-400 dark:text-red-400 light:text-red-700 high-contrast:text-red-200">
+            <p className="font-semibold text-sm sm:text-base">⚠️ {error}</p>
           </div>
         )}
 
         {/* Favorite Cryptocurrencies */}
         {favoriteCryptos.length > 0 && (
-          <section className="mb-12">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">
+          <section className="mb-8 sm:mb-12">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2">
+              <h2 className="text-xl sm:text-2xl font-bold">
                 <span className="text-yellow-400">{t.myFavorites}</span>
               </h2>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <span className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-700">👆 {t.dragToReorder}</span>
                 <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({favoriteCryptos.length})</span>
               </div>
@@ -427,7 +427,7 @@ function App() {
                     <div 
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4"
+                      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4"
                     >
                       {favoriteCryptos.map((crypto, index) => {
                         const cryptoWithLivePrice = mergeLivePrices(crypto);
@@ -462,10 +462,10 @@ function App() {
         )}
 
         {/* Crypto Section */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
+        <section className="mb-8 sm:mb-12">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
             <span className="text-neon-cyan">{t.topCryptos}</span>
-            <span className="text-sm font-normal text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({t.clickForDetails})</span>
+            <span className="text-xs sm:text-sm font-normal text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({t.clickForDetails})</span>
           </h2>
           
           {loading ? (
@@ -476,15 +476,15 @@ function App() {
                 <table className="w-full">
                   <thead className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-200 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black">
                     <tr>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.rank}</th>
-                      <th className="px-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.name}</th>
-                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.price}</th>
-                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.change24h}</th>
-                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.change7d}</th>
-                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.marketCap}</th>
-                      <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.volume24h}</th>
-                      <th className="px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.favorite}</th>
-                      <th className="px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">⛶</th>
+                      <th className="px-2 sm:px-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.rank}</th>
+                      <th className="px-2 sm:px-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.name}</th>
+                      <th className="px-2 sm:px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.price}</th>
+                      <th className="px-2 sm:px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.change24h}</th>
+                      <th className="hidden md:table-cell px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.change7d}</th>
+                      <th className="hidden lg:table-cell px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.marketCap}</th>
+                      <th className="hidden xl:table-cell px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.volume24h}</th>
+                      <th className="px-2 sm:px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.favorite}</th>
+                      <th className="px-2 sm:px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">⛶</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-700 dark:divide-slate-700 light:divide-slate-300 high-contrast:divide-black">
@@ -515,17 +515,17 @@ function App() {
                           onClick={() => handleCryptoClick(cryptoWithLivePrice)}
                           className="hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-50 high-contrast:hover:bg-gray-100 cursor-pointer transition-colors"
                         >
-                          <td className="px-3 py-2.5 whitespace-nowrap text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-800">
+                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-800">
                             {crypto.market_cap_rank}
                           </td>
-                          <td className="px-3 py-2.5 whitespace-nowrap">
-                            <div className="flex items-center gap-2">
-                              <img src={crypto.image} alt={crypto.name} className="w-7 h-7 rounded-full" />
+                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap">
+                            <div className="flex items-center gap-1.5 sm:gap-2">
+                              <img src={crypto.image} alt={crypto.name} className="w-6 h-6 sm:w-7 sm:h-7 rounded-full" />
                               <div>
-                                <div className="flex items-center gap-1.5">
-                                  <span className="text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black">{crypto.name}</span>
+                                <div className="flex items-center gap-1 sm:gap-1.5">
+                                  <span className="text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black">{crypto.name}</span>
                                   {cryptoWithLivePrice.isLive && (
-                                    <span className="text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded flex items-center gap-1">
+                                    <span className="hidden sm:flex text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded items-center gap-1">
                                       <span className="inline-block w-1 h-1 bg-green-400 rounded-full animate-pulse"></span>
                                       {t.live}
                                     </span>
@@ -535,43 +535,43 @@ function App() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-3 py-2.5 whitespace-nowrap text-right text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black">
                             ${formatPrice(cryptoWithLivePrice.current_price)}
                           </td>
-                          <td className="px-3 py-2.5 whitespace-nowrap text-right text-sm font-semibold">
+                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm font-semibold">
                             <span className={isPositive24h ? 'text-green-400' : 'text-red-400'}>
                               {isPositive24h ? '▲' : '▼'} {Math.abs(priceChange24h).toFixed(2)}%
                             </span>
                           </td>
-                          <td className="px-3 py-2.5 whitespace-nowrap text-right text-sm font-semibold">
+                          <td className="hidden md:table-cell px-3 py-2.5 whitespace-nowrap text-right text-sm font-semibold">
                             <span className={isPositive7d ? 'text-green-400' : 'text-red-400'}>
                               {isPositive7d ? '▲' : '▼'} {Math.abs(priceChange7d).toFixed(2)}%
                             </span>
                           </td>
-                          <td className="px-3 py-2.5 whitespace-nowrap text-right text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
+                          <td className="hidden lg:table-cell px-3 py-2.5 whitespace-nowrap text-right text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
                             {formatMarketCap(crypto.market_cap)}
                           </td>
-                          <td className="px-3 py-2.5 whitespace-nowrap text-right text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
+                          <td className="hidden xl:table-cell px-3 py-2.5 whitespace-nowrap text-right text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
                             {formatMarketCap(crypto.total_volume)}
                           </td>
-                          <td className="px-3 py-2.5 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
+                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
                             <button
                               onClick={() => toggleFavorite(crypto)}
                               className={`p-1 rounded-full ${isFavorite(crypto) ? 'text-yellow-400 bg-yellow-400/20' : 'text-slate-500 hover:text-yellow-400 hover:bg-yellow-400/10'}`}
                               aria-label={isFavorite(crypto) ? "Verwijder van favorieten" : "Voeg toe aan favorieten"}
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                               </svg>
                             </button>
                           </td>
-                          <td className="px-3 py-2.5 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
+                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
                             <button
                               onClick={() => setFullscreenCrypto(cryptoWithLivePrice)}
                               className="p-1 rounded-full text-slate-500 hover:text-neon-cyan hover:bg-neon-cyan/10 transition-colors"
                               aria-label="Open fullscreen"
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 11-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15 13.586V12a1 1 0 011-1z" clipRule="evenodd" />
                               </svg>
                             </button>
@@ -587,17 +587,17 @@ function App() {
         </section>
 
         {/* Fiat Exchange Rates */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">
+        <section className="mb-8 sm:mb-12">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
             <span className="text-neon-purple">{t.fiatRates}</span>
           </h2>
           
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
               <SkeletonLoader count={5} type="card" />
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
               {fiatPairs.map((pair) => (
                 <FiatCard
                   key={`${pair.from}-${pair.to}`}
@@ -612,16 +612,16 @@ function App() {
 
         {/* Recently Viewed */}
         {recentlyViewed.length > 0 && (
-          <section className="mb-12">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">
+          <section className="mb-8 sm:mb-12">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2">
+              <h2 className="text-xl sm:text-2xl font-bold">
                 <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">{t.recentlyViewed}</span>
               </h2>
               <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({recentlyViewed.length} {t.viewed})</span>
             </div>
             
-            <div className="bg-dark-card/30 dark:bg-dark-card/30 light:bg-slate-50 high-contrast:bg-gray-100 border border-neon-cyan/30 dark:border-neon-cyan/30 light:border-slate-300 high-contrast:border-black rounded-xl p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="bg-dark-card/30 dark:bg-dark-card/30 light:bg-slate-50 high-contrast:bg-gray-100 border border-neon-cyan/30 dark:border-neon-cyan/30 light:border-slate-300 high-contrast:border-black rounded-xl p-4 sm:p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                 {recentlyViewed.map((crypto) => {
                   const cryptoWithLivePrice = mergeLivePrices(crypto);
                   return (
@@ -649,8 +649,8 @@ function App() {
                 );
                 })}
               </div>
-              <div className="mt-4 pt-4 border-t border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
-                <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-center">
+              <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
+                <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-center">
                   🔍 {t.recentlyViewedDesc}
                 </p>
               </div>
@@ -659,7 +659,7 @@ function App() {
         )}
 
         {/* Currency Converter */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           {loading ? (
             <SkeletonLoader type="converter" />
           ) : (
@@ -670,8 +670,8 @@ function App() {
       )}
 
       {/* Footer */}
-      <footer className="border-t border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white mt-16 py-8">
-        <div className="w-full px-4 text-center text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-400 text-sm">
+      <footer className="border-t border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white mt-12 sm:mt-16 py-6 sm:py-8">
+        <div className="w-full px-3 sm:px-4 text-center text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-400 text-xs sm:text-sm">
           <p>{t.dataProvidedBy}</p>
           <p className="mt-2">{t.updatesEvery}</p>
         </div>
