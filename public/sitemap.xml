@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
-  <!-- Homepage / Main App -->
+  <!-- Homepage / Crypto Tracker -->
   <url>
     <loc>https://coinmarkt.nl/</loc>
     <lastmod>2025-12-23</lastmod>
@@ -10,6 +10,22 @@
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="nl" href="https://coinmarkt.nl/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://coinmarkt.nl/?lang=en" />
+  </url>
+  
+  <!-- Block Explorer -->
+  <url>
+    <loc>https://coinmarkt.nl/block-explorer</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Fiat Exchange Rates -->
+  <url>
+    <loc>https://coinmarkt.nl/fiat-rates</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
   </url>
 
 </urlset>
