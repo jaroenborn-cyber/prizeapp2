@@ -393,9 +393,14 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
             className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full shadow-2xl"
           />
           <div className="text-center sm:text-left">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white dark:text-white light:text-slate-900 high-contrast:text-black">
-              {crypto.name}
-            </h1>
+            <div className="flex items-center justify-center sm:justify-start gap-2">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white dark:text-white light:text-slate-900 high-contrast:text-black">
+                {crypto.name}
+              </h1>
+              {crypto.isLive && (
+                <span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-400 rounded-full animate-pulse" title="Live updates"></span>
+              )}
+            </div>
             <p className="text-xl sm:text-2xl md:text-3xl text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600 uppercase mt-1 sm:mt-2">
               {crypto.symbol}
             </p>

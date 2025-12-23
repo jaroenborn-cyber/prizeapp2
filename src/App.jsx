@@ -536,10 +536,13 @@ function App() {
                                 <div className="flex items-center gap-1">
                                   <span className="text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black truncate">{crypto.name}</span>
                                   {cryptoWithLivePrice.isLive && (
-                                    <span className="hidden sm:flex text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded items-center gap-1 flex-shrink-0">
-                                      <span className="inline-block w-1 h-1 bg-green-400 rounded-full animate-pulse"></span>
-                                      {t.live}
-                                    </span>
+                                    <>
+                                      <span className="sm:hidden inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse flex-shrink-0" title="Live updates"></span>
+                                      <span className="hidden sm:flex text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded items-center gap-1 flex-shrink-0">
+                                        <span className="inline-block w-1 h-1 bg-green-400 rounded-full animate-pulse"></span>
+                                        {t.live}
+                                      </span>
+                                    </>
                                   )}
                                 </div>
                                 <div className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-800 uppercase truncate">{crypto.symbol}</div>
