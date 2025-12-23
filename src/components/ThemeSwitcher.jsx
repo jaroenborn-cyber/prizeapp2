@@ -61,23 +61,23 @@ const ThemeSwitcher = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 sm:w-56 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black shadow-2xl overflow-hidden z-50 animate-fadeIn">
-          <div className="py-1.5 sm:py-2">
+        <div className="absolute right-0 mt-2 w-36 sm:w-56 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black shadow-2xl overflow-hidden z-50 animate-fadeIn">
+          <div className="py-1">
             <button
               onClick={() => handleThemeSelect('dark')}
-              className={`w-full px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-2 sm:gap-3 transition-all ${
+              className={`w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
                 theme === 'dark'
                   ? 'bg-slate-700 text-white border-l-4 border-neon-cyan'
                   : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-black hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100'
               }`}
             >
-              <span className="text-xl sm:text-2xl">🌙</span>
+              <span className="text-base sm:text-2xl">🌙</span>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-sm sm:text-base">Donker</div>
+                <div className="font-semibold text-xs sm:text-base">Donker</div>
                 <div className="text-xs opacity-70 hidden sm:block">Standaard donkere modus</div>
               </div>
               {theme === 'dark' && (
-                <svg className="w-5 h-5 text-neon-cyan" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-3 h-3 sm:w-5 sm:h-5 text-neon-cyan" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               )}
@@ -85,19 +85,19 @@ const ThemeSwitcher = () => {
 
             <button
               onClick={() => handleThemeSelect('light')}
-              className={`w-full px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-2 sm:gap-3 transition-all ${
+              className={`w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
                 theme === 'light'
                   ? 'bg-slate-200 text-slate-800 border-l-4 border-neon-purple'
                   : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-black hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100'
               }`}
             >
-              <span className="text-xl sm:text-2xl">☀️</span>
+              <span className="text-base sm:text-2xl">☀️</span>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-sm sm:text-base">Licht</div>
+                <div className="font-semibold text-xs sm:text-base">Licht</div>
                 <div className="text-xs opacity-70 hidden sm:block">Heldere lichte modus</div>
               </div>
               {theme === 'light' && (
-                <svg className="w-5 h-5 text-neon-purple" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-3 h-3 sm:w-5 sm:h-5 text-neon-purple" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               )}
@@ -105,19 +105,19 @@ const ThemeSwitcher = () => {
 
             <button
               onClick={() => handleThemeSelect('high-contrast')}
-              className={`w-full px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-2 sm:gap-3 transition-all ${
+              className={`w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
                 theme === 'high-contrast'
                   ? 'bg-yellow-400 text-black border-l-4 border-yellow-600 font-bold'
                   : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-black hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100'
               }`}
             >
-              <span className="text-xl sm:text-2xl">🔲</span>
+              <span className="text-base sm:text-2xl">🔲</span>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-sm sm:text-base">Hoog Contrast</div>
+                <div className="font-semibold text-xs sm:text-base">Contrast</div>
                 <div className="text-xs opacity-70 hidden sm:block">Voor toegankelijkheid</div>
               </div>
               {theme === 'high-contrast' && (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-3 h-3 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               )}

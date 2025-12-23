@@ -473,18 +473,29 @@ function App() {
           ) : (
             <div className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className="w-full table-fixed">
+                  <colgroup>
+                    <col className="w-6 sm:w-10" />
+                    <col style={{width: 'calc(20% + 10px)'}} className="sm:w-auto" />
+                    <col className="w-20 sm:w-28" />
+                    <col className="w-16 sm:w-24" />
+                    <col className="hidden md:table-column w-24" />
+                    <col className="hidden lg:table-column w-28" />
+                    <col className="hidden xl:table-column w-28" />
+                    <col className="w-10 sm:w-14" />
+                    <col className="w-10 sm:w-14" />
+                  </colgroup>
                   <thead className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-200 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black">
                     <tr>
-                      <th className="px-2 sm:px-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.rank}</th>
-                      <th className="px-2 sm:px-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.name}</th>
-                      <th className="px-2 sm:px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.price}</th>
-                      <th className="px-2 sm:px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.change24h}</th>
-                      <th className="hidden md:table-cell px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.change7d}</th>
-                      <th className="hidden lg:table-cell px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.marketCap}</th>
-                      <th className="hidden xl:table-cell px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.volume24h}</th>
-                      <th className="px-2 sm:px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.favorite}</th>
-                      <th className="px-2 sm:px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">⛶</th>
+                      <th className="pl-1 sm:pl-3 pr-0.5 sm:pr-1.5 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.rank}</th>
+                      <th className="pl-0.5 sm:pl-1.5 pr-1 sm:pr-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.name}</th>
+                      <th className="px-1 sm:px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.price}</th>
+                      <th className="px-1 sm:px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">24h</th>
+                      <th className="hidden md:table-cell px-2 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">7d</th>
+                      <th className="hidden lg:table-cell px-2 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Cap</th>
+                      <th className="hidden xl:table-cell px-2 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Vol</th>
+                      <th className="px-1 sm:px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">★</th>
+                      <th className="px-1 sm:px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">⛶</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-700 dark:divide-slate-700 light:divide-slate-300 high-contrast:divide-black">
@@ -515,63 +526,63 @@ function App() {
                           onClick={() => handleCryptoClick(cryptoWithLivePrice)}
                           className="hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-50 high-contrast:hover:bg-gray-100 cursor-pointer transition-colors"
                         >
-                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-800">
+                          <td className="pl-1 sm:pl-3 pr-0.5 sm:pr-1.5 py-1.5 sm:py-2.5 whitespace-nowrap text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-800">
                             {crypto.market_cap_rank}
                           </td>
-                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap">
-                            <div className="flex items-center gap-1.5 sm:gap-2">
-                              <img src={crypto.image} alt={crypto.name} className="w-6 h-6 sm:w-7 sm:h-7 rounded-full" />
-                              <div>
-                                <div className="flex items-center gap-1 sm:gap-1.5">
-                                  <span className="text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black">{crypto.name}</span>
+                          <td className="pl-0.5 sm:pl-1.5 py-1.5 sm:py-2.5" style={{paddingRight: '10px'}}>
+                            <div className="flex items-center gap-1 sm:gap-2 overflow-hidden">
+                              <img src={crypto.image} alt={crypto.name} className="w-5 h-5 sm:w-7 sm:h-7 rounded-full flex-shrink-0" />
+                              <div className="overflow-hidden">
+                                <div className="flex items-center gap-1">
+                                  <span className="text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black truncate">{crypto.name}</span>
                                   {cryptoWithLivePrice.isLive && (
-                                    <span className="hidden sm:flex text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded items-center gap-1">
+                                    <span className="hidden sm:flex text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded items-center gap-1 flex-shrink-0">
                                       <span className="inline-block w-1 h-1 bg-green-400 rounded-full animate-pulse"></span>
                                       {t.live}
                                     </span>
                                   )}
                                 </div>
-                                <div className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-800 uppercase">{crypto.symbol}</div>
+                                <div className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-800 uppercase truncate">{crypto.symbol}</div>
                               </div>
                             </div>
                           </td>
-                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                          <td className="px-1 sm:px-3 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black">
                             ${formatPrice(cryptoWithLivePrice.current_price)}
                           </td>
-                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm font-semibold">
+                          <td className="px-1 sm:px-3 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm font-semibold">
                             <span className={isPositive24h ? 'text-green-400' : 'text-red-400'}>
                               {isPositive24h ? '▲' : '▼'} {Math.abs(priceChange24h).toFixed(2)}%
                             </span>
                           </td>
-                          <td className="hidden md:table-cell px-3 py-2.5 whitespace-nowrap text-right text-sm font-semibold">
+                          <td className="hidden md:table-cell px-2 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm font-semibold">
                             <span className={isPositive7d ? 'text-green-400' : 'text-red-400'}>
                               {isPositive7d ? '▲' : '▼'} {Math.abs(priceChange7d).toFixed(2)}%
                             </span>
                           </td>
-                          <td className="hidden lg:table-cell px-3 py-2.5 whitespace-nowrap text-right text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
+                          <td className="hidden lg:table-cell px-2 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
                             {formatMarketCap(crypto.market_cap)}
                           </td>
-                          <td className="hidden xl:table-cell px-3 py-2.5 whitespace-nowrap text-right text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
+                          <td className="hidden xl:table-cell px-2 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
                             {formatMarketCap(crypto.total_volume)}
                           </td>
-                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
+                          <td className="px-1 sm:px-3 py-1.5 sm:py-2.5 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
                             <button
                               onClick={() => toggleFavorite(crypto)}
                               className={`p-1 rounded-full ${isFavorite(crypto) ? 'text-yellow-400 bg-yellow-400/20' : 'text-slate-500 hover:text-yellow-400 hover:bg-yellow-400/10'}`}
                               aria-label={isFavorite(crypto) ? "Verwijder van favorieten" : "Voeg toe aan favorieten"}
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                               </svg>
                             </button>
                           </td>
-                          <td className="px-2 sm:px-3 py-2 sm:py-2.5 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
+                          <td className="px-1 sm:px-3 py-1.5 sm:py-2.5 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
                             <button
                               onClick={() => setFullscreenCrypto(cryptoWithLivePrice)}
                               className="p-1 rounded-full text-slate-500 hover:text-neon-cyan hover:bg-neon-cyan/10 transition-colors"
                               aria-label="Open fullscreen"
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 11-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15 13.586V12a1 1 0 011-1z" clipRule="evenodd" />
                               </svg>
                             </button>
