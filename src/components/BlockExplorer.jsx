@@ -227,7 +227,7 @@ const BlockExplorer = () => {
   };
 
   const getBlockColor = (index) => {
-    // Color blocks based on their recency (newer = brighter)
+    // Color blocks based on their recency (newer = brighter) - extended for 5 blocks
     const colors = [
       'from-orange-500 to-orange-600',
       'from-orange-400 to-orange-500',
@@ -253,13 +253,15 @@ const BlockExplorer = () => {
   };
 
   const getExpectedBlocks = () => {
-    // Generate 3 expected blocks with estimated times
+    // Generate 5 expected blocks with estimated times (increased from 3)
     const currentHeight = stats?.blockHeight || 0;
     const avgBlockTime = 10; // 10 minutes average
     return [
       { height: currentHeight + 1, estimatedMinutes: avgBlockTime, status: 'next' },
       { height: currentHeight + 2, estimatedMinutes: avgBlockTime * 2, status: 'upcoming' },
       { height: currentHeight + 3, estimatedMinutes: avgBlockTime * 3, status: 'upcoming' },
+      { height: currentHeight + 4, estimatedMinutes: avgBlockTime * 4, status: 'upcoming' },
+      { height: currentHeight + 5, estimatedMinutes: avgBlockTime * 5, status: 'upcoming' },
     ];
   };
 
@@ -283,7 +285,7 @@ const BlockExplorer = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-dark-bg via-slate-900 to-dark-bg dark:from-dark-bg dark:via-slate-900 dark:to-dark-bg light:from-slate-50 light:via-white light:to-slate-50 high-contrast:from-white high-contrast:to-white">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="container mx-auto px-4 py-8 max-w-full">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
@@ -396,9 +398,9 @@ const BlockExplorer = () => {
             <div className="absolute left-0 right-0 top-1/2 h-1 bg-gradient-to-r from-orange-500/30 via-slate-600 to-slate-700 -translate-y-1/2"></div>
             
             {/* Blocks container */}
-            <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4">
-              {/* Recent mined blocks (last 3) */}
-              {blocks.slice(0, 3).reverse().map((block, index) => (
+            <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3 sm:gap-4">
+              {/* Recent mined blocks (last 5 - increased from 3) */}
+              {blocks.slice(0, 5).reverse().map((block, index) => (
                 <div key={block.id} className="relative">
                   <div 
                     onClick={() => setSelectedBlock(block)}

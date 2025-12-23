@@ -1,0 +1,31 @@
+# robots.txt for CoinMarkt.nl
+
+# Allow all search engines to crawl everything
+User-agent: *
+Allow: /
+
+# Crawl-delay to be respectful (1 second)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://coinmarkt.nl/sitemap.xml
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
