@@ -26,6 +26,8 @@ const BlockExplorer = () => {
     return localStorage.getItem('blockSoundType') || 'bell';
   });
   const [showSoundMenu, setShowSoundMenu] = useState(false);
+  const [audioContext, setAudioContext] = useState(null);
+  const [audioBlocked, setAudioBlocked] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -91,109 +93,153 @@ const BlockExplorer = () => {
     }
   };
 
-  const toggleSound = () => {
+  const toggleSound = async () => {
     const newValue = !soundEnabled;
     setSoundEnabled(newValue);
     localStorage.setItem('blockSoundEnabled', JSON.stringify(newValue));
     
-    // Play a test sound when enabling
+    // Initialize and resume AudioContext when enabling
     if (newValue) {
-      playBlockSound();
+      try {
+        // Create AudioContext if it doesn't exist
+        if (!audioContext) {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          setAudioContext(ctx);
+          
+          // Resume AudioContext (required for Chrome's autoplay policy)
+          if (ctx.state === 'suspended') {
+            await ctx.resume();
+          }
+        } else if (audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
+        
+        setAudioBlocked(false);
+        // Play a test sound when enabling
+        playBlockSound();
+      } catch (error) {
+        console.error('Audio initialization failed:', error);
+        setAudioBlocked(true);
+      }
     }
   };
 
-  const playBlockSound = () => {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+  const playBlockSound = async () => {
+    try {
+      // Use existing AudioContext or create new one
+      let ctx = audioContext;
+      if (!ctx) {
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+        setAudioContext(ctx);
+      }
+      
+      // Resume AudioContext if suspended (Chrome autoplay policy)
+      if (ctx.state === 'suspended') {
+        await ctx.resume();
+      }
+      
+      // Check if audio is allowed
+      if (ctx.state !== 'running') {
+        setAudioBlocked(true);
+        return;
+      }
+      
+      setAudioBlocked(false);
+      
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
     
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
     
     // Different sound types
     switch (selectedSound) {
       case 'bell':
         // Pleasant bell sound
         oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.3);
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.5);
+        oscillator.frequency.setValueAtTime(800, ctx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.3);
+        gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.5);
         break;
         
       case 'chime':
         // Higher pitched chime
         oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(1200, audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.2);
-        gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.4);
+        oscillator.frequency.setValueAtTime(1200, ctx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.2);
+        gainNode.gain.setValueAtTime(0.25, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.4);
         break;
         
       case 'ping':
         // Short ping sound
         oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(1500, audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.15);
+        oscillator.frequency.setValueAtTime(1500, ctx.currentTime);
+        gainNode.gain.setValueAtTime(0.4, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.15);
         break;
         
       case 'coin':
         // Coin drop sound (two tones)
         oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(988, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(1319, audioContext.currentTime + 0.1);
-        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.3);
+        oscillator.frequency.setValueAtTime(988, ctx.currentTime);
+        oscillator.frequency.setValueAtTime(1319, ctx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.3);
         break;
         
       case 'beep':
         // Simple beep
         oscillator.type = 'square';
-        oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0, audioContext.currentTime + 0.2);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.2);
+        oscillator.frequency.setValueAtTime(600, ctx.currentTime);
+        gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+        gainNode.gain.setValueAtTime(0, ctx.currentTime + 0.2);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.2);
         break;
         
       case 'success':
         // Success sound (ascending)
         oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
-        oscillator.frequency.linearRampToValueAtTime(800, audioContext.currentTime + 0.2);
-        gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.4);
+        oscillator.frequency.setValueAtTime(500, ctx.currentTime);
+        oscillator.frequency.linearRampToValueAtTime(800, ctx.currentTime + 0.2);
+        gainNode.gain.setValueAtTime(0.25, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.4);
         break;
         
       default:
         // Fallback to bell
         oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.3);
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.5);
+        oscillator.frequency.setValueAtTime(800, ctx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.3);
+        gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.5);
+    }
+    } catch (error) {
+      console.error('Error playing sound:', error);
+      setAudioBlocked(true);
     }
   };
 
-  const handleSoundSelect = (soundType) => {
+    const handleSoundSelect = async (soundType) => {
     setSelectedSound(soundType);
     localStorage.setItem('blockSoundType', soundType);
     setShowSoundMenu(false);
-    // Play preview of selected sound
-    playBlockSound();
+    // Play preview of selected sound (this also activates AudioContext)
+    await playBlockSound();
   };
 
   const soundOptions = [
@@ -380,6 +426,23 @@ const BlockExplorer = () => {
                   </>
                 )}
               </button>
+              
+              {/* Audio Blocked Warning */}
+              {soundEnabled && audioBlocked && (
+                <div className="absolute top-full mt-2 left-0 right-0 bg-yellow-500/20 border border-yellow-500/50 rounded-lg p-3 text-sm text-yellow-200 backdrop-blur-sm z-10">
+                  <div className="flex items-start gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <div>
+                      <p className="font-semibold mb-1">⚠️ Audio Blocked by Browser</p>
+                      <p className="text-xs text-yellow-300">
+                        Chrome requires user interaction first. Click the sound dropdown menu below to test and activate audio.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
