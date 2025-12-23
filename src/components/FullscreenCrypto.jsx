@@ -122,11 +122,11 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
   const isPositive = priceChange >= 0;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 light:from-slate-100 light:via-slate-50 light:to-slate-100 high-contrast:from-white high-contrast:via-gray-50 high-contrast:to-white">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 light:from-slate-100 light:via-slate-50 light:to-slate-100 high-contrast:from-white high-contrast:via-gray-50 high-contrast:to-white overflow-hidden">
       {/* Background Chart */}
       {chartData && (
         <div className="absolute inset-0" style={{ opacity: chartOpacity }}>
-          <div className="w-full h-full p-4 sm:p-8 md:p-12 lg:p-20">
+          <div className="w-full h-full p-2 sm:p-8 md:p-12 lg:p-20">
             <Line
               data={chartData}
               options={{
@@ -180,9 +180,10 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
           </div>
         </div>
       )}
-      {/* Theme Switcher - Top Right */}
-      <div className="absolute top-4 right-28 sm:top-8 sm:right-44 z-10 theme-switcher-container">
-        <div className="relative">
+      {/* Control Buttons - Top Right */}
+      <div className="absolute top-4 right-2 sm:top-8 sm:right-8 z-10 flex items-center gap-1.5 sm:gap-2">
+        {/* Theme Switcher */}
+        <div className="theme-switcher-container relative">
           <button
             onClick={() => setShowThemeMenu(!showThemeMenu)}
             className="p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
@@ -208,7 +209,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
           {/* Dropdown Menu */}
           {showThemeMenu && (
-            <div className="absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
+            <div className="absolute top-12 left-0 sm:left-auto sm:right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
               <button
                 onClick={() => {
                   setTheme('dark');
@@ -261,11 +262,9 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
             </div>
           )}
         </div>
-      </div>
 
-      {/* Timeframe Switcher */}
-      <div className="absolute top-4 right-16 sm:top-8 sm:right-32 z-10 timeframe-switcher-container">
-        <div className="relative">
+        {/* Timeframe Switcher */}
+        <div className="timeframe-switcher-container relative">
           <button
             onClick={() => setShowTimeframeMenu(!showTimeframeMenu)}
             className="p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
@@ -278,7 +277,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
           {/* Dropdown Menu */}
           {showTimeframeMenu && (
-            <div className="absolute top-12 right-0 w-36 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
+            <div className="absolute top-12 left-0 sm:left-auto sm:right-0 w-36 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
               <button
                 onClick={() => {
                   setChartPeriod('1');
@@ -334,11 +333,9 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
             </div>
           )}
         </div>
-      </div>
 
-      {/* Opacity Switcher */}
-      <div className="absolute top-4 right-9 sm:top-8 sm:right-20 z-10 opacity-switcher-container">
-        <div className="relative">
+        {/* Opacity Switcher */}
+        <div className="opacity-switcher-container relative">
           <button
             onClick={() => setShowOpacityMenu(!showOpacityMenu)}
             className="p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
@@ -352,7 +349,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
           {/* Dropdown Menu */}
           {showOpacityMenu && (
-            <div className="absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden p-4">
+            <div className="absolute top-12 left-0 sm:left-auto sm:right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden p-4">
               <label className="text-sm font-medium text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800 block mb-2">
                 Transparantie: {Math.round(chartOpacity * 100)}%
               </label>
@@ -367,17 +364,18 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
             </div>
           )}
         </div>
+
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all p-1.5 sm:p-2 hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200 rounded-lg"
+          aria-label="Exit fullscreen"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
-      {/* Close button */}
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-2 sm:top-8 sm:right-8 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all p-1.5 sm:p-2 hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200 rounded-lg"
-        aria-label="Exit fullscreen"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
 
       {/* ESC hint */}
       <div className="hidden sm:flex absolute top-4 left-4 sm:top-8 sm:left-8 text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-600 text-xs sm:text-sm items-center gap-2">
@@ -386,7 +384,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8 p-4 sm:p-6 md:p-8 mt-12 sm:mt-0">
+      <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8 p-2 sm:p-6 md:p-8 mt-8 sm:mt-0 max-h-screen overflow-y-auto w-full">
         {/* Crypto icon and name */}
         <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
           <img 
