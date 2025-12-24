@@ -7,6 +7,7 @@ export const translations = {
     // Tabs
     cryptoTracker: 'Crypto Tracker',
     blockExplorer: 'Block Explorer',
+    marketMonitor: 'Markten',
     
     // Favorites
     myFavorites: 'Mijn Favoriete Cryptocurrencies',
@@ -75,6 +76,15 @@ export const translations = {
     // Buttons
     addToFavorites: 'Voeg toe aan favorieten',
     removeFromFavorites: 'Verwijder van favorieten',
+    
+    // Market Monitor
+    marketMonitorDesc: 'Real-time wereldwijde aandelenindices',
+    lastUpdate: 'Laatste update',
+    europe: 'Europa',
+    americas: 'Amerika',
+    asiaPacific: 'Azië-Pacific',
+    averageChange: 'Gemiddelde verandering',
+    marketDataNote: 'Marktdata geleverd door Financial Modeling Prep. Data kan tot 15 minuten vertraagd zijn tijdens handelsuren.',
   },
   en: {
     // Header
@@ -84,6 +94,7 @@ export const translations = {
     // Tabs
     cryptoTracker: 'Crypto Tracker',
     blockExplorer: 'Block Explorer',
+    marketMonitor: 'Markets',
     
     // Favorites
     myFavorites: 'My Favorite Cryptocurrencies',
@@ -152,5 +163,14 @@ export const translations = {
     // Buttons
     addToFavorites: 'Add to favorites',
     removeFromFavorites: 'Remove from favorites',
+    
+    // Market Monitor
+    marketMonitorDesc: 'Real-time global stock market indices',
+    lastUpdate: 'Last update',
+    europe: 'Europe',
+    americas: 'Americas',
+    asiaPacific: 'Asia-Pacific',
+    averageChange: 'Average change',
+    marketDataNote: 'Market data provided by Financial Modeling Prep. Data may be delayed up to 15 minutes during market hours.',
   }
 };

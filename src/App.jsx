@@ -13,6 +13,7 @@ import SkeletonLoader from './components/SkeletonLoader';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import BlockExplorer from './components/BlockExplorer';
+import MarketMonitor from './components/MarketMonitor';
 import { useLanguage } from './context/LanguageContext';
 import { translations } from './utils/translations';
 
@@ -25,6 +26,7 @@ function AppContent() {
   // Initialize activeTab based on URL
   const getInitialTab = () => {
     if (location.pathname === '/block-explorer') return 'explorer';
+    if (location.pathname === '/market-monitor') return 'markets';
     return 'crypto';
   };
   
@@ -35,6 +37,8 @@ function AppContent() {
     setActiveTab(tab);
     if (tab === 'explorer') {
       navigate('/block-explorer');
+    } else if (tab === 'markets') {
+      navigate('/market-monitor');
     } else {
       navigate('/');
     }
@@ -407,6 +411,16 @@ function AppContent() {
             >
               ₿ {t.blockExplorer}
             </button>
+            <button
+              onClick={() => handleTabChange('markets')}
+              className={`px-4 sm:px-6 py-2 sm:py-3 font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
+                activeTab === 'markets'
+                  ? 'text-green-500 border-b-2 border-green-500'
+                  : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 high-contrast:text-gray-600 high-contrast:hover:text-black'
+              }`}
+            >
+              📊 {t.marketMonitor || 'Markets'}
+            </button>
           </div>
           
           {/* Search Bar */}
@@ -424,6 +438,8 @@ function AppContent() {
 
       {activeTab === 'explorer' ? (
         <BlockExplorer />
+      ) : activeTab === 'markets' ? (
+        <MarketMonitor />
       ) : (
       <main className="w-full px-3 sm:px-4 py-6 sm:py-8">
         {error && (
@@ -749,6 +765,7 @@ function App() {
       <Routes>
         <Route path="/" element={<AppContent />} />
         <Route path="/block-explorer" element={<AppContent />} />
+        <Route path="/market-monitor" element={<AppContent />} />
       </Routes>
     </Router>
   );
