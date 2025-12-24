@@ -24,7 +24,8 @@ function AppContent() {
   
   // Initialize activeTab based on URL
   const getInitialTab = () => {
-    if (location.pathname === '/block-explorer') return 'explorer';
+    // With HashRouter, check the hash instead of pathname
+    if (location.hash === '#/block-explorer') return 'explorer';
     return 'crypto';
   };
   
@@ -46,7 +47,7 @@ function AppContent() {
     if (tab !== activeTab) {
       setActiveTab(tab);
     }
-  }, [location.pathname]);
+  }, [location.hash]); // Watch hash instead of pathname
   const [cryptoData, setCryptoData] = useState([]);
   const [favoriteCryptos, setFavoriteCryptos] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
