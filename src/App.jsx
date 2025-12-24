@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { getTopCryptos, getFiatRates, getCryptoDetails } from './services/api';
 import binanceService from './services/binance';
@@ -15,11 +16,37 @@ import BlockExplorer from './components/BlockExplorer';
 import { useLanguage } from './context/LanguageContext';
 import { translations } from './utils/translations';
 
-function App() {
+function AppContent() {
   const { language } = useLanguage();
   const t = translations[language];
+  const navigate = useNavigate();
+  const location = useLocation();
   
-  const [activeTab, setActiveTab] = useState('crypto');
+  // Initialize activeTab based on URL
+  const getInitialTab = () => {
+    if (location.pathname === '/block-explorer') return 'explorer';
+    return 'crypto';
+  };
+  
+  const [activeTab, setActiveTab] = useState(getInitialTab);
+  
+  // Update URL when tab changes
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    if (tab === 'explorer') {
+      navigate('/block-explorer');
+    } else {
+      navigate('/');
+    }
+  };
+  
+  // Update activeTab when URL changes (browser back/forward)
+  useEffect(() => {
+    const tab = getInitialTab();
+    if (tab !== activeTab) {
+      setActiveTab(tab);
+    }
+  }, [location.pathname]);
   const [cryptoData, setCryptoData] = useState([]);
   const [favoriteCryptos, setFavoriteCryptos] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
@@ -361,7 +388,7 @@ function App() {
           {/* Tab Navigation */}
           <div className="flex gap-1 sm:gap-2 mt-4 sm:mt-6 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-x-auto">
             <button
-              onClick={() => setActiveTab('crypto')}
+              onClick={() => handleTabChange('crypto')}
               className={`px-4 sm:px-6 py-2 sm:py-3 font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'crypto'
                   ? 'text-neon-cyan border-b-2 border-neon-cyan'
@@ -371,7 +398,7 @@ function App() {
               💰 {t.cryptoTracker}
             </button>
             <button
-              onClick={() => setActiveTab('explorer')}
+              onClick={() => handleTabChange('explorer')}
               className={`px-4 sm:px-6 py-2 sm:py-3 font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'explorer'
                   ? 'text-orange-500 border-b-2 border-orange-500'
@@ -713,6 +740,17 @@ function App() {
         />
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<AppContent />} />
+        <Route path="/block-explorer" element={<AppContent />} />
+      </Routes>
+    </Router>
   );
 }
 
