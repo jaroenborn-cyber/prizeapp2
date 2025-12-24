@@ -266,29 +266,11 @@ const COMPANY_NAMES = {
   'CMCSA': 'Comcast',
   'BRK.B': 'Berkshire Hathaway',
   
-  // AEX (Dutch stocks)
-  'ADYEN': 'Adyen',
-  'PROSUS': 'Prosus',
-  'UNA': 'Unilever',
-  'INGA': 'ING Groep',
-  'ABN': 'ABN AMRO',
-  'KPN': 'KPN',
-  'RAND': 'Randstad',
-  'HEIA': 'Heineken',
-  'WKL': 'Wolters Kluwer',
+  // AEX / European stocks
   'PHIA': 'Philips',
-  'ASM': 'ASM International',
-  'NN': 'NN Group',
-  'AKZA': 'Akzo Nobel',
-  'AD': 'Ahold Delhaize',
-  'AGN': 'Aegon',
-  'DSM': 'DSM',
-  'BESI': 'BE Semiconductor',
-  'IMCD': 'IMCD',
-  'JDE': 'JDE Peet\'s',
-  'UMG': 'Universal Music',
-  'GLPG': 'Galapagos',
-  'TKWY': 'Just Eat Takeaway',
+  'NVO': 'Novo Nordisk',
+  'ABBV': 'AbbVie',
+  'UNA': 'Unilever',
   
   // European (US-listed)
   'UL': 'Unilever',
@@ -362,9 +344,9 @@ export const getIndexTopStocks = async (indexSymbol) => {
               'GILD', 'LRCX', 'BKNG', 'AMAT', 'ADP', 'ABNB', 'MCHP', 'IDXX', 'CRWD', 'MU'],
     
     // European Indices
-    'AEX.INDX': ['ASML', 'SHELL', 'ADYEN', 'PROSUS', 'UNA', 'INGA', 'ABN', 'KPN', 'RAND',
-             'HEIA', 'WKL', 'PHIA', 'ASM', 'NN', 'AKZA', 'AD', 'AGN', 'DSM', 'BESI', 'IMCD',
-             'ABN', 'JDE', 'UMG', 'GLPG', 'TKWY'],
+    'AEX.INDX': ['ASML', 'SHELL', 'PHIA', 'ING', 'RELX', 'UL', 'ABBV', 'ABT', 'AZN',
+             'BABA', 'BUD', 'BP', 'GSK', 'HSBC', 'LIN', 'MT', 'NVO', 'SAP', 'STLA', 'TTE',
+             'UNA', 'SNY', 'DEO', 'BCS', 'RIO'],
     'GDAXI.INDX': ['SAP', 'SIEGY', 'ALIZY', 'BMWYY', 'BASFY', 'BAYRY', 'DB', 'IFNNY', 'MKKGY', 'VONOY',
                'DDAIF', 'LIN', 'ADDYY', 'BDRFY', 'QGEN', 'FPRUY', 'CVVTF', 'DLVHF', 'SARTF', 'BNTGF'],
     'FTSE.INDX': ['UL', 'HSBC', 'SHELL', 'AZN', 'GSK', 'BP', 'RBGLY', 'RELX', 'DEO', 'BUD',
