@@ -1,8 +1,8 @@
-// Twelve Data API for stock market data (free tier: 8 calls/min, 800/day)
-const TWELVE_DATA_API_KEY = 'demo'; // Free demo key works for basic usage
-const TWELVE_DATA_URL = 'https://api.twelvedata.com';
+// Marketstack API for stock market data
+const MARKETSTACK_API_KEY = '9329db45a6a7d78855988c64aba86f0c';
+const MARKETSTACK_URL = 'http://api.marketstack.com/v1';
 
-// Legacy FMP API (keeping for indices quotes)
+// Legacy FMP API (keeping for reference)
 const FMP_API_KEY = '5CUgTXPkdfQfArsKbd6qDdSzhz22bN8l';
 const FMP_BASE_URL = 'https://financialmodelingprep.com/api/v3';
 
@@ -147,53 +147,38 @@ export const getIndexConstituents = async (symbol) => {
 };
 
 /**
- * Get quotes for a list of stock symbols using Twelve Data API
+ * Get quotes for a list of stock symbols using Marketstack API
  */
 export const getStockQuotes = async (symbols) => {
   if (!symbols || symbols.length === 0) return [];
   
   try {
-    const results = [];
+    // Marketstack supports batch requests - up to 100 symbols at once
+    const symbolString = symbols.slice(0, 100).join(',');
     
-    // Demo key only allows single symbol requests, so fetch one by one
-    // Limit to 20 stocks to avoid too many requests
-    const limitedSymbols = symbols.slice(0, 20);
+    const response = await fetch(
+      `${MARKETSTACK_URL}/eod/latest?access_key=${MARKETSTACK_API_KEY}&symbols=${symbolString}`
+    );
     
-    for (let i = 0; i < limitedSymbols.length; i++) {
-      const symbol = limitedSymbols[i];
-      
-      try {
-        const response = await fetch(
-          `${TWELVE_DATA_URL}/quote?symbol=${symbol}&apikey=${TWELVE_DATA_API_KEY}`
-        );
-        
-        if (!response.ok) {
-          console.error(`API error for ${symbol}:`, response.status);
-          continue;
-        }
-        
-        const data = await response.json();
-        
-        // Check for error response
-        if (data.code && data.status === 'error') {
-          console.warn(`Error for ${symbol}:`, data.message);
-          continue;
-        }
-        
-        if (data.symbol) {
-          results.push(formatTwelveDataQuote(data));
-        }
-      } catch (err) {
-        console.error(`Error fetching ${symbol}:`, err);
-      }
-      
-      // Small delay between requests to avoid rate limiting
-      if (i < limitedSymbols.length - 1) {
-        await new Promise(resolve => setTimeout(resolve, 150));
-      }
+    if (!response.ok) {
+      console.error('Marketstack API error:', response.status);
+      return [];
     }
     
-    return results;
+    const result = await response.json();
+    
+    // Check for API error
+    if (result.error) {
+      console.error('Marketstack error:', result.error.message);
+      return [];
+    }
+    
+    // Format the data to our expected format
+    if (result.data && Array.isArray(result.data)) {
+      return result.data.map(formatMarketstackQuote);
+    }
+    
+    return [];
   } catch (error) {
     console.error('Error fetching stock quotes:', error);
     return [];
@@ -201,20 +186,23 @@ export const getStockQuotes = async (symbols) => {
 };
 
 /**
- * Format Twelve Data quote to our expected format
+ * Format Marketstack quote to our expected format
  */
-const formatTwelveDataQuote = (quote) => {
+const formatMarketstackQuote = (quote) => {
+  const change = quote.close - quote.open;
+  const changePercent = quote.open ? ((change / quote.open) * 100) : 0;
+  
   return {
     symbol: quote.symbol,
-    name: quote.name,
-    price: parseFloat(quote.close) || parseFloat(quote.previous_close) || 0,
-    change: parseFloat(quote.change) || 0,
-    changesPercentage: parseFloat(quote.percent_change) || 0,
-    dayHigh: parseFloat(quote.high) || null,
-    dayLow: parseFloat(quote.low) || null,
-    open: parseFloat(quote.open) || null,
-    previousClose: parseFloat(quote.previous_close) || null,
-    volume: parseInt(quote.volume) || null,
+    name: quote.symbol, // Marketstack doesn't provide company name in this endpoint
+    price: quote.close || 0,
+    change: change,
+    changesPercentage: changePercent,
+    dayHigh: quote.high || null,
+    dayLow: quote.low || null,
+    open: quote.open || null,
+    previousClose: quote.adj_close || null,
+    volume: quote.volume || null,
     exchange: quote.exchange || null,
   };
 };
