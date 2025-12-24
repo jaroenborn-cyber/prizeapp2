@@ -135,11 +135,20 @@ export const getStockQuotes = async (symbols) => {
     );
     
     if (!response.ok) {
-      throw new Error('Failed to fetch stock quotes');
+      console.error('API response not ok:', response.status, response.statusText);
+      throw new Error(`Failed to fetch stock quotes: ${response.status}`);
     }
     
     const data = await response.json();
-    return data || [];
+    
+    // Filter out any null or invalid results
+    const validResults = Array.isArray(data) ? data.filter(item => item && item.symbol) : [];
+    
+    if (validResults.length === 0) {
+      console.warn(`No valid data returned for symbols: ${symbolString}`);
+    }
+    
+    return validResults;
   } catch (error) {
     console.error('Error fetching stock quotes:', error);
     return [];
@@ -150,20 +159,45 @@ export const getStockQuotes = async (symbols) => {
  * Get top stocks for an index (fallback if constituents API doesn't work)
  */
 export const getIndexTopStocks = async (indexSymbol) => {
-  // Predefined top stocks for major indices
+  // Predefined top stocks for major indices using US ticker symbols
+  // These are the major companies in each index
   const indexStocks = {
-    '^AEX': ['ASML.AS', 'SHELL.AS', 'RELX.AS', 'ING.AS', 'UNVR.AS', 'PHIA.AS', 'UNA.AS', 'NN.AS', 'ADYEN.AS', 'AKZA.AS',
-              'REN.AS', 'ABNA.AS', 'IMIX.AS', 'INSI.AS', 'APRA.AS', 'EXAB.AS', 'PROL.AS', 'TRNL.AS', 'HAL.AS', 'FH.AS'],
-    '^GDAXI': ['SAP.DE', 'SIE.DE', 'VNA.DE', 'ALV.DE', 'MUV2.DE', 'HNR1.DE', 'BAS.DE', 'BAYN.DE', 'VOW3.DE', 'BMW.DE',
-               'DAI.DE', 'LIN.DE', 'MBG.DE', 'ADS.DE', 'DBK.DE', 'DB1.DE', 'QIA.DE', 'MTX.DE', 'WDI.DE', 'ZO2.DE'],
-    '^FTSE': ['HSBA.L', 'SHEL.L', 'AZN.L', 'GSK.L', 'UNVR.L', 'BP..L', 'ULVR.L', 'VOD.L', 'EXPN.L', 'TSCO.L',
-              'JE.L', 'RELX.L', 'LGEN.L', 'RIO.L', 'DGE.L', 'PRU.L', 'BARC.L', 'HL..L', 'BNZL.L', 'MKS.L'],
+    // US Indices
+    '^GSPC': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BERKB', 'JPMORGNA', 'V',
+              'JNJ', 'WMT', 'PG', 'XOM', 'NFLX', 'ADBE', 'CRM', 'PEP', 'MCD', 'ABT'],
+    '^DJI': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'BERKB', 'JPM', 'JNJ', 'V', 'XOM',
+             'WMT', 'PG', 'UNH', 'MCD', 'GS', 'AXP', 'IBM', 'CAT', 'INTC', 'BA'],
+    '^IXIC': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'AVGO', 'NFLX', 'PYPL',
+              'CSCO', 'AMD', 'ADBE', 'CMCSA', 'PEP', 'QCOM', 'ASML', 'TXN', 'INTU', 'AMGN'],
+    
+    // European Indices
+    '^AEX': ['ASML', 'SHELL', 'RELX', 'PHILIPS', 'ING', 'UNILEVER', 'ADYEN', 'RENAULT', 'ABN', 'HEINEKEN',
+             'AKZO', 'NN', 'IMMERSIA', 'ARENTIERES', 'EXELSIOR', 'PROSIEBENSAT', 'HALLIBURTON', 'FEMSA', 'RIG', 'TELE2'],
+    '^GDAXI': ['SAP', 'SIEMENS', 'ALLIANZ', 'BMW', 'BASF', 'BAYER', 'DEUTSCHE', 'INFINEON', 'MERCK', 'VONOVIA',
+               'DAIMLER', 'LINDE', 'ADIDAS', 'BEIERSDORF', 'QIAGEN', 'FRAPORT', 'COVESTRO', 'DELIVERY', 'SARTORIUS', 'BRENNTAG'],
+    '^FTSE': ['UNILEVER', 'HSBC', 'SHELL', 'ASTRAZENECA', 'GSK', 'BP', 'RECKITT', 'RELX', 'DIAGEO', 'INTERBREW',
+              'EXPERIAN', 'RENTOKIL', 'LONDONSTOCK', 'RIO', 'GLENCORE', 'PRUDENTIAL', 'BARC', 'WHITEHOUSE', 'ANDREW', 'MARKS'],
+    
+    // Asian Indices
+    '^N225': ['TOYOTA', 'SONY', 'SOFTBANK', 'NOMURA', 'MITSUBISHI', 'HITACHI', 'PANASONIC', 'NIPPON', 'KAWASAKI', 'SUMITOMO',
+              'ITOCHU', 'MITSUI', 'MARUBENI', 'TOKYO', 'JGCHOLDINGS', 'NIPPONSUISANBK', 'HOKKAIDO', 'DAITO', 'FANAC', 'FUKUOKA'],
+    '^HSI': ['TENCENT', 'ALIBABA', 'ICBC', 'CCB', 'ABC', 'BOC', 'MOBILECOM', 'CLP', 'SWIRE', 'CHEUNG',
+             'HENDERSON', 'POWER', 'PETROCHINA', 'SINOPEC', 'CNUMUM', 'CITIC', 'COSCO', 'ZHAOJIN', 'LUJIAZ', 'VANKE'],
   };
   
   const stocks = indexStocks[indexSymbol] || [];
-  if (stocks.length === 0) return [];
+  if (stocks.length === 0) {
+    console.warn(`No predefined stocks for index ${indexSymbol}`);
+    return [];
+  }
   
-  return getStockQuotes(stocks);
+  try {
+    const results = await getStockQuotes(stocks);
+    return results;
+  } catch (error) {
+    console.error(`Error fetching stocks for ${indexSymbol}:`, error);
+    return [];
+  }
 };
 
 
