@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getIndexConstituents, getIndexTopStocks, WORLD_INDICES } from '../services/stockmarket';
+import { getIndexTopStocks, WORLD_INDICES } from '../services/stockmarket';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../utils/translations';
 
@@ -26,16 +26,7 @@ const IndexDetail = () => {
     try {
       setLoading(true);
       setError(null);
-      
-      // Try the dedicated constituents API first
-      let data = await getIndexConstituents(symbol);
-      
-      // Fall back to predefined stocks if no data
-      if (!data || data.length === 0) {
-        console.log(`Using fallback stocks for ${symbol}`);
-        data = await getIndexTopStocks(symbol);
-      }
-      
+      const data = await getIndexTopStocks(symbol);
       setStocks(data);
     } catch (err) {
       console.error('Error fetching stocks:', err);

@@ -184,26 +184,31 @@ export const getIndexTopStocks = async (indexSymbol) => {
   // These are the major companies in each index
   const indexStocks = {
     // US Indices
-    '^GSPC': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BERKB', 'JPMORGNA', 'V',
-              'JNJ', 'WMT', 'PG', 'XOM', 'NFLX', 'ADBE', 'CRM', 'PEP', 'MCD', 'ABT'],
+    '^GSPC': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BERKB', 'JPM', 'V',
+              'JNJ', 'WMT', 'PG', 'XOM', 'NFLX', 'ADBE', 'CRM', 'PEP', 'MCD', 'ABT',
+              'LLY', 'BA', 'CSCO', 'INTC', 'CVX', 'ACN', 'VRTX', 'NKE', 'GS', 'CMCSA'],
     '^DJI': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'BERKB', 'JPM', 'JNJ', 'V', 'XOM',
-             'WMT', 'PG', 'UNH', 'MCD', 'GS', 'AXP', 'IBM', 'CAT', 'INTC', 'BA'],
+             'WMT', 'PG', 'UNH', 'MCD', 'GS', 'AXP', 'IBM', 'CAT', 'INTC', 'BA',
+             'DD', 'MMM', 'CVX', 'CRM', 'MRK', 'NKE', 'PFE', 'PM', 'RTX', 'TRV'],
     '^IXIC': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'AVGO', 'NFLX', 'PYPL',
-              'CSCO', 'AMD', 'ADBE', 'CMCSA', 'PEP', 'QCOM', 'ASML', 'TXN', 'INTU', 'AMGN'],
+              'CSCO', 'AMD', 'ADBE', 'CMCSA', 'PEP', 'QCOM', 'ASML', 'TXN', 'INTU', 'AMGN',
+              'GILD', 'LRCX', 'BKNG', 'AMAT', 'ADP', 'ABNB', 'MCHP', 'IDXX', 'CRWD', 'MU'],
     
-    // European Indices
-    '^AEX': ['ASML', 'SHELL', 'RELX', 'PHILIPS', 'ING', 'UNILEVER', 'ADYEN', 'RENAULT', 'ABN', 'HEINEKEN',
-             'AKZO', 'NN', 'IMMERSIA', 'ARENTIERES', 'EXELSIOR', 'PROSIEBENSAT', 'HALLIBURTON', 'FEMSA', 'RIG', 'TELE2'],
+    // European Indices (US-listed versions where available)
+    '^AEX': ['ASML', 'SHELL', 'UNILEVER', 'RELX', 'ING', 'PHIA', 'PROSIEBENSAT', 'MERCK', 'ADIDAS', 'BASF',
+             'SAP', 'SIEMENS', 'ALLIANZ', 'BMW', 'BAYER', 'HEINEKEN', 'RECKITT', 'BARC', 'HSBC', 'BP'],
     '^GDAXI': ['SAP', 'SIEMENS', 'ALLIANZ', 'BMW', 'BASF', 'BAYER', 'DEUTSCHE', 'INFINEON', 'MERCK', 'VONOVIA',
                'DAIMLER', 'LINDE', 'ADIDAS', 'BEIERSDORF', 'QIAGEN', 'FRAPORT', 'COVESTRO', 'DELIVERY', 'SARTORIUS', 'BRENNTAG'],
     '^FTSE': ['UNILEVER', 'HSBC', 'SHELL', 'ASTRAZENECA', 'GSK', 'BP', 'RECKITT', 'RELX', 'DIAGEO', 'INTERBREW',
-              'EXPERIAN', 'RENTOKIL', 'LONDONSTOCK', 'RIO', 'GLENCORE', 'PRUDENTIAL', 'BARC', 'WHITEHOUSE', 'ANDREW', 'MARKS'],
+              'EXPERIAN', 'RENTOKIL', 'RIO', 'GLENCORE', 'PRUDENTIAL', 'BARC', 'CRODA', 'SMURFIT', 'HALEON', 'PEARSON'],
+    '^FCHI': ['LVMH', 'TOTALENERGIES', 'SANOFI', 'ASML', 'DAIMLER', 'HERMES', 'SAFRAN', 'STELLANTIS', 'CAP', 'EDF',
+              'AIRBUS', 'DANONE', 'KERING', 'TELECOM', 'PUBLICIS', 'ARCELOR', 'RENAULT', 'ALCATEL', 'VALEO', 'PERNOD'],
     
-    // Asian Indices
-    '^N225': ['TOYOTA', 'SONY', 'SOFTBANK', 'NOMURA', 'MITSUBISHI', 'HITACHI', 'PANASONIC', 'NIPPON', 'KAWASAKI', 'SUMITOMO',
-              'ITOCHU', 'MITSUI', 'MARUBENI', 'TOKYO', 'JGCHOLDINGS', 'NIPPONSUISANBK', 'HOKKAIDO', 'DAITO', 'FANAC', 'FUKUOKA'],
-    '^HSI': ['TENCENT', 'ALIBABA', 'ICBC', 'CCB', 'ABC', 'BOC', 'MOBILECOM', 'CLP', 'SWIRE', 'CHEUNG',
-             'HENDERSON', 'POWER', 'PETROCHINA', 'SINOPEC', 'CNUMUM', 'CITIC', 'COSCO', 'ZHAOJIN', 'LUJIAZ', 'VANKE'],
+    // Asian Indices (using US-listed companies where possible)
+    '^N225': ['TOYOTA', 'SONY', 'SOFTBANK', 'NOMURA', 'HITACHI', 'MITSUBISHI', 'PANASONIC', 'NIPPON', 'KAWASAKI', 'SUMITOMO',
+              'ITOCHU', 'MITSUI', 'MARUBENI', 'TOKYO', 'FANAC', 'DAIWA', 'YAMAHA', 'BRIDGESTONE', 'ASAHI', 'TAKEDA'],
+    '^HSI': ['TENCENT', 'ALIBABA', 'ICBC', 'CCB', 'ABC', 'BOC', 'MOBILECOM', 'CLP', 'POWER', 'PETROCHINA',
+             'SINOPEC', 'COSCO', 'VANKE', 'ZHAOJIN', 'SWIRE', 'SANDS', 'MACAU', 'LYG', 'CITIC', 'PING'],
   };
   
   const stocks = indexStocks[indexSymbol] || [];
