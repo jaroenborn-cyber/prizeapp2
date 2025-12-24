@@ -13,10 +13,15 @@ const IndexDetail = () => {
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sortBy, setSortBy] = useState('change'); // change, price, name
+  const [sortBy, setSortBy] = useState('name'); // name, change, price
+  const [viewMode, setViewMode] = useState('cards'); // cards, list
 
   // Find index info from symbol
   const indexInfo = WORLD_INDICES.find(i => i.symbol === symbol);
+  
+  // Determine currency based on index region
+  const currency = indexInfo?.region === 'Europe' ? 'EUR' : 
+                   indexInfo?.region === 'Asia-Pacific' ? 'Local' : 'USD';
 
   useEffect(() => {
     fetchStocks();
@@ -39,12 +44,12 @@ const IndexDetail = () => {
   const getSortedStocks = () => {
     const sorted = [...stocks];
     switch (sortBy) {
+      case 'name':
+        return sorted.sort((a, b) => (a.name || a.symbol || '').localeCompare(b.name || b.symbol || ''));
       case 'change':
         return sorted.sort((a, b) => (b.changesPercentage || 0) - (a.changesPercentage || 0));
       case 'price':
         return sorted.sort((a, b) => (b.price || 0) - (a.price || 0));
-      case 'name':
-        return sorted.sort((a, b) => (a.symbol || '').localeCompare(b.symbol || ''));
       default:
         return sorted;
     }
@@ -120,19 +125,50 @@ const IndexDetail = () => {
         </div>
       </div>
 
-      {/* Sort Controls */}
+      {/* Sort Controls & View Toggle */}
       {stocks.length > 0 && (
-        <div className="mb-6 flex gap-2">
-          <label className="text-sm text-slate-400">{t.sortBy || 'Sort by'}:</label>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="bg-slate-800 border border-slate-700 rounded px-3 py-1 text-sm text-white cursor-pointer hover:border-slate-600 transition"
-          >
-            <option value="change">{t.dayChange || 'Daily Change'}</option>
-            <option value="price">{t.price || 'Price'}</option>
-            <option value="name">{t.symbol || 'Symbol'}</option>
-          </select>
+        <div className="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div className="flex gap-2 items-center">
+            <label className="text-sm text-slate-400">{t.sortBy || 'Sort by'}:</label>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="bg-slate-800 border border-slate-700 rounded px-3 py-1 text-sm text-white cursor-pointer hover:border-slate-600 transition"
+            >
+              <option value="name">{t.name || 'Name'}</option>
+              <option value="change">{t.dayChange || 'Daily Change'}</option>
+              <option value="price">{t.price || 'Price'} ({currency})</option>
+            </select>
+          </div>
+          
+          <div className="flex gap-2 bg-slate-800 rounded p-1">
+            <button
+              onClick={() => setViewMode('cards')}
+              className={`px-3 py-1 rounded text-sm transition ${
+                viewMode === 'cards' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+              </svg>
+              Cards
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`px-3 py-1 rounded text-sm transition ${
+                viewMode === 'list' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" clipRule="evenodd" />
+              </svg>
+              List
+            </button>
+          </div>
         </div>
       )}
 
@@ -154,9 +190,11 @@ const IndexDetail = () => {
         </div>
       )}
 
-      {/* Stocks Grid */}
+      {/* Stocks Display - Cards or List */}
       {!loading && stocks.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <>
+          {viewMode === 'cards' ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {sortedStocks.map((stock) => {
             const isPositive = (stock.changesPercentage || 0) >= 0;
             const changeColor = isPositive ? 'text-green-400' : 'text-red-400';
@@ -226,7 +264,51 @@ const IndexDetail = () => {
               </div>
             );
           })}
-        </div>
+            </div>
+          ) : (
+            <div className="bg-slate-800/50 rounded-xl overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-slate-700/50">
+                  <tr>
+                    <th className="text-left p-3 text-sm font-semibold text-slate-300">{t.name || 'Name'}</th>
+                    <th className="text-right p-3 text-sm font-semibold text-slate-300">{t.price || 'Price'}</th>
+                    <th className="text-right p-3 text-sm font-semibold text-slate-300">{t.change || 'Change'}</th>
+                    <th className="text-right p-3 text-sm font-semibold text-slate-300 hidden sm:table-cell">{t.volume || 'Volume'}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sortedStocks.map((stock) => {
+                    const isPositive = (stock.changesPercentage || 0) >= 0;
+                    const changeColor = isPositive ? 'text-green-400' : 'text-red-400';
+                    
+                    return (
+                      <tr key={stock.symbol} className="border-t border-slate-700/50 hover:bg-slate-700/30 transition">
+                        <td className="p-3">
+                          <div className="flex items-center gap-2">
+                            <div>
+                              <div className="font-semibold text-white">{stock.name || stock.symbol}</div>
+                              <div className="text-xs text-slate-400 font-mono">{stock.symbol}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-3 text-right font-semibold text-white">
+                          {formatNumber(stock.price)}
+                        </td>
+                        <td className={`p-3 text-right font-semibold ${changeColor}`}>
+                          <div>{isPositive ? '+' : ''}{formatNumber(stock.changesPercentage)}%</div>
+                          <div className="text-xs">{isPositive ? '+' : ''}{formatNumber(stock.change)}</div>
+                        </td>
+                        <td className="p-3 text-right text-sm text-slate-400 hidden sm:table-cell">
+                          {stock.volume ? stock.volume.toLocaleString() : '—'}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </>
       )}
 
       {/* Empty State */}
