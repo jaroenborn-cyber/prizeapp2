@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { HashRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { getTopCryptos, getFiatRates, getCryptoDetails } from './services/api';
 import binanceService from './services/binance';
@@ -24,8 +24,7 @@ function AppContent() {
   
   // Initialize activeTab based on URL
   const getInitialTab = () => {
-    // With HashRouter, check the hash instead of pathname
-    if (location.hash === '#/block-explorer') return 'explorer';
+    if (location.pathname === '/block-explorer') return 'explorer';
     return 'crypto';
   };
   
@@ -47,7 +46,7 @@ function AppContent() {
     if (tab !== activeTab) {
       setActiveTab(tab);
     }
-  }, [location.hash]); // Watch hash instead of pathname
+  }, [location.pathname]);
   const [cryptoData, setCryptoData] = useState([]);
   const [favoriteCryptos, setFavoriteCryptos] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
