@@ -153,41 +153,43 @@ export const getStockQuotes = async (symbols) => {
   if (!symbols || symbols.length === 0) return [];
   
   try {
-    // Twelve Data allows up to 8 symbols at once with demo key
     const results = [];
     
-    // Fetch in batches of 8 to respect rate limits
-    for (let i = 0; i < Math.min(symbols.length, 24); i += 8) {
-      const batch = symbols.slice(i, i + 8);
-      const symbolString = batch.join(',');
+    // Demo key only allows single symbol requests, so fetch one by one
+    // Limit to 20 stocks to avoid too many requests
+    const limitedSymbols = symbols.slice(0, 20);
+    
+    for (let i = 0; i < limitedSymbols.length; i++) {
+      const symbol = limitedSymbols[i];
       
-      const response = await fetch(
-        `${TWELVE_DATA_URL}/quote?symbol=${symbolString}&apikey=${TWELVE_DATA_API_KEY}`
-      );
-      
-      if (!response.ok) {
-        console.error('Twelve Data API error:', response.status);
-        continue;
+      try {
+        const response = await fetch(
+          `${TWELVE_DATA_URL}/quote?symbol=${symbol}&apikey=${TWELVE_DATA_API_KEY}`
+        );
+        
+        if (!response.ok) {
+          console.error(`API error for ${symbol}:`, response.status);
+          continue;
+        }
+        
+        const data = await response.json();
+        
+        // Check for error response
+        if (data.code && data.status === 'error') {
+          console.warn(`Error for ${symbol}:`, data.message);
+          continue;
+        }
+        
+        if (data.symbol) {
+          results.push(formatTwelveDataQuote(data));
+        }
+      } catch (err) {
+        console.error(`Error fetching ${symbol}:`, err);
       }
       
-      const data = await response.json();
-      
-      // Handle both single and multiple symbol responses
-      if (data.symbol) {
-        // Single symbol response
-        results.push(formatTwelveDataQuote(data));
-      } else if (typeof data === 'object') {
-        // Multiple symbols response - it's an object with symbol keys
-        Object.values(data).forEach(quote => {
-          if (quote && quote.symbol && !quote.code) { // Exclude error responses
-            results.push(formatTwelveDataQuote(quote));
-          }
-        });
-      }
-      
-      // Small delay between batches to avoid rate limiting
-      if (i + 8 < symbols.length) {
-        await new Promise(resolve => setTimeout(resolve, 500));
+      // Small delay between requests to avoid rate limiting
+      if (i < limitedSymbols.length - 1) {
+        await new Promise(resolve => setTimeout(resolve, 150));
       }
     }
     
