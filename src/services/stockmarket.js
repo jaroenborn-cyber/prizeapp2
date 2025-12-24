@@ -1,4 +1,8 @@
-// Financial Modeling Prep API for stock market indices
+// Twelve Data API for stock market data (free tier: 8 calls/min, 800/day)
+const TWELVE_DATA_API_KEY = 'demo'; // Free demo key works for basic usage
+const TWELVE_DATA_URL = 'https://api.twelvedata.com';
+
+// Legacy FMP API (keeping for indices quotes)
 const FMP_API_KEY = '5CUgTXPkdfQfArsKbd6qDdSzhz22bN8l';
 const FMP_BASE_URL = 'https://financialmodelingprep.com/api/v3';
 
@@ -143,37 +147,74 @@ export const getIndexConstituents = async (symbol) => {
 };
 
 /**
- * Get quotes for a list of stock symbols
+ * Get quotes for a list of stock symbols using Twelve Data API
  */
 export const getStockQuotes = async (symbols) => {
   if (!symbols || symbols.length === 0) return [];
   
   try {
-    // FMP API allows up to 250 symbols per request
-    const symbolString = symbols.slice(0, 250).join(',');
-    const response = await fetch(
-      `${FMP_BASE_URL}/quote/${symbolString}?apikey=${FMP_API_KEY}`
-    );
+    // Twelve Data allows up to 8 symbols at once with demo key
+    const results = [];
     
-    if (!response.ok) {
-      console.error('API response not ok:', response.status, response.statusText);
-      throw new Error(`Failed to fetch stock quotes: ${response.status}`);
+    // Fetch in batches of 8 to respect rate limits
+    for (let i = 0; i < Math.min(symbols.length, 24); i += 8) {
+      const batch = symbols.slice(i, i + 8);
+      const symbolString = batch.join(',');
+      
+      const response = await fetch(
+        `${TWELVE_DATA_URL}/quote?symbol=${symbolString}&apikey=${TWELVE_DATA_API_KEY}`
+      );
+      
+      if (!response.ok) {
+        console.error('Twelve Data API error:', response.status);
+        continue;
+      }
+      
+      const data = await response.json();
+      
+      // Handle both single and multiple symbol responses
+      if (data.symbol) {
+        // Single symbol response
+        results.push(formatTwelveDataQuote(data));
+      } else if (typeof data === 'object') {
+        // Multiple symbols response - it's an object with symbol keys
+        Object.values(data).forEach(quote => {
+          if (quote && quote.symbol && !quote.code) { // Exclude error responses
+            results.push(formatTwelveDataQuote(quote));
+          }
+        });
+      }
+      
+      // Small delay between batches to avoid rate limiting
+      if (i + 8 < symbols.length) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
     }
     
-    const data = await response.json();
-    
-    // Filter out any null or invalid results
-    const validResults = Array.isArray(data) ? data.filter(item => item && item.symbol) : [];
-    
-    if (validResults.length === 0) {
-      console.warn(`No valid data returned for symbols: ${symbolString}`);
-    }
-    
-    return validResults;
+    return results;
   } catch (error) {
     console.error('Error fetching stock quotes:', error);
     return [];
   }
+};
+
+/**
+ * Format Twelve Data quote to our expected format
+ */
+const formatTwelveDataQuote = (quote) => {
+  return {
+    symbol: quote.symbol,
+    name: quote.name,
+    price: parseFloat(quote.close) || parseFloat(quote.previous_close) || 0,
+    change: parseFloat(quote.change) || 0,
+    changesPercentage: parseFloat(quote.percent_change) || 0,
+    dayHigh: parseFloat(quote.high) || null,
+    dayLow: parseFloat(quote.low) || null,
+    open: parseFloat(quote.open) || null,
+    previousClose: parseFloat(quote.previous_close) || null,
+    volume: parseInt(quote.volume) || null,
+    exchange: quote.exchange || null,
+  };
 };
 
 /**
