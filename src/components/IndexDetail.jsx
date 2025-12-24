@@ -170,24 +170,26 @@ const IndexDetail = () => {
                 className={`bg-gradient-to-br ${bgGradient} border rounded-xl p-4 transition-all hover:scale-[1.02] cursor-pointer`}
               >
                 <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className="font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black text-lg">
-                      {stock.symbol}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black text-lg truncate">
+                      {stock.name || stock.companyName || stock.symbol}
                     </h3>
-                    <p className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-600 mt-1">
-                      {stock.companyName || '—'}
-                    </p>
                   </div>
-                  <div className={`flex items-center gap-1 ${changeColor}`}>
-                    {isPositive ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                      </svg>
-                    ) : (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    )}
+                  <div className="flex items-center gap-2 ml-2">
+                    <span className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-600 font-mono">
+                      {stock.symbol}
+                    </span>
+                    <div className={`flex items-center ${changeColor}`}>
+                      {isPositive ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
                   </div>
                 </div>
 
