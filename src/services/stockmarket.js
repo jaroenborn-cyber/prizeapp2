@@ -6,25 +6,25 @@ const MARKETSTACK_URL = 'http://api.marketstack.com/v1';
 const FMP_API_KEY = '5CUgTXPkdfQfArsKbd6qDdSzhz22bN8l';
 const FMP_BASE_URL = 'https://financialmodelingprep.com/api/v3';
 
-// Major world indices with their symbols
+// Major world indices with their symbols (Marketstack uses .INDX suffix)
 export const WORLD_INDICES = [
   // Europe
-  { symbol: '^AEX', name: 'AEX', country: 'Netherlands', flag: '🇳🇱', region: 'Europe' },
-  { symbol: '^GDAXI', name: 'DAX', country: 'Germany', flag: '🇩🇪', region: 'Europe' },
-  { symbol: '^FTSE', name: 'FTSE 100', country: 'UK', flag: '🇬🇧', region: 'Europe' },
-  { symbol: '^FCHI', name: 'CAC 40', country: 'France', flag: '🇫🇷', region: 'Europe' },
-  { symbol: '^STOXX50E', name: 'Euro Stoxx 50', country: 'Europe', flag: '🇪🇺', region: 'Europe' },
+  { symbol: 'AEX.INDX', name: 'AEX', country: 'Netherlands', flag: '🇳🇱', region: 'Europe' },
+  { symbol: 'GDAXI.INDX', name: 'DAX', country: 'Germany', flag: '🇩🇪', region: 'Europe' },
+  { symbol: 'FTSE.INDX', name: 'FTSE 100', country: 'UK', flag: '🇬🇧', region: 'Europe' },
+  { symbol: 'FCHI.INDX', name: 'CAC 40', country: 'France', flag: '🇫🇷', region: 'Europe' },
+  { symbol: 'SX5E.INDX', name: 'Euro Stoxx 50', country: 'Europe', flag: '🇪🇺', region: 'Europe' },
   
   // Americas
-  { symbol: '^GSPC', name: 'S&P 500', country: 'USA', flag: '🇺🇸', region: 'Americas' },
-  { symbol: '^DJI', name: 'Dow Jones', country: 'USA', flag: '🇺🇸', region: 'Americas' },
-  { symbol: '^IXIC', name: 'NASDAQ', country: 'USA', flag: '🇺🇸', region: 'Americas' },
+  { symbol: 'GSPC.INDX', name: 'S&P 500', country: 'USA', flag: '🇺🇸', region: 'Americas' },
+  { symbol: 'DJI.INDX', name: 'Dow Jones', country: 'USA', flag: '🇺🇸', region: 'Americas' },
+  { symbol: 'IXIC.INDX', name: 'NASDAQ', country: 'USA', flag: '🇺🇸', region: 'Americas' },
   
   // Asia-Pacific
-  { symbol: '^N225', name: 'Nikkei 225', country: 'Japan', flag: '🇯🇵', region: 'Asia-Pacific' },
-  { symbol: '^HSI', name: 'Hang Seng', country: 'Hong Kong', flag: '🇭🇰', region: 'Asia-Pacific' },
-  { symbol: '000001.SS', name: 'SSE Composite', country: 'China', flag: '🇨🇳', region: 'Asia-Pacific' },
-  { symbol: '^AXJO', name: 'ASX 200', country: 'Australia', flag: '🇦🇺', region: 'Asia-Pacific' },
+  { symbol: 'N225.INDX', name: 'Nikkei 225', country: 'Japan', flag: '🇯🇵', region: 'Asia-Pacific' },
+  { symbol: 'HSI.INDX', name: 'Hang Seng', country: 'Hong Kong', flag: '🇭🇰', region: 'Asia-Pacific' },
+  { symbol: 'SSEC.INDX', name: 'SSE Composite', country: 'China', flag: '🇨🇳', region: 'Asia-Pacific' },
+  { symbol: 'AXJO.INDX', name: 'ASX 200', country: 'Australia', flag: '🇦🇺', region: 'Asia-Pacific' },
 ];
 
 // Cache for API responses
@@ -35,7 +35,7 @@ let indicesCache = {
 };
 
 /**
- * Get quotes for all major indices
+ * Get quotes for all major indices using Marketstack
  */
 export const getIndicesQuotes = async () => {
   // Check cache first
@@ -45,32 +45,43 @@ export const getIndicesQuotes = async () => {
   }
 
   try {
-    // Fetch quotes for all indices
+    // Fetch quotes for all indices using Marketstack
     const symbols = WORLD_INDICES.map(i => i.symbol).join(',');
     const response = await fetch(
-      `${FMP_BASE_URL}/quote/${symbols}?apikey=${FMP_API_KEY}`
+      `${MARKETSTACK_URL}/eod/latest?access_key=${MARKETSTACK_API_KEY}&symbols=${symbols}`
     );
     
     if (!response.ok) {
       throw new Error('Failed to fetch indices data');
     }
     
-    const data = await response.json();
+    const result = await response.json();
+    
+    // Check for API error
+    if (result.error) {
+      console.error('Marketstack indices error:', result.error.message);
+      throw new Error(result.error.message);
+    }
+    
+    const data = result.data || [];
     
     // Merge API data with our index info
     const enrichedData = WORLD_INDICES.map(index => {
       const quote = data.find(q => q.symbol === index.symbol);
+      const change = quote ? (quote.close - quote.open) : 0;
+      const changePercent = quote && quote.open ? ((change / quote.open) * 100) : 0;
+      
       return {
         ...index,
-        price: quote?.price || null,
-        change: quote?.change || 0,
-        changesPercentage: quote?.changesPercentage || 0,
-        dayHigh: quote?.dayHigh || null,
-        dayLow: quote?.dayLow || null,
-        previousClose: quote?.previousClose || null,
+        price: quote?.close || null,
+        change: change,
+        changesPercentage: changePercent,
+        dayHigh: quote?.high || null,
+        dayLow: quote?.low || null,
+        previousClose: quote?.adj_close || null,
         open: quote?.open || null,
         volume: quote?.volume || null,
-        timestamp: quote?.timestamp || null,
+        timestamp: quote?.date || null,
       };
     });
     
@@ -215,31 +226,31 @@ export const getIndexTopStocks = async (indexSymbol) => {
   // These are the major companies in each index
   const indexStocks = {
     // US Indices
-    '^GSPC': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BERKB', 'JPM', 'V',
+    'GSPC.INDX': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BRK.B', 'JPM', 'V',
               'JNJ', 'WMT', 'PG', 'XOM', 'NFLX', 'ADBE', 'CRM', 'PEP', 'MCD', 'ABT',
               'LLY', 'BA', 'CSCO', 'INTC', 'CVX', 'ACN', 'VRTX', 'NKE', 'GS', 'CMCSA'],
-    '^DJI': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'BERKB', 'JPM', 'JNJ', 'V', 'XOM',
+    'DJI.INDX': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'BRK.B', 'JPM', 'JNJ', 'V', 'XOM',
              'WMT', 'PG', 'UNH', 'MCD', 'GS', 'AXP', 'IBM', 'CAT', 'INTC', 'BA',
-             'DD', 'MMM', 'CVX', 'CRM', 'MRK', 'NKE', 'PFE', 'PM', 'RTX', 'TRV'],
-    '^IXIC': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'AVGO', 'NFLX', 'PYPL',
+             'DOW', 'MMM', 'CVX', 'CRM', 'MRK', 'NKE', 'PFE', 'PM', 'RTX', 'TRV'],
+    'IXIC.INDX': ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'AVGO', 'NFLX', 'PYPL',
               'CSCO', 'AMD', 'ADBE', 'CMCSA', 'PEP', 'QCOM', 'ASML', 'TXN', 'INTU', 'AMGN',
               'GILD', 'LRCX', 'BKNG', 'AMAT', 'ADP', 'ABNB', 'MCHP', 'IDXX', 'CRWD', 'MU'],
     
-    // European Indices (US-listed versions where available)
-    '^AEX': ['ASML', 'SHELL', 'UNILEVER', 'RELX', 'ING', 'PHIA', 'PROSIEBENSAT', 'MERCK', 'ADIDAS', 'BASF',
-             'SAP', 'SIEMENS', 'ALLIANZ', 'BMW', 'BAYER', 'HEINEKEN', 'RECKITT', 'BARC', 'HSBC', 'BP'],
-    '^GDAXI': ['SAP', 'SIEMENS', 'ALLIANZ', 'BMW', 'BASF', 'BAYER', 'DEUTSCHE', 'INFINEON', 'MERCK', 'VONOVIA',
-               'DAIMLER', 'LINDE', 'ADIDAS', 'BEIERSDORF', 'QIAGEN', 'FRAPORT', 'COVESTRO', 'DELIVERY', 'SARTORIUS', 'BRENNTAG'],
-    '^FTSE': ['UNILEVER', 'HSBC', 'SHELL', 'ASTRAZENECA', 'GSK', 'BP', 'RECKITT', 'RELX', 'DIAGEO', 'INTERBREW',
-              'EXPERIAN', 'RENTOKIL', 'RIO', 'GLENCORE', 'PRUDENTIAL', 'BARC', 'CRODA', 'SMURFIT', 'HALEON', 'PEARSON'],
-    '^FCHI': ['LVMH', 'TOTALENERGIES', 'SANOFI', 'ASML', 'DAIMLER', 'HERMES', 'SAFRAN', 'STELLANTIS', 'CAP', 'EDF',
-              'AIRBUS', 'DANONE', 'KERING', 'TELECOM', 'PUBLICIS', 'ARCELOR', 'RENAULT', 'ALCATEL', 'VALEO', 'PERNOD'],
+    // European Indices
+    'AEX.INDX': ['ASML', 'SHELL', 'UL', 'RELX', 'ING', 'PHIA', 'MT', 'SAP', 'SNY', 'BASFY',
+             'SAP', 'SIEGY', 'ALIZY', 'BMWYY', 'BAYRY', 'HEINY', 'RBGLY', 'BCS', 'HSBC', 'BP'],
+    'GDAXI.INDX': ['SAP', 'SIEGY', 'ALIZY', 'BMWYY', 'BASFY', 'BAYRY', 'DB', 'IFNNY', 'MKKGY', 'VONOY',
+               'DDAIF', 'LIN', 'ADDYY', 'BDRFY', 'QGEN', 'FPRUY', 'CVVTF', 'DLVHF', 'SARTF', 'BNTGF'],
+    'FTSE.INDX': ['UL', 'HSBC', 'SHELL', 'AZN', 'GSK', 'BP', 'RBGLY', 'RELX', 'DEO', 'BUD',
+              'EXPGY', 'RTOKY', 'RIO', 'GLNCY', 'PUK', 'BCS', 'CRDA', 'SMFKY', 'HLN', 'PSO'],
+    'FCHI.INDX': ['LVMUY', 'TTE', 'SNY', 'ASML', 'DDAIF', 'HESAY', 'SAFRY', 'STLA', 'CAP', 'ECIFY',
+              'EADSY', 'DANOY', 'PPRUY', 'ORAN', 'PUBGY', 'MT', 'RNLSY', 'ALAVF', 'VLEEF', 'PDRDY'],
     
-    // Asian Indices (using US-listed companies where possible)
-    '^N225': ['TOYOTA', 'SONY', 'SOFTBANK', 'NOMURA', 'HITACHI', 'MITSUBISHI', 'PANASONIC', 'NIPPON', 'KAWASAKI', 'SUMITOMO',
-              'ITOCHU', 'MITSUI', 'MARUBENI', 'TOKYO', 'FANAC', 'DAIWA', 'YAMAHA', 'BRIDGESTONE', 'ASAHI', 'TAKEDA'],
-    '^HSI': ['TENCENT', 'ALIBABA', 'ICBC', 'CCB', 'ABC', 'BOC', 'MOBILECOM', 'CLP', 'POWER', 'PETROCHINA',
-             'SINOPEC', 'COSCO', 'VANKE', 'ZHAOJIN', 'SWIRE', 'SANDS', 'MACAU', 'LYG', 'CITIC', 'PING'],
+    // Asian Indices
+    'N225.INDX': ['TM', 'SONY', 'SFTBY', 'NMR', 'HTHIY', 'MSBHF', 'PCRFY', 'NPPXF', 'KWHIY', 'SMFNF',
+              'ITOCY', 'MITSY', 'MARUY', 'TKOMY', 'FANUY', 'DSEEY', 'YAMCY', 'BRDCY', 'ASBRF', 'TAK'],
+    'HSI.INDX': ['TCEHY', 'BABA', 'CICHF', 'CICHY', 'ACGBF', 'BACHF', 'CHL', 'CLPHY', 'CPWLF', 'PTR',
+             'SNP', 'CICOY', 'VNNVF', 'ZHAOF', 'SWRAY', 'LVS', 'MPEL', 'LYG', 'CIIHY', 'PNGAY'],
   };
   
   const stocks = indexStocks[indexSymbol] || [];
