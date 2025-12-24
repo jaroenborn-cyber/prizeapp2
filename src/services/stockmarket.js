@@ -266,6 +266,30 @@ const COMPANY_NAMES = {
   'CMCSA': 'Comcast',
   'BRK.B': 'Berkshire Hathaway',
   
+  // AEX (Dutch stocks)
+  'ADYEN': 'Adyen',
+  'PROSUS': 'Prosus',
+  'UNA': 'Unilever',
+  'INGA': 'ING Groep',
+  'ABN': 'ABN AMRO',
+  'KPN': 'KPN',
+  'RAND': 'Randstad',
+  'HEIA': 'Heineken',
+  'WKL': 'Wolters Kluwer',
+  'PHIA': 'Philips',
+  'ASM': 'ASM International',
+  'NN': 'NN Group',
+  'AKZA': 'Akzo Nobel',
+  'AD': 'Ahold Delhaize',
+  'AGN': 'Aegon',
+  'DSM': 'DSM',
+  'BESI': 'BE Semiconductor',
+  'IMCD': 'IMCD',
+  'JDE': 'JDE Peet\'s',
+  'UMG': 'Universal Music',
+  'GLPG': 'Galapagos',
+  'TKWY': 'Just Eat Takeaway',
+  
   // European (US-listed)
   'UL': 'Unilever',
   'SHELL': 'Shell',
@@ -338,8 +362,9 @@ export const getIndexTopStocks = async (indexSymbol) => {
               'GILD', 'LRCX', 'BKNG', 'AMAT', 'ADP', 'ABNB', 'MCHP', 'IDXX', 'CRWD', 'MU'],
     
     // European Indices
-    'AEX.INDX': ['ASML', 'SHELL', 'UL', 'RELX', 'ING', 'PHIA', 'MT', 'SAP', 'SNY', 'BASFY',
-             'SAP', 'SIEGY', 'ALIZY', 'BMWYY', 'BAYRY', 'HEINY', 'RBGLY', 'BCS', 'HSBC', 'BP'],
+    'AEX.INDX': ['ASML', 'SHELL', 'ADYEN', 'PROSUS', 'UNA', 'INGA', 'ABN', 'KPN', 'RAND',
+             'HEIA', 'WKL', 'PHIA', 'ASM', 'NN', 'AKZA', 'AD', 'AGN', 'DSM', 'BESI', 'IMCD',
+             'ABN', 'JDE', 'UMG', 'GLPG', 'TKWY'],
     'GDAXI.INDX': ['SAP', 'SIEGY', 'ALIZY', 'BMWYY', 'BASFY', 'BAYRY', 'DB', 'IFNNY', 'MKKGY', 'VONOY',
                'DDAIF', 'LIN', 'ADDYY', 'BDRFY', 'QGEN', 'FPRUY', 'CVVTF', 'DLVHF', 'SARTF', 'BNTGF'],
     'FTSE.INDX': ['UL', 'HSBC', 'SHELL', 'AZN', 'GSK', 'BP', 'RBGLY', 'RELX', 'DEO', 'BUD',
