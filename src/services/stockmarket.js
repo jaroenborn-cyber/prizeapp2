@@ -98,23 +98,44 @@ export const getIndicesQuotes = async () => {
 };
 
 /**
- * Get constituents (companies) of an index
+ * Get constituents (companies) of an index using dedicated API endpoints
  */
 export const getIndexConstituents = async (symbol) => {
   try {
+    // Map index symbols to FMP constituent endpoints
+    const constituentsMap = {
+      '^GSPC': 'sp500-constituent',      // S&P 500
+      '^IXIC': 'nasdaq-constituent',     // NASDAQ
+      '^DJI': 'dow-jones-constituent',   // Dow Jones (if available)
+    };
+    
+    const endpoint = constituentsMap[symbol];
+    if (!endpoint) {
+      console.warn(`No constituents API available for index ${symbol}`);
+      return [];
+    }
+    
     const response = await fetch(
-      `${FMP_BASE_URL}/etf-holder/${symbol}?limit=50&apikey=${FMP_API_KEY}`
+      `${FMP_BASE_URL}/${endpoint}?apikey=${FMP_API_KEY}`
     );
     
     if (!response.ok) {
-      // Fallback: try to get the top stocks for the index
-      // Some indices might not have direct constituent data
-      console.warn(`Could not fetch constituents for ${symbol}`);
+      console.error(`API error ${response.status} for endpoint: ${endpoint}`);
       return [];
     }
     
     const data = await response.json();
-    return data || [];
+    
+    // The API returns an array of constituents with symbol, name, sector, etc.
+    // We'll fetch the quotes for these symbols
+    if (Array.isArray(data) && data.length > 0) {
+      const symbols = data.slice(0, 50).map(item => item.symbol).filter(Boolean);
+      if (symbols.length > 0) {
+        return await getStockQuotes(symbols);
+      }
+    }
+    
+    return [];
   } catch (error) {
     console.error('Error fetching index constituents:', error);
     return [];
