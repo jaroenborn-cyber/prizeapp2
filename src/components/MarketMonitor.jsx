@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getIndicesQuotes, getMarketStatus } from '../services/stockmarket';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../utils/translations';
 
 const MarketMonitor = () => {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = translations[language];
   
@@ -96,7 +98,9 @@ const MarketMonitor = () => {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {regionIndices.map((index) => (
-            <IndexCard key={index.symbol} index={index} />
+            <div key={index.symbol} onClick={() => navigate(`/market-monitor/${index.symbol}`)}>
+              <IndexCard index={index} />
+            </div>
           ))}
         </div>
       </div>

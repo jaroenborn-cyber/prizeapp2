@@ -14,6 +14,7 @@ import ThemeSwitcher from './components/ThemeSwitcher';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import BlockExplorer from './components/BlockExplorer';
 import MarketMonitor from './components/MarketMonitor';
+import IndexDetail from './components/IndexDetail';
 import { useLanguage } from './context/LanguageContext';
 import { translations } from './utils/translations';
 
@@ -766,6 +767,7 @@ function App() {
         <Route path="/" element={<AppContent />} />
         <Route path="/block-explorer" element={<AppContent />} />
         <Route path="/market-monitor" element={<AppContent />} />
+        <Route path="/market-monitor/:symbol" element={<IndexDetail />} />
       </Routes>
     </Router>
   );

@@ -85,6 +85,18 @@ export const translations = {
     asiaPacific: 'Azië-Pacific',
     averageChange: 'Gemiddelde verandering',
     marketDataNote: 'Marktdata geleverd door Financial Modeling Prep. Data kan tot 15 minuten vertraagd zijn tijdens handelsuren.',
+    
+    // Index Detail
+    indexNotFound: 'Index niet gevonden',
+    backToMarketMonitor: 'Terug naar Marktmonitor',
+    back: 'Terug',
+    companiesListed: 'bedrijven genoteerd',
+    refresh: 'Verversen',
+    sortBy: 'Sorteren op',
+    dayChange: 'Dagelijkse wijziging',
+    symbol: 'Symbool',
+    noStocksFound: 'Geen aandelen gevonden voor deze index',
+    tryAgain: 'Opnieuw proberen',
   },
   en: {
     // Header
@@ -172,5 +184,17 @@ export const translations = {
     asiaPacific: 'Asia-Pacific',
     averageChange: 'Average change',
     marketDataNote: 'Market data provided by Financial Modeling Prep. Data may be delayed up to 15 minutes during market hours.',
+    
+    // Index Detail
+    indexNotFound: 'Index not found',
+    backToMarketMonitor: 'Back to Market Monitor',
+    back: 'Back',
+    companiesListed: 'companies listed',
+    refresh: 'Refresh',
+    sortBy: 'Sort by',
+    dayChange: 'Daily Change',
+    symbol: 'Symbol',
+    noStocksFound: 'No stocks found for this index',
+    tryAgain: 'Try Again',
   }
 };
