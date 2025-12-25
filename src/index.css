@@ -210,16 +210,35 @@ body.black-white select option {
   border: 2px solid #000000 !important;
 }
 
-/* Input fields */
+/* Input fields - all states */
 body.black-white input {
   background-color: #ffffff !important;
   color: #000000 !important;
   border: 2px solid #000000 !important;
 }
 
+body.black-white input:hover,
+body.black-white input:focus,
+body.black-white input:active {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px #000000 !important;
+}
+
 body.black-white input::placeholder {
   color: #000000 !important;
   opacity: 0.5;
+}
+
+/* Ensure input text is always black */
+body.black-white input[type="text"],
+body.black-white input[type="search"],
+body.black-white input[type="email"],
+body.black-white input[type="number"] {
+  color: #000000 !important;
+  background-color: #ffffff !important;
 }
 
 /* All borders to black */
