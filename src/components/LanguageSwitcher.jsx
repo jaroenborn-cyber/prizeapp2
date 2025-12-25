@@ -35,7 +35,7 @@ const LanguageSwitcher = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black hover:border-neon-purple dark:hover:border-neon-purple light:hover:border-slate-400 high-contrast:hover:border-gray-600 transition-all text-white dark:text-white light:text-slate-800 high-contrast:text-black shadow-lg hover:shadow-neon-purple/20"
+        className="switcher-btn flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white black-white:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black black-white:border-black hover:border-neon-purple dark:hover:border-neon-purple light:hover:border-slate-400 high-contrast:hover:border-gray-600 black-white:hover:border-gray-600 transition-all text-white dark:text-white light:text-slate-800 high-contrast:text-black black-white:text-black shadow-lg hover:shadow-neon-purple/20"
         aria-label="Language selector"
       >
         <span className="text-base sm:text-lg">{getLanguageFlag()}</span>
@@ -51,14 +51,14 @@ const LanguageSwitcher = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 sm:left-auto sm:right-0 mt-2 w-32 sm:w-48 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black shadow-2xl overflow-hidden z-50 animate-fadeIn">
+        <div className="switcher-dropdown absolute left-0 sm:left-auto sm:right-0 mt-2 w-32 sm:w-48 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white black-white:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black black-white:border-black shadow-2xl overflow-hidden z-50 animate-fadeIn">
           <div className="py-1">
             <button
               onClick={() => handleLanguageSelect('nl')}
-              className={`w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all text-xs sm:text-base ${
+              className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all text-xs sm:text-base ${
                 language === 'nl'
                   ? 'bg-slate-700 text-white border-l-4 border-orange-500'
-                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-black hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100'
+                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-black black-white:text-black hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100'
               }`}
             >
               <span className="text-base sm:text-2xl">🇳🇱</span>
@@ -74,10 +74,10 @@ const LanguageSwitcher = () => {
 
             <button
               onClick={() => handleLanguageSelect('en')}
-              className={`w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all text-xs sm:text-base ${
+              className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all text-xs sm:text-base ${
                 language === 'en'
                   ? 'bg-slate-700 text-white border-l-4 border-blue-500'
-                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-black hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100'
+                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-black black-white:text-black hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100'
               }`}
             >
               <span className="text-base sm:text-2xl">🇬🇧</span>

@@ -43,7 +43,7 @@ body.black-white * {
 }
 
 /* Force ALL text to black by default (except buttons and badge elements) */
-body.black-white *:not(button):not(button *):not(.bg-slate-700):not(.bg-slate-700 *) {
+body.black-white *:not(button):not(button *):not(.bg-slate-700):not(.bg-slate-700 *):not(.live-badge):not(.live-badge *) {
   color: #000000 !important;
 }
 
@@ -72,6 +72,57 @@ body.black-white .bg-dark-card:not(button) {
   background-color: #ffffff !important;
 }
 
+/* Fullscreen popup - ensure solid white background */
+body.black-white .fixed.inset-0 {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+/* Fullscreen control buttons - visible on white background */
+body.black-white .fixed.inset-0 button.bg-slate-700\/30,
+body.black-white .fixed.inset-0 button[class*="bg-slate-700"] {
+  background-color: #f0f0f0 !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
+}
+
+body.black-white .fixed.inset-0 button.bg-slate-700\/30:hover,
+body.black-white .fixed.inset-0 button[class*="bg-slate-700"]:hover {
+  background-color: #e0e0e0 !important;
+}
+
+body.black-white .fixed.inset-0 button.bg-slate-700\/30 svg,
+body.black-white .fixed.inset-0 button[class*="bg-slate-700"] svg {
+  color: #000000 !important;
+  stroke: #000000 !important;
+  fill: none !important;
+}
+
+/* Close button in fullscreen */
+body.black-white .fixed.inset-0 button[aria-label="Exit fullscreen"] {
+  background-color: #f0f0f0 !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
+}
+
+body.black-white .fixed.inset-0 button[aria-label="Exit fullscreen"]:hover {
+  background-color: #e0e0e0 !important;
+}
+
+body.black-white .fixed.inset-0 button[aria-label="Exit fullscreen"] svg {
+  color: #000000 !important;
+  stroke: #000000 !important;
+  fill: none !important;
+}
+
+/* Chart containers and similar elements - light gray background */
+body.black-white .bg-slate-800\/50,
+body.black-white .bg-slate-800\/70,
+body.black-white .bg-slate-700\/50,
+body.black-white .bg-dark-card\/50 {
+  background-color: #f0f0f0 !important;
+}
+
 /* Small badge/tag elements with bg-slate-700 should have black bg + white text */
 body.black-white .bg-slate-700 {
   background-color: #000000 !important;
@@ -82,54 +133,148 @@ body.black-white .bg-slate-700 * {
   color: #ffffff !important;
 }
 
-/* Buttons WITH background classes need black bg + white text */
-body.black-white button.bg-dark-card,
-body.black-white button.bg-orange-500,
-body.black-white button.bg-orange-600,
-body.black-white button.bg-blue-500,
-body.black-white button.bg-green-500,
-body.black-white button.bg-slate-800,
-body.black-white button.bg-slate-700,
-body.black-white button[class*="bg-"] {
+/* LIVE button should have black bg + white text */
+body.black-white .live-badge {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body.black-white .live-badge * {
+  color: #ffffff !important;
+}
+
+body.black-white .live-dot {
+  background-color: #ffffff !important;
+}
+
+/* Buttons WITH background classes need black bg + white text (except switcher buttons and fullscreen buttons) */
+body.black-white button.bg-dark-card:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn),
+body.black-white button.bg-orange-500:not(.dropdown-item):not(.fullscreen-btn),
+body.black-white button.bg-orange-600:not(.dropdown-item):not(.fullscreen-btn),
+body.black-white button.bg-blue-500:not(.dropdown-item):not(.fullscreen-btn),
+body.black-white button.bg-green-500:not(.dropdown-item):not(.fullscreen-btn),
+body.black-white button.bg-slate-800:not(.dropdown-item):not(.fullscreen-btn),
+body.black-white button.bg-slate-700:not(.dropdown-item):not(.fullscreen-btn),
+body.black-white button[class*="bg-"]:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn) {
   background-color: #000000 !important;
   color: #ffffff !important;
   border-color: #000000 !important;
 }
 
+/* Switcher buttons (language/theme) should have white bg + black text */
+body.black-white button.switcher-btn {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+body.black-white button.switcher-btn:hover,
+body.black-white button.switcher-btn:focus {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  opacity: 0.9;
+}
+
+body.black-white button.switcher-btn span,
+body.black-white button.switcher-btn svg {
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/* Switcher dropdown menus */
+body.black-white .switcher-dropdown {
+  background-color: #ffffff !important;
+  border-color: #000000 !important;
+}
+
+body.black-white .switcher-dropdown button {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+body.black-white .switcher-dropdown button * {
+  background-color: transparent !important;
+  color: #000000 !important;
+}
+
+body.black-white .switcher-dropdown button:hover,
+body.black-white .switcher-dropdown button.dropdown-item:hover,
+body.black-white .switcher-dropdown button:hover span,
+body.black-white .switcher-dropdown button:hover div {
+  background-color: #f8f8f8 !important;
+  color: #000000 !important;
+}
+
+body.black-white .switcher-dropdown button.bg-slate-700,
+body.black-white .switcher-dropdown button.bg-slate-200,
+body.black-white .switcher-dropdown button.bg-gray-200,
+body.black-white .switcher-dropdown button.bg-yellow-400,
+body.black-white .switcher-dropdown button.bg-lime-500 {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-left: 4px solid #000000 !important;
+}
+
+body.black-white .switcher-dropdown button span,
+body.black-white .switcher-dropdown button div,
+body.black-white .switcher-dropdown button svg,
+body.black-white .switcher-dropdown button:hover span,
+body.black-white .switcher-dropdown button:hover div {
+  color: #000000 !important;
+}
+
+/* Dropdown items - white bg + black text */
+body.black-white button.dropdown-item {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+body.black-white button.dropdown-item *,
+body.black-white button.dropdown-item span,
+body.black-white button.dropdown-item div {
+  background-color: transparent !important;
+  color: #000000 !important;
+}
+
+body.black-white button.dropdown-item:hover {
+  background-color: #f8f8f8 !important;
+  color: #000000 !important;
+}
+
 /* Buttons WITHOUT background (tab buttons, etc) need transparent bg + black text */
-body.black-white button:not([class*="bg-"]) {
+body.black-white button:not([class*="bg-"]):not(.dropdown-item) {
   background-color: transparent !important;
   color: #000000 !important;
   border-color: #000000 !important;
 }
 
-body.black-white button:not([class*="bg-"]):hover,
-body.black-white button:not([class*="bg-"]):focus,
-body.black-white button:not([class*="bg-"]):active {
+body.black-white button:not([class*="bg-"]):not(.dropdown-item):hover,
+body.black-white button:not([class*="bg-"]):not(.dropdown-item):focus,
+body.black-white button:not([class*="bg-"]):not(.dropdown-item):active {
   background-color: #f5f5f5 !important;
   color: #000000 !important;
   border-color: #000000 !important;
 }
 
-/* Buttons WITH background - hover states */
-body.black-white button[class*="bg-"]:hover,
-body.black-white button[class*="bg-"]:focus,
-body.black-white button[class*="bg-"]:active {
+/* Buttons WITH background - hover states (except switcher buttons, dropdown items, and fullscreen buttons) */
+body.black-white button[class*="bg-"]:hover:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn),
+body.black-white button[class*="bg-"]:focus:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn),
+body.black-white button[class*="bg-"]:active:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn) {
   background-color: #000000 !important;
   color: #ffffff !important;
   border-color: #000000 !important;
   opacity: 0.8;
 }
 
-/* Hover effects on non-button elements should maintain black text (except badges) */
-body.black-white *:hover:not(button):not(button *):not(.bg-slate-700):not(.bg-slate-700 *) {
+/* Hover effects on non-button elements should maintain black text (except badges, inputs, selects) */
+body.black-white *:hover:not(button):not(button *):not(.bg-slate-700):not(.bg-slate-700 *):not(.live-badge):not(.live-badge *):not(input):not(select) {
   color: #000000 !important;
-  background-color: #f5f5f5 !important;
 }
 
 /* Active/focus states */
-body.black-white *:focus:not(button):not(button *):not(.bg-slate-700):not(.bg-slate-700 *),
-body.black-white *:active:not(button):not(button *):not(.bg-slate-700):not(.bg-slate-700 *) {
+body.black-white *:focus:not(button):not(button *):not(.bg-slate-700):not(.bg-slate-700 *):not(.live-badge):not(.live-badge *),
+body.black-white *:active:not(button):not(button *):not(.bg-slate-700):not(.bg-slate-700 *):not(.live-badge):not(.live-badge *) {
   color: #000000 !important;
 }
 
@@ -142,22 +287,28 @@ body.black-white .hover\:bg-gray-200:hover {
   color: #000000 !important;
 }
 
-/* Keep button hover effects black */
-body.black-white button.hover\:bg-slate-100:hover,
-body.black-white button.hover\:bg-slate-800:hover,
-body.black-white button:hover {
+/* Keep button hover effects black (except switcher buttons and dropdown items) */
+body.black-white button.hover\:bg-slate-100:hover:not(.switcher-btn):not(.dropdown-item),
+body.black-white button.hover\:bg-slate-800:hover:not(.switcher-btn):not(.dropdown-item),
+body.black-white button:hover:not(.switcher-btn):not(.dropdown-item) {
   background-color: #000000 !important;
   color: #ffffff !important;
 }
 
-/* Specific button backgrounds that need to be black */
-body.black-white .bg-orange-500,
-body.black-white .bg-orange-600,
-body.black-white .bg-blue-500,
-body.black-white .bg-green-500,
-body.black-white .bg-slate-800,
-body.black-white .bg-slate-700 {
+/* Specific button backgrounds that need to be black (exclude select/input elements) */
+body.black-white .bg-orange-500:not(select):not(input),
+body.black-white .bg-orange-600:not(select):not(input),
+body.black-white .bg-blue-500:not(select):not(input),
+body.black-white .bg-green-500:not(select):not(input),
+body.black-white .bg-slate-800:not(select):not(input):not(.opacity-dropdown),
+body.black-white .bg-slate-700:not(select):not(input):not(.slider):not([type="range"]) {
   background-color: #000000 !important;
+}
+
+/* Slider track must be gray, not black */
+body.black-white input[type="range"].slider,
+body.black-white input[type="range"].bg-slate-700 {
+  background-color: #c0c0c0 !important;
 }
 
 /* All regular text to black - specific overrides */
@@ -171,7 +322,7 @@ body.black-white .text-gray-600,
 body.black-white .text-orange-500,
 body.black-white .text-orange-400,
 body.black-white .text-orange-600,
-body.black-white .text-green-400,
+body.black-white .text-green-400:not(.live-badge),
 body.black-white .text-green-500,
 body.black-white .text-green-600,
 body.black-white .text-red-500,
@@ -181,7 +332,7 @@ body.black-white .text-blue-500,
 body.black-white .text-purple-500,
 body.black-white .text-neon-cyan,
 body.black-white .text-neon-purple,
-body.black-white .text-white,
+body.black-white .text-white:not(.bg-slate-700),
 body.black-white h1,
 body.black-white h2,
 body.black-white h3,
@@ -189,17 +340,17 @@ body.black-white h4,
 body.black-white h5,
 body.black-white h6,
 body.black-white p,
-body.black-white span:not(.bg-slate-700 span),
+body.black-white span:not(.bg-slate-700):not(.live-badge):not(.live-dot),
 body.black-white div:not(button div):not(.bg-slate-700) {
   color: #000000 !important;
 }
 
-/* Button text must be white for readability on black buttons */
-body.black-white button[class*="bg-"],
-body.black-white button[class*="bg-"] *,
-body.black-white button[class*="bg-"] svg,
-body.black-white button[class*="bg-"] span,
-body.black-white button[class*="bg-"] div {
+/* Button text must be white for readability on black buttons (except fullscreen control buttons) */
+body.black-white button[class*="bg-"]:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn),
+body.black-white button[class*="bg-"]:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn) *,
+body.black-white button[class*="bg-"]:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn) svg,
+body.black-white button[class*="bg-"]:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn) span,
+body.black-white button[class*="bg-"]:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn) div {
   color: #ffffff !important;
   fill: #ffffff !important;
   stroke: #ffffff !important;
@@ -216,12 +367,28 @@ body.black-white button:not([class*="bg-"]) div {
   stroke: #000000 !important;
 }
 
-/* Dropdown menus and select elements */
+/* Dropdown menus and select elements - must override bg-slate-800 */
 body.black-white select,
+body.black-white select.bg-slate-800,
 body.black-white select option {
   background-color: #ffffff !important;
   color: #000000 !important;
   border: 2px solid #000000 !important;
+}
+
+body.black-white select:hover {
+  background-color: #f8f8f8 !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
+body.black-white select:focus,
+body.black-white select:active {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px #000000 !important;
 }
 
 /* Input fields - all states */
@@ -231,7 +398,59 @@ body.black-white input {
   border: 2px solid #000000 !important;
 }
 
-body.black-white input:hover,
+/* Range slider thumb styling for black-white mode */
+body.black-white input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #e0e0e0 !important;
+  border: 2px solid #000000 !important;
+  height: 10px !important;
+  border-radius: 5px !important;
+}
+
+body.black-white input[type="range"]::-webkit-slider-runnable-track {
+  background-color: #e0e0e0 !important;
+  height: 10px !important;
+  border-radius: 5px !important;
+  border: 1px solid #000000 !important;
+}
+
+body.black-white input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50% !important;
+  background-color: #ffffff !important;
+  cursor: pointer !important;
+  border: 3px solid #000000 !important;
+  margin-top: -6px !important;
+  box-shadow: 0 0 3px rgba(0,0,0,0.5) !important;
+}
+
+body.black-white input[type="range"]::-moz-range-track {
+  background-color: #e0e0e0 !important;
+  height: 10px !important;
+  border-radius: 5px !important;
+  border: 1px solid #000000 !important;
+}
+
+body.black-white input[type="range"]::-moz-range-thumb {
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50% !important;
+  background-color: #ffffff !important;
+  cursor: pointer !important;
+  border: 3px solid #000000 !important;
+  box-shadow: 0 0 3px rgba(0,0,0,0.5) !important;
+}
+
+body.black-white input:hover {
+  background-color: #f8f8f8 !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
 body.black-white input:focus,
 body.black-white input:active {
   background-color: #ffffff !important;
@@ -253,6 +472,13 @@ body.black-white input[type="email"],
 body.black-white input[type="number"] {
   color: #000000 !important;
   background-color: #ffffff !important;
+}
+
+body.black-white input[type="text"]:hover,
+body.black-white input[type="search"]:hover,
+body.black-white input[type="email"]:hover,
+body.black-white input[type="number"]:hover {
+  background-color: #f8f8f8 !important;
 }
 
 /* All borders to black */
@@ -289,6 +515,15 @@ body.black-white svg:not(button svg) {
 body.black-white .text-green-500,
 body.black-white .text-red-500 {
   color: #000000 !important;
+}
+
+/* Price change badges - gray background instead of green/red */
+body.black-white .bg-green-500\/20,
+body.black-white .bg-red-500\/20,
+body.black-white .bg-green-400\/20,
+body.black-white .bg-red-400\/20,
+body.black-white .bg-yellow-400\/20 {
+  background-color: #e0e0e0 !important;
 }
 
 /* Make sure percentage changes are visible */
@@ -379,6 +614,19 @@ body.high-contrast-dark ::-webkit-scrollbar-thumb {
 
 body.high-contrast-dark ::-webkit-scrollbar-thumb:hover {
   background: #00FF00;
+}
+
+/* Final overrides for switcher dropdowns in black-white mode */
+body.black-white .switcher-dropdown,
+body.black-white .switcher-dropdown > div {
+  background-color: #ffffff !important;
+}
+
+body.black-white .switcher-dropdown button,
+body.black-white .switcher-dropdown button span,
+body.black-white .switcher-dropdown button div {
+  background-color: #ffffff !important;
+  color: #000000 !important;
 }
 
 /* Animations */

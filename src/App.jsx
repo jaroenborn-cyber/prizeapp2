@@ -678,40 +678,21 @@ function AppContent() {
               <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({recentlyViewed.length} {t.viewed})</span>
             </div>
             
-            <div className="bg-dark-card/30 dark:bg-dark-card/30 light:bg-slate-50 high-contrast:bg-gray-100 border border-neon-cyan/30 dark:border-neon-cyan/30 light:border-slate-300 high-contrast:border-black rounded-xl p-4 sm:p-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
-                {recentlyViewed.map((crypto) => {
-                  const cryptoWithLivePrice = mergeLivePrices(crypto);
-                  return (
-                  <div key={crypto.id} className="relative">
-                    <CryptoCard
-                      crypto={cryptoWithLivePrice}
-                      onClick={handleCryptoClick}
-                      onFavoriteToggle={toggleFavorite}
-                      isFavorite={isFavorite(crypto)}
-                      showFavoriteButton={true}
-                    />
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        removeFromRecentlyViewed(crypto.id);
-                      }}
-                      className="absolute top-2 right-2 p-1.5 rounded-full bg-slate-500/20 text-slate-400 hover:bg-slate-500/30 transition-colors"
-                      aria-label="Remove from recently viewed"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    </button>
-                  </div>
-                );
-                })}
-              </div>
-              <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
-                <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-center">
-                  🔍 {t.recentlyViewedDesc}
-                </p>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
+              {recentlyViewed.map((crypto) => {
+                const cryptoWithLivePrice = mergeLivePrices(crypto);
+                return (
+                  <CryptoCard
+                    key={crypto.id}
+                    crypto={cryptoWithLivePrice}
+                    onClick={handleCryptoClick}
+                    onFavoriteToggle={toggleFavorite}
+                    isFavorite={isFavorite(crypto)}
+                    showFavoriteButton={true}
+                    onRemove={removeFromRecentlyViewed}
+                  />
+              );
+              })}
             </div>
           </section>
         )}

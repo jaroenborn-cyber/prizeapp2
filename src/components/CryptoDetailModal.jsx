@@ -61,8 +61,8 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
             {
               label: 'Price (USD)',
               data: prices.map(p => p[1]),
-              borderColor: theme === 'high-contrast' ? '#000000' : (theme === 'light' ? '#3b82f6' : '#3b82f6'),
-              backgroundColor: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'light' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)'),
+              borderColor: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'high-contrast-dark' ? '#ffffff' : (theme === 'light' ? '#3b82f6' : '#3b82f6')),
+              backgroundColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.1)' : (theme === 'high-contrast-dark' ? 'rgba(255, 255, 255, 0.1)' : (theme === 'light' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)')),
               fill: true,
               tension: 0.4,
               borderWidth: 2,
@@ -117,7 +117,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
   return (
     <div className="fixed inset-0 bg-black/70 dark:bg-black/70 light:bg-black/50 high-contrast:bg-black/90 flex items-center justify-center z-50 p-4" onClick={onClose}>
       <div 
-        className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black"
+        className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -137,33 +137,33 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
               <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 uppercase">{crypto.symbol}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <button
               onClick={onFullscreen}
-              className="p-2 rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black hover:bg-slate-600/50 dark:hover:bg-slate-600/50 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300"
+              className="p-1.5 rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black hover:bg-slate-600/50 dark:hover:bg-slate-600/50 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300"
               aria-label="Open fullscreen"
               title="Fullscreen mode"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
               </svg>
             </button>
             <button
               onClick={() => onToggleFavorite(crypto)}
-              className={`p-2 rounded-full transition-all ${
+              className={`p-1.5 rounded-full transition-all ${
                 isFavorite(crypto)
                   ? 'text-yellow-400 bg-yellow-400/20 hover:bg-yellow-400/30'
                   : 'text-slate-500 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 hover:text-yellow-400 hover:bg-yellow-400/10'
               }`}
               aria-label={isFavorite(crypto) ? "Remove from favorites" : "Add to favorites"}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
             </button>
             <button
               onClick={onClose}
-              className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black text-3xl font-bold"
+              className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black text-2xl font-bold"
             >
               ×
             </button>
@@ -289,31 +289,31 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
                       tooltip: {
                         mode: 'index',
                         intersect: false,
-                        backgroundColor: theme === 'light' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)',
-                        titleColor: theme === 'light' ? '#1e293b' : '#ffffff',
-                        bodyColor: theme === 'light' ? '#1e293b' : '#ffffff',
-                        borderColor: theme === 'light' ? '#e2e8f0' : '#334155',
+                        backgroundColor: (theme === 'light' || theme === 'black-white') ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)',
+                        titleColor: (theme === 'light' || theme === 'black-white' || theme === 'high-contrast') ? '#000000' : '#ffffff',
+                        bodyColor: (theme === 'light' || theme === 'black-white' || theme === 'high-contrast') ? '#000000' : '#ffffff',
+                        borderColor: (theme === 'light' || theme === 'black-white') ? '#000000' : '#334155',
                         borderWidth: 1,
                       },
                     },
                     scales: {
                       x: {
                         grid: {
-                          color: theme === 'high-contrast' ? '#000000' : (theme === 'light' ? '#e2e8f0' : '#334155'),
+                          color: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'high-contrast-dark' ? '#ffffff' : (theme === 'light' ? '#e2e8f0' : '#334155')),
                           drawBorder: false,
                         },
                         ticks: {
-                          color: theme === 'light' ? '#64748b' : '#94a3b8',
+                          color: (theme === 'black-white' || theme === 'high-contrast') ? '#000000' : (theme === 'high-contrast-dark' ? '#ffffff' : (theme === 'light' ? '#64748b' : '#94a3b8')),
                           maxTicksLimit: 8,
                         },
                       },
                       y: {
                         grid: {
-                          color: theme === 'high-contrast' ? '#000000' : (theme === 'light' ? '#e2e8f0' : '#334155'),
+                          color: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'high-contrast-dark' ? '#ffffff' : (theme === 'light' ? '#e2e8f0' : '#334155')),
                           drawBorder: false,
                         },
                         ticks: {
-                          color: theme === 'light' ? '#64748b' : '#94a3b8',
+                          color: (theme === 'black-white' || theme === 'high-contrast') ? '#000000' : (theme === 'high-contrast-dark' ? '#ffffff' : (theme === 'light' ? '#64748b' : '#94a3b8')),
                           callback: function(value) {
                             return '$' + value.toLocaleString();
                           },

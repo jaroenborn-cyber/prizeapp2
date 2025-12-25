@@ -55,6 +55,27 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         const data = await getHistoricalData(crypto.id, chartPeriod);
         const prices = data.prices || [];
         
+        // Dynamic chart colors based on theme
+        const getChartColors = () => {
+          if (theme === 'black-white') {
+            return {
+              borderColor: 'rgba(0, 0, 0, 0.4)',
+              backgroundColor: 'rgba(0, 0, 0, 0.08)',
+            };
+          } else if (theme === 'high-contrast-dark') {
+            return {
+              borderColor: 'rgba(132, 204, 22, 0.4)',
+              backgroundColor: 'rgba(132, 204, 22, 0.08)',
+            };
+          }
+          return {
+            borderColor: 'rgba(59, 130, 246, 0.3)',
+            backgroundColor: 'rgba(59, 130, 246, 0.05)',
+          };
+        };
+        
+        const chartColors = getChartColors();
+        
         setChartData({
           labels: prices.map(p => {
             const date = new Date(p[0]);
@@ -71,8 +92,8 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
           datasets: [
             {
               data: prices.map(p => p[1]),
-              borderColor: 'rgba(59, 130, 246, 0.3)',
-              backgroundColor: 'rgba(59, 130, 246, 0.05)',
+              borderColor: chartColors.borderColor,
+              backgroundColor: chartColors.backgroundColor,
               fill: true,
               tension: 0.4,
               borderWidth: 2,
@@ -86,7 +107,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
     };
 
     fetchChartData();
-  }, [crypto?.id, chartPeriod]);
+  }, [crypto?.id, chartPeriod, theme]);
 
   // Update timestamp when crypto data changes
   useEffect(() => {
@@ -139,7 +160,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
   const isPositive = priceChange >= 0;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 light:from-slate-100 light:via-slate-50 light:to-slate-100 high-contrast:from-white high-contrast:via-gray-50 high-contrast:to-white overflow-hidden">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 light:from-slate-100 light:via-slate-50 light:to-slate-100 high-contrast:from-white high-contrast:via-gray-50 high-contrast:to-white black-white:bg-white overflow-hidden">
       {/* Background Chart */}
       {chartData && (
         <div className="absolute inset-0" style={{ opacity: chartOpacity }}>
@@ -157,12 +178,12 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   x: {
                     display: true,
                     grid: {
-                      color: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'),
+                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.15)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.1)' : 'rgba(255, 255, 255, 0.1)')),
                       drawBorder: true,
-                      borderColor: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.2)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.2)'),
+                      borderColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.25)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.2)' : 'rgba(255, 255, 255, 0.2)')),
                     },
                     ticks: {
-                      color: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.4)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)'),
+                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.5)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.6)' : 'rgba(255, 255, 255, 0.4)')),
                       maxTicksLimit: 8,
                       font: {
                         size: 10,
@@ -173,12 +194,12 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                     display: true,
                     position: 'right',
                     grid: {
-                      color: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'),
+                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.15)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.1)' : 'rgba(255, 255, 255, 0.1)')),
                       drawBorder: true,
-                      borderColor: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.2)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.2)'),
+                      borderColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.25)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.2)' : 'rgba(255, 255, 255, 0.2)')),
                     },
                     ticks: {
-                      color: theme === 'high-contrast' ? 'rgba(0, 0, 0, 0.4)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)'),
+                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.5)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.6)' : 'rgba(255, 255, 255, 0.4)')),
                       maxTicksLimit: 6,
                       font: {
                         size: 10,
@@ -203,7 +224,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         <div className="theme-switcher-container relative">
           <button
             onClick={() => setShowThemeMenu(!showThemeMenu)}
-            className="p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
+            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 black-white:bg-gray-100 black-white:border black-white:border-black text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 black-white:text-black hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black black-white:hover:text-black black-white:hover:bg-gray-200 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
             aria-label="Change theme"
           >
             {theme === 'dark' && (
@@ -222,20 +243,30 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
             )}
+            {theme === 'black-white' && (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            )}
+            {theme === 'high-contrast-dark' && (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            )}
           </button>
 
           {/* Dropdown Menu */}
           {showThemeMenu && (
-            <div className="absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
+            <div className="absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white black-white:bg-white black-white:border black-white:border-black rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
               <button
                 onClick={() => {
                   setTheme('dark');
                   setShowThemeMenu(false);
                 }}
-                className={`w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
                   theme === 'dark'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -248,10 +279,10 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   setTheme('light');
                   setShowThemeMenu(false);
                 }}
-                className={`w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
                   theme === 'light'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -264,10 +295,10 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   setTheme('high-contrast');
                   setShowThemeMenu(false);
                 }}
-                className={`w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
                   theme === 'high-contrast'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -275,6 +306,38 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
                 <span className="text-sm font-medium">Hoog Contrast</span>
+              </button>
+              <button
+                onClick={() => {
+                  setTheme('black-white');
+                  setShowThemeMenu(false);
+                }}
+                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
+                  theme === 'black-white'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                </svg>
+                <span className="text-sm font-medium">Zwart-Wit</span>
+              </button>
+              <button
+                onClick={() => {
+                  setTheme('high-contrast-dark');
+                  setShowThemeMenu(false);
+                }}
+                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 high-contrast-dark:hover:bg-gray-900 transition-colors ${
+                  theme === 'high-contrast-dark'
+                    ? 'bg-lime-500/30 text-lime-500 dark:text-lime-500 light:text-lime-700 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black high-contrast-dark:text-lime-400 high-contrast-dark:border-l-4 high-contrast-dark:border-l-lime-500'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white high-contrast-dark:text-lime-500'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span className="text-sm font-medium">HC Dark</span>
               </button>
             </div>
           )}
@@ -284,7 +347,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         <div className="timeframe-switcher-container relative">
           <button
             onClick={() => setShowTimeframeMenu(!showTimeframeMenu)}
-            className="p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
+            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 black-white:bg-gray-100 black-white:border black-white:border-black text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 black-white:text-black hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black black-white:hover:text-black black-white:hover:bg-gray-200 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
             aria-label="Change timeframe"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -294,16 +357,16 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
           {/* Dropdown Menu */}
           {showTimeframeMenu && (
-            <div className="absolute top-12 right-0 w-36 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
+            <div className="absolute top-12 right-0 w-36 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white black-white:bg-white black-white:border black-white:border-black rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
               <button
                 onClick={() => {
                   setChartPeriod('1');
                   setShowTimeframeMenu(false);
                 }}
-                className={`w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
                   chartPeriod === '1'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black font-semibold'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
                 }`}
               >
                 <span className="text-sm">24 Uur</span>
@@ -313,10 +376,10 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   setChartPeriod('7');
                   setShowTimeframeMenu(false);
                 }}
-                className={`w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
                   chartPeriod === '7'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black font-semibold'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
                 }`}
               >
                 <span className="text-sm">7 Dagen</span>
@@ -326,10 +389,10 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   setChartPeriod('30');
                   setShowTimeframeMenu(false);
                 }}
-                className={`w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
                   chartPeriod === '30'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black font-semibold'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
                 }`}
               >
                 <span className="text-sm">30 Dagen</span>
@@ -339,10 +402,10 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   setChartPeriod('365');
                   setShowTimeframeMenu(false);
                 }}
-                className={`w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
                   chartPeriod === '365'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black font-semibold'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
                 }`}
               >
                 <span className="text-sm">1 Jaar</span>
@@ -355,7 +418,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         <div className="opacity-switcher-container relative">
           <button
             onClick={() => setShowOpacityMenu(!showOpacityMenu)}
-            className="p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
+            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 black-white:bg-gray-100 black-white:border black-white:border-black text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 black-white:text-black hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black black-white:hover:text-black black-white:hover:bg-gray-200 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
             aria-label="Change opacity"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -366,8 +429,8 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
           {/* Dropdown Menu */}
           {showOpacityMenu && (
-            <div className="absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden p-4">
-              <label className="text-sm font-medium text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800 block mb-2">
+            <div className="opacity-dropdown absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white black-white:bg-white black-white:border black-white:border-black rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden p-4">
+              <label className="text-sm font-medium text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800 black-white:text-black block mb-2">
                 Transparantie: {Math.round(chartOpacity * 100)}%
               </label>
               <input
@@ -376,7 +439,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                 max="100"
                 value={chartOpacity * 100}
                 onChange={(e) => setChartOpacity(e.target.value / 100)}
-                className="w-full h-2 bg-slate-700 dark:bg-slate-700 light:bg-slate-300 high-contrast:bg-gray-300 rounded-lg appearance-none cursor-pointer slider"
+                className="w-full h-2 bg-slate-700 dark:bg-slate-700 light:bg-slate-300 high-contrast:bg-gray-300 black-white:bg-gray-200 black-white:border black-white:border-black rounded-lg appearance-none cursor-pointer"
               />
             </div>
           )}
@@ -385,7 +448,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black transition-all p-1.5 sm:p-2 hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200 rounded-lg"
+          className="fullscreen-btn text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 black-white:text-black black-white:bg-gray-100 black-white:border black-white:border-black hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black black-white:hover:text-black black-white:hover:bg-gray-200 transition-all p-1.5 sm:p-2 hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200 rounded-lg"
           aria-label="Exit fullscreen"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -395,8 +458,8 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
       </div>
 
       {/* ESC hint */}
-      <div className="hidden sm:flex absolute top-4 left-4 sm:top-8 sm:left-8 text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-600 text-xs sm:text-sm items-center gap-2">
-        <kbd className="px-2 py-1 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 rounded border border-slate-600 dark:border-slate-600 light:border-slate-300 high-contrast:border-gray-400 text-xs">ESC</kbd>
+      <div className="hidden sm:flex absolute top-4 left-4 sm:top-8 sm:left-8 text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-600 black-white:text-black text-xs sm:text-sm items-center gap-2">
+        <kbd className="px-2 py-1 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 black-white:bg-gray-100 black-white:border black-white:border-black rounded border border-slate-600 dark:border-slate-600 light:border-slate-300 high-contrast:border-gray-400 text-xs">ESC</kbd>
         <span>to exit</span>
       </div>
 

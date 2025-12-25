@@ -45,7 +45,7 @@ const SearchBar = ({ onSelectCrypto, onToggleFavorite, isFavorite }) => {
           onChange={(e) => handleSearch(e.target.value)}
           onFocus={() => query.length >= 2 && setShowResults(true)}
           placeholder="Zoek naar cryptocurrencies..."
-          className="w-full bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white border border-slate-600 dark:border-slate-600 light:border-slate-300 high-contrast:border-black rounded-lg px-4 py-3 pl-12 text-white dark:text-white light:text-slate-800 high-contrast:text-black placeholder-slate-500 dark:placeholder-slate-500 light:placeholder-slate-400 high-contrast:placeholder-gray-700 focus:outline-none focus:ring-2 focus:ring-neon-purple dark:focus:ring-neon-purple light:focus:ring-neon-purple high-contrast:focus:ring-high-contrast-accent"
+          className="w-full bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white black-white:bg-white black-white:hover:bg-[#f8f8f8] border border-slate-600 dark:border-slate-600 light:border-slate-300 high-contrast:border-black black-white:border-black rounded-lg px-4 py-3 pl-12 text-white dark:text-white light:text-slate-800 high-contrast:text-black black-white:text-black placeholder-slate-500 dark:placeholder-slate-500 light:placeholder-slate-400 high-contrast:placeholder-gray-700 black-white:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-neon-purple dark:focus:ring-neon-purple light:focus:ring-neon-purple high-contrast:focus:ring-high-contrast-accent black-white:focus:ring-black"
         />
         <svg
           className="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500"

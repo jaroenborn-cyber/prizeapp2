@@ -1,4 +1,7 @@
-const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavoriteButton = false }) => {
+import { useTheme } from '../context/ThemeContext';
+
+const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavoriteButton = false, onRemove = null }) => {
+  const { theme } = useTheme();
   const priceChange24h = crypto.price_change_percentage_24h || 0;
   const isPositive = priceChange24h >= 0;
 
@@ -31,8 +34,14 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
         </div>
         <div className="flex items-center gap-2">
           {crypto.isLive && (
-            <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded flex items-center gap-1">
-              <span className="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+            <span 
+              className="live-badge text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded flex items-center gap-1"
+              style={theme === 'black-white' ? { backgroundColor: '#000000', color: '#ffffff' } : {}}
+            >
+              <span 
+                className="live-dot inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"
+                style={theme === 'black-white' ? { backgroundColor: '#ffffff' } : {}}
+              ></span>
               LIVE
             </span>
           )}
@@ -54,7 +63,25 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
               </svg>
             </button>
           )}
-          <span className="text-xs bg-slate-700 dark:bg-slate-700 light:bg-slate-200 high-contrast:bg-gray-300 text-white dark:text-white light:text-slate-800 high-contrast:text-black px-2 py-1 rounded">#{crypto.market_cap_rank}</span>
+          <span 
+            className="text-xs bg-slate-700 dark:bg-slate-700 light:bg-slate-200 high-contrast:bg-gray-300 text-white dark:text-white light:text-slate-800 high-contrast:text-black px-2 py-1 rounded"
+            style={theme === 'black-white' ? { backgroundColor: '#000000', color: '#ffffff' } : {}}
+          >#{crypto.market_cap_rank}</span>
+          {onRemove && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemove(crypto.id);
+              }}
+              className="p-1.5 rounded-full bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-300 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-black hover:bg-red-500/30 hover:text-red-400 transition-colors"
+              style={theme === 'black-white' ? { backgroundColor: '#000000', color: '#ffffff' } : {}}
+              aria-label="Remove from recently viewed"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </button>
+          )}
         </div>
       </div>
 
