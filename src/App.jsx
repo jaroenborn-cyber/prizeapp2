@@ -672,7 +672,13 @@ function AppContent() {
                       onTouchStart={(e) => handleTouchStart(e, index, crypto.id)}
                       onTouchMove={handleTouchMoveCancel}
                       onTouchEnd={handleTouchEndCancel}
-                      style={{ touchAction: touchDrag ? 'none' : 'auto', WebkitUserSelect: 'none', userSelect: 'none' }}
+                      style={{ 
+                        touchAction: touchDrag ? 'none' : 'auto', 
+                        WebkitUserSelect: 'none', 
+                        userSelect: 'none',
+                        WebkitTouchCallout: 'none',
+                        WebkitTapHighlightColor: 'transparent'
+                      }}
                     >
                       <CryptoCard
                         crypto={cryptoWithLivePrice}
