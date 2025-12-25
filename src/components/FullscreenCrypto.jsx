@@ -209,7 +209,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
           {/* Dropdown Menu */}
           {showThemeMenu && (
-            <div className="absolute top-12 left-0 sm:left-auto sm:right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
+            <div className="absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
               <button
                 onClick={() => {
                   setTheme('dark');
@@ -277,7 +277,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
           {/* Dropdown Menu */}
           {showTimeframeMenu && (
-            <div className="absolute top-12 left-0 sm:left-auto sm:right-0 w-36 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
+            <div className="absolute top-12 right-0 w-36 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
               <button
                 onClick={() => {
                   setChartPeriod('1');
@@ -349,7 +349,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
           {/* Dropdown Menu */}
           {showOpacityMenu && (
-            <div className="absolute top-12 left-0 sm:left-auto sm:right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden p-4">
+            <div className="absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden p-4">
               <label className="text-sm font-medium text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800 block mb-2">
                 Transparantie: {Math.round(chartOpacity * 100)}%
               </label>
