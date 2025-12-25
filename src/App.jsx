@@ -287,7 +287,7 @@ function AppContent() {
           if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
               touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
             ref.style.transform = 'scale(0.95)';
-            ref.style.border = '2px solid #22d3ee';
+            ref.style.border = '2px dashed #22d3ee';
           } else {
             ref.style.transform = '';
             ref.style.border = '';
@@ -370,7 +370,7 @@ function AppContent() {
       cryptoId
     };
     
-    // Start long-press timer (300ms hold to drag)
+    // Start long-press timer (600ms hold to drag)
     longPressTimer.current = setTimeout(() => {
       if (!pendingDrag.current) return;
       
@@ -402,7 +402,6 @@ function AppContent() {
         pointer-events: none;
         transform: rotate(3deg) scale(1.05);
         box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        border: 2px solid #22d3ee;
         border-radius: 0.75rem;
         opacity: 0.95;
         transition: none;
@@ -415,7 +414,7 @@ function AppContent() {
       
       setTouchDrag({ index: i, cryptoId: id });
       pendingDrag.current = null;
-    }, 300);
+    }, 600);
   };
   
   const handleTouchMoveCancel = (e) => {
