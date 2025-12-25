@@ -279,6 +279,15 @@ function AppContent() {
       clone.style.left = `${touch.clientX - touchStartPos.current.offsetX}px`;
       clone.style.top = `${touch.clientY - touchStartPos.current.offsetY}px`;
       
+      // Auto-scroll when near edges
+      const scrollZone = 100; // pixels from edge
+      const scrollSpeed = 8;
+      if (touch.clientY < scrollZone) {
+        window.scrollBy(0, -scrollSpeed);
+      } else if (touch.clientY > window.innerHeight - scrollZone) {
+        window.scrollBy(0, scrollSpeed);
+      }
+      
       // Find which card we're over
       const cards = Object.entries(cardRefs.current);
       for (const [id, ref] of cards) {
