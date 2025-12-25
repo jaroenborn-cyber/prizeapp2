@@ -76,10 +76,42 @@ body.black-white button {
   border: 2px solid #000000 !important;
 }
 
-body.black-white button:hover {
+body.black-white button:hover,
+body.black-white button:focus,
+body.black-white button:active {
   background-color: #000000 !important;
   color: #ffffff !important;
   border: 2px solid #000000 !important;
+  opacity: 0.8;
+}
+
+/* Hover effects on non-button elements should maintain black text */
+body.black-white *:hover:not(button):not(button *) {
+  color: #000000 !important;
+  background-color: #f5f5f5 !important;
+}
+
+/* Active/focus states */
+body.black-white *:focus:not(button):not(button *),
+body.black-white *:active:not(button):not(button *) {
+  color: #000000 !important;
+}
+
+/* Override all hover background colors */
+body.black-white .hover\:bg-slate-100:hover,
+body.black-white .hover\:bg-slate-200:hover,
+body.black-white .hover\:bg-gray-100:hover,
+body.black-white .hover\:bg-gray-200:hover {
+  background-color: #f5f5f5 !important;
+  color: #000000 !important;
+}
+
+/* Keep button hover effects black */
+body.black-white button.hover\:bg-slate-100:hover,
+body.black-white button.hover\:bg-slate-800:hover,
+body.black-white button:hover {
+  background-color: #000000 !important;
+  color: #ffffff !important;
 }
 
 /* Specific button backgrounds that need to be black */
