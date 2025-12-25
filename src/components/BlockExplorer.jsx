@@ -499,12 +499,12 @@ const BlockExplorer = () => {
             {/* Blocks container - horizontal scroll on mobile, grid on larger screens */}
             <div 
               ref={timelineRef}
-              className="relative flex sm:grid overflow-x-auto sm:overflow-visible gap-2 sm:gap-4 pb-4 sm:pb-0 sm:grid-cols-5 lg:grid-cols-10 scrollbar-hide px-1 -mx-1" 
+              className="relative flex sm:grid overflow-x-auto sm:overflow-visible gap-2 sm:gap-4 pb-4 sm:pb-0 sm:grid-cols-5 lg:grid-cols-10 scrollbar-hide px-1 -mx-1 snap-x snap-mandatory" 
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {/* Mobile: All mined blocks (5) - scrollable */}
               {blocks.slice(0, 5).reverse().map((block, index) => (
-                <div key={`mobile-${block.id}`} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:hidden">
+                <div key={`mobile-${block.id}`} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:hidden snap-start">
                   <div 
                     onClick={() => setSelectedBlock(block)}
                     className="relative bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 rounded-xl p-2 transition-transform active:scale-95 cursor-pointer h-full"
@@ -556,7 +556,7 @@ const BlockExplorer = () => {
               
               {/* Mobile: All expected blocks (5) - scrollable */}
               {getExpectedBlocks().map((expectedBlock, index) => (
-                <div key={`mobile-expected-${expectedBlock.height}`} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:hidden">
+                <div key={`mobile-expected-${expectedBlock.height}`} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:hidden snap-start">
                   <div className={`relative rounded-xl p-2 transition-transform active:scale-95 cursor-pointer h-full ${
                     expectedBlock.status === 'next'
                       ? 'bg-gradient-to-br from-orange-500/20 to-orange-600/10 border-2 border-orange-500/50 animate-pulse'
