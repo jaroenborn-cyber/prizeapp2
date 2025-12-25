@@ -54,6 +54,7 @@ body.black-white .to-blue-600 {
   background-image: none !important;
 }
 
+/* All backgrounds to white, except buttons which need black background */
 body.black-white .bg-dark-card,
 body.black-white .bg-slate-800,
 body.black-white .bg-slate-700,
@@ -63,6 +64,17 @@ body.black-white .bg-gray-200 {
   background-color: #ffffff !important;
 }
 
+/* Buttons need black background with white text for contrast */
+body.black-white button,
+body.black-white .bg-orange-500,
+body.black-white .bg-orange-600,
+body.black-white .bg-blue-500,
+body.black-white .bg-green-500 {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* All regular text to black */
 body.black-white .text-slate-300,
 body.black-white .text-slate-400,
 body.black-white .text-slate-500,
@@ -77,6 +89,15 @@ body.black-white .text-neon-purple {
   color: #000000 !important;
 }
 
+/* Button text must be white for readability on black buttons */
+body.black-white button *,
+body.black-white button svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* All borders to black */
 body.black-white .border-slate-700,
 body.black-white .border-slate-600,
 body.black-white .border-gray-600,
@@ -91,6 +112,30 @@ body.black-white .shadow-lg,
 body.black-white .shadow-xl,
 body.black-white .shadow-2xl {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Card backgrounds - keep white with black text */
+body.black-white .bg-white,
+body.black-white .bg-slate-50,
+body.black-white .bg-slate-100 {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Ensure all SVG icons are visible */
+body.black-white svg:not(button svg) {
+  stroke: #000000 !important;
+}
+
+/* Price change indicators */
+body.black-white .text-green-500,
+body.black-white .text-red-500 {
+  color: #000000 !important;
+}
+
+/* Make sure percentage changes are visible */
+body.black-white .font-mono {
+  color: #000000 !important;
 }
 
 /* High contrast dark theme */
