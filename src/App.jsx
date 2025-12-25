@@ -370,7 +370,7 @@ function AppContent() {
       cryptoId
     };
     
-    // Start long-press timer (600ms hold to drag)
+    // Start long-press timer (400ms hold to drag)
     longPressTimer.current = setTimeout(() => {
       if (!pendingDrag.current) return;
       
@@ -414,7 +414,7 @@ function AppContent() {
       
       setTouchDrag({ index: i, cryptoId: id });
       pendingDrag.current = null;
-    }, 600);
+    }, 400);
   };
   
   const handleTouchMoveCancel = (e) => {
@@ -668,11 +668,11 @@ function AppContent() {
                     <div
                       key={crypto.id}
                       ref={(el) => cardRefs.current[crypto.id] = el}
-                      className={`w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.75rem)] xl:w-[calc(20%-0.8rem)] transition-transform duration-150 ${touchDrag?.cryptoId === crypto.id ? 'opacity-30' : ''}`}
+                      className={`w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.75rem)] xl:w-[calc(20%-0.8rem)] transition-transform duration-150 select-none ${touchDrag?.cryptoId === crypto.id ? 'opacity-30' : ''}`}
                       onTouchStart={(e) => handleTouchStart(e, index, crypto.id)}
                       onTouchMove={handleTouchMoveCancel}
                       onTouchEnd={handleTouchEndCancel}
-                      style={{ touchAction: touchDrag ? 'none' : 'auto' }}
+                      style={{ touchAction: touchDrag ? 'none' : 'auto', WebkitUserSelect: 'none', userSelect: 'none' }}
                     >
                       <CryptoCard
                         crypto={cryptoWithLivePrice}
