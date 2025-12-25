@@ -31,6 +31,18 @@ body.high-contrast {
   color: #ffffff;
 }
 
+/* Black & White theme */
+body.black-white {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* High contrast dark theme */
+body.high-contrast-dark {
+  background-color: #000000;
+  color: #00FF00;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -82,6 +94,32 @@ body.high-contrast ::-webkit-scrollbar-thumb {
 
 body.high-contrast ::-webkit-scrollbar-thumb:hover {
   background: #ffff00;
+}
+
+/* Custom scrollbar for black-white theme */
+body.black-white ::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+body.black-white ::-webkit-scrollbar-thumb {
+  background: #000000;
+}
+
+body.black-white ::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+
+/* Custom scrollbar for high-contrast-dark theme */
+body.high-contrast-dark ::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+body.high-contrast-dark ::-webkit-scrollbar-thumb {
+  background: #00FF00;
+}
+
+body.high-contrast-dark ::-webkit-scrollbar-thumb:hover {
+  background: #00FF00;
 }
 
 /* Animations */

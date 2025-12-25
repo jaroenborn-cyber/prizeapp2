@@ -34,6 +34,8 @@ export default {
     plugin(function({ addVariant }) {
       addVariant('light', '.light &');
       addVariant('high-contrast', '.high-contrast &');
+      addVariant('black-white', '.black-white &');
+      addVariant('high-contrast-dark', '.high-contrast-dark &');
     })
   ],
   darkMode: 'class',
