@@ -26,8 +26,25 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
   const [showTimeframeMenu, setShowTimeframeMenu] = useState(false);
   const [showOpacityMenu, setShowOpacityMenu] = useState(false);
   const [chartData, setChartData] = useState(null);
-  const [chartPeriod, setChartPeriod] = useState('365');
-  const [chartOpacity, setChartOpacity] = useState(0.5);
+  
+  // Load saved preferences from localStorage
+  const [chartPeriod, setChartPeriod] = useState(() => {
+    return localStorage.getItem('fullscreen-chart-period') || '365';
+  });
+  const [chartOpacity, setChartOpacity] = useState(() => {
+    const saved = localStorage.getItem('fullscreen-chart-opacity');
+    return saved ? parseFloat(saved) : 0.5;
+  });
+
+  // Save chart period to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('fullscreen-chart-period', chartPeriod);
+  }, [chartPeriod]);
+
+  // Save chart opacity to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('fullscreen-chart-opacity', chartOpacity.toString());
+  }, [chartOpacity]);
 
   // Fetch chart data based on selected period
   useEffect(() => {
