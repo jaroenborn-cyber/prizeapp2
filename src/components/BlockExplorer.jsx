@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { 
   getBlockchainStats, 
   getRecentBlocks, 
@@ -28,6 +28,25 @@ const BlockExplorer = () => {
   const [showSoundMenu, setShowSoundMenu] = useState(false);
   const [audioContext, setAudioContext] = useState(null);
   const [audioBlocked, setAudioBlocked] = useState(false);
+  
+  // Use refs to access current values in interval callback
+  const soundEnabledRef = useRef(soundEnabled);
+  const selectedSoundRef = useRef(selectedSound);
+  const audioContextRef = useRef(audioContext);
+  const previousBlockHeightRef = useRef(null);
+
+  // Keep refs in sync with state
+  useEffect(() => {
+    soundEnabledRef.current = soundEnabled;
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    selectedSoundRef.current = selectedSound;
+  }, [selectedSound]);
+
+  useEffect(() => {
+    audioContextRef.current = audioContext;
+  }, [audioContext]);
 
   useEffect(() => {
     fetchData();
@@ -56,13 +75,15 @@ const BlockExplorer = () => {
         getMempoolInfo()
       ]);
       
-      // Check for new block and play sound
-      if (soundEnabled && blocksData.length > 0) {
+      // Check for new block and play sound (use ref to get current soundEnabled value)
+      if (blocksData.length > 0) {
         const latestBlockHeight = blocksData[0].height;
-        if (previousBlockHeight !== null && latestBlockHeight > previousBlockHeight) {
+        if (soundEnabledRef.current && previousBlockHeightRef.current !== null && latestBlockHeight > previousBlockHeightRef.current) {
           // New block mined! Play sound
           playBlockSound();
+          console.log('🔔 New block detected! Playing sound for block:', latestBlockHeight);
         }
+        previousBlockHeightRef.current = latestBlockHeight;
         setPreviousBlockHeight(latestBlockHeight);
       }
       
@@ -126,11 +147,12 @@ const BlockExplorer = () => {
 
   const playBlockSound = async () => {
     try {
-      // Use existing AudioContext or create new one
-      let ctx = audioContext;
+      // Use existing AudioContext or create new one (use ref for interval callback)
+      let ctx = audioContextRef.current || audioContext;
       if (!ctx) {
         ctx = new (window.AudioContext || window.webkitAudioContext)();
         setAudioContext(ctx);
+        audioContextRef.current = ctx;
       }
       
       // Resume AudioContext if suspended (Chrome autoplay policy)
@@ -152,8 +174,9 @@ const BlockExplorer = () => {
       oscillator.connect(gainNode);
       gainNode.connect(ctx.destination);
     
-    // Different sound types
-    switch (selectedSound) {
+    // Different sound types (use ref to get current value in interval callback)
+    const currentSound = selectedSoundRef.current || selectedSound;
+    switch (currentSound) {
       case 'bell':
         // Pleasant bell sound
         oscillator.type = 'sine';
