@@ -480,17 +480,17 @@ const BlockExplorer = () => {
           </h2>
           
           <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-0 right-0 top-1/2 h-1 bg-gradient-to-r from-orange-500/30 via-slate-600 to-slate-700 -translate-y-1/2"></div>
+            {/* Timeline line - hidden on mobile scroll view */}
+            <div className="hidden sm:block absolute left-0 right-0 top-1/2 h-1 bg-gradient-to-r from-orange-500/30 via-slate-600 to-slate-700 -translate-y-1/2"></div>
             
-            {/* Blocks container */}
-            <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3 sm:gap-4">
+            {/* Blocks container - horizontal scroll on mobile, grid on larger screens */}
+            <div className="relative flex sm:grid overflow-x-auto sm:overflow-visible gap-3 sm:gap-4 pb-4 sm:pb-0 sm:grid-cols-5 lg:grid-cols-10 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {/* Recent mined blocks (last 5 - increased from 3) */}
               {blocks.slice(0, 5).reverse().map((block, index) => (
-                <div key={block.id} className="relative">
+                <div key={block.id} className="relative flex-shrink-0 w-[calc(25%-9px)] sm:w-auto">
                   <div 
                     onClick={() => setSelectedBlock(block)}
-                    className="relative z-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 rounded-xl p-3 sm:p-4 hover:scale-105 transition-all cursor-pointer"
+                    className="relative z-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 rounded-xl p-3 sm:p-4 hover:scale-105 transition-all cursor-pointer h-full"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
@@ -509,15 +509,15 @@ const BlockExplorer = () => {
                       {formatDate(block.timestamp).split(',')[1]}
                     </div>
                   </div>
-                  {/* Connection line to timeline */}
-                  <div className="absolute left-1/2 bottom-0 w-0.5 h-4 bg-green-500/50 -translate-x-1/2 translate-y-full"></div>
+                  {/* Connection line to timeline - hidden on mobile */}
+                  <div className="hidden sm:block absolute left-1/2 bottom-0 w-0.5 h-4 bg-green-500/50 -translate-x-1/2 translate-y-full"></div>
                 </div>
               ))}
               
               {/* Expected blocks */}
               {getExpectedBlocks().map((expectedBlock, index) => (
-                <div key={`expected-${expectedBlock.height}`} className="relative">
-                  <div className={`relative z-10 rounded-xl p-3 sm:p-4 hover:scale-105 transition-all cursor-pointer ${
+                <div key={`expected-${expectedBlock.height}`} className="relative flex-shrink-0 w-[calc(25%-9px)] sm:w-auto">
+                  <div className={`relative z-10 rounded-xl p-3 sm:p-4 hover:scale-105 transition-all cursor-pointer h-full ${
                     expectedBlock.status === 'next'
                       ? 'bg-gradient-to-br from-orange-500/20 to-orange-600/10 border-2 border-orange-500/50 animate-pulse'
                       : 'bg-gradient-to-br from-slate-700/20 to-slate-800/10 border-2 border-slate-600/30'
@@ -551,8 +551,8 @@ const BlockExplorer = () => {
                       {formatEstimatedTime(expectedBlock.estimatedMinutes)}
                     </div>
                   </div>
-                  {/* Connection line to timeline */}
-                  <div className={`absolute left-1/2 bottom-0 w-0.5 h-4 -translate-x-1/2 translate-y-full ${
+                  {/* Connection line to timeline - hidden on mobile */}
+                  <div className={`hidden sm:block absolute left-1/2 bottom-0 w-0.5 h-4 -translate-x-1/2 translate-y-full ${
                     expectedBlock.status === 'next' ? 'bg-orange-500/50' : 'bg-slate-600/30'
                   }`}></div>
                 </div>

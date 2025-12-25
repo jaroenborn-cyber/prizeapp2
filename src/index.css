@@ -35,6 +35,16 @@ body.high-contrast {
   box-sizing: border-box;
 }
 
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Custom scrollbar for dark theme */
 body.dark ::-webkit-scrollbar-track {
   background: #1e293b;
