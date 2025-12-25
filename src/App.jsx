@@ -370,7 +370,7 @@ function AppContent() {
       cryptoId
     };
     
-    // Start long-press timer (400ms hold to drag)
+    // Start long-press timer (300ms hold to drag)
     longPressTimer.current = setTimeout(() => {
       if (!pendingDrag.current) return;
       
@@ -414,7 +414,7 @@ function AppContent() {
       
       setTouchDrag({ index: i, cryptoId: id });
       pendingDrag.current = null;
-    }, 400);
+    }, 300);
   };
   
   const handleTouchMoveCancel = (e) => {
