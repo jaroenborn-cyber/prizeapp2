@@ -85,7 +85,8 @@ body.black-white .text-orange-400,
 body.black-white .text-green-400,
 body.black-white .text-blue-400,
 body.black-white .text-neon-cyan,
-body.black-white .text-neon-purple {
+body.black-white .text-neon-purple,
+body.black-white .text-white {
   color: #000000 !important;
 }
 
