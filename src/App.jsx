@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { getTopCryptos, getFiatRates, getCryptoDetails } from './services/api';
 import binanceService from './services/binance';
 import CurrencyConverter from './components/CurrencyConverter';
@@ -259,6 +258,147 @@ function AppContent() {
     }
   };
 
+  // Custom mobile touch drag state
+  const [touchDrag, setTouchDrag] = useState(null);
+  const touchStartPos = useRef(null);
+  const draggedCardRef = useRef(null);
+  const cardRefs = useRef({});
+  
+  // Document-level touch move/end handlers
+  useEffect(() => {
+    const handleDocTouchMove = (e) => {
+      if (!touchStartPos.current || !draggedCardRef.current) return;
+      e.preventDefault();
+      
+      const touch = e.touches[0];
+      const clone = draggedCardRef.current;
+      
+      // Move clone with finger
+      clone.style.left = `${touch.clientX - touchStartPos.current.offsetX}px`;
+      clone.style.top = `${touch.clientY - touchStartPos.current.offsetY}px`;
+      
+      // Find which card we're over
+      const cards = Object.entries(cardRefs.current);
+      for (const [id, ref] of cards) {
+        if (ref && id !== touchStartPos.current.cryptoId) {
+          const rect = ref.getBoundingClientRect();
+          if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+              touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+            ref.style.transform = 'scale(0.95)';
+            ref.style.border = '2px solid #22d3ee';
+          } else {
+            ref.style.transform = '';
+            ref.style.border = '';
+          }
+        }
+      }
+    };
+    
+    const handleDocTouchEnd = (e) => {
+      if (!touchStartPos.current || !draggedCardRef.current) return;
+      
+      const touch = e.changedTouches[0];
+      let targetIndex = touchStartPos.current.startIndex;
+      
+      // Find drop target
+      const cards = Object.entries(cardRefs.current);
+      for (const [id, ref] of cards) {
+        if (ref) {
+          ref.style.transform = '';
+          ref.style.border = '';
+          
+          if (id !== touchStartPos.current.cryptoId) {
+            const rect = ref.getBoundingClientRect();
+            if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+              targetIndex = favoriteCryptos.findIndex(c => c.id === id);
+            }
+          }
+        }
+      }
+      
+      // Restore original card
+      const origCard = cardRefs.current[touchStartPos.current.cryptoId];
+      if (origCard) origCard.style.opacity = '';
+      
+      // Remove clone
+      if (draggedCardRef.current) {
+        draggedCardRef.current.remove();
+        draggedCardRef.current = null;
+      }
+      
+      // Reorder if needed
+      if (targetIndex !== touchStartPos.current.startIndex) {
+        const items = Array.from(favoriteCryptos);
+        const [reorderedItem] = items.splice(touchStartPos.current.startIndex, 1);
+        items.splice(targetIndex, 0, reorderedItem);
+        setFavoriteCryptos(items);
+        localStorage.setItem('favoriteCryptos', JSON.stringify(items));
+        if (navigator.vibrate) navigator.vibrate(50);
+      }
+      
+      touchStartPos.current = null;
+      setTouchDrag(null);
+    };
+    
+    if (touchDrag) {
+      document.addEventListener('touchmove', handleDocTouchMove, { passive: false });
+      document.addEventListener('touchend', handleDocTouchEnd);
+      document.addEventListener('touchcancel', handleDocTouchEnd);
+    }
+    
+    return () => {
+      document.removeEventListener('touchmove', handleDocTouchMove);
+      document.removeEventListener('touchend', handleDocTouchEnd);
+      document.removeEventListener('touchcancel', handleDocTouchEnd);
+    };
+  }, [touchDrag, favoriteCryptos]);
+  
+  const handleTouchStart = (e, index, cryptoId) => {
+    const touch = e.touches[0];
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    
+    touchStartPos.current = {
+      x: touch.clientX,
+      y: touch.clientY,
+      offsetX: touch.clientX - rect.left,
+      offsetY: touch.clientY - rect.top,
+      startIndex: index,
+      cryptoId: cryptoId,
+      rect: rect
+    };
+    
+    // Haptic feedback
+    if (navigator.vibrate) navigator.vibrate(30);
+    
+    // Create floating clone
+    const clone = card.cloneNode(true);
+    clone.id = 'drag-clone';
+    clone.style.cssText = `
+      position: fixed;
+      left: ${rect.left}px;
+      top: ${rect.top}px;
+      width: ${rect.width}px;
+      height: ${rect.height}px;
+      z-index: 9999;
+      pointer-events: none;
+      transform: rotate(3deg) scale(1.05);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+      border: 2px solid #22d3ee;
+      border-radius: 0.75rem;
+      opacity: 0.95;
+      transition: none;
+    `;
+    document.body.appendChild(clone);
+    draggedCardRef.current = clone;
+    
+    // Hide original
+    card.style.opacity = '0.3';
+    
+    setTouchDrag({ index, cryptoId });
+  };
+
   // Merge live prices with crypto data
   const mergeLivePrices = (crypto) => {  if (livePrices[crypto.id]) {
       return {
@@ -477,45 +617,30 @@ function AppContent() {
             {loading ? (
               <SkeletonLoader count={favoriteCryptos.length > 3 ? 3 : favoriteCryptos.length} type="card" />
             ) : (
-              <DragDropContext onDragStart={handleFavoriteDragStart} onDragEnd={handleFavoriteDragEnd}>
-                <Droppable droppableId="favorites">
-                  {(provided) => (
-                    <div 
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      className="flex flex-wrap gap-3 sm:gap-4"
+              <div 
+                className="flex flex-wrap gap-3 sm:gap-4"
+              >
+                {favoriteCryptos.map((crypto, index) => {
+                  const cryptoWithLivePrice = mergeLivePrices(crypto);
+                  return (
+                    <div
+                      key={crypto.id}
+                      ref={(el) => cardRefs.current[crypto.id] = el}
+                      className={`w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.75rem)] xl:w-[calc(20%-0.8rem)] transition-transform duration-150 ${touchDrag?.cryptoId === crypto.id ? 'opacity-30' : ''}`}
+                      onTouchStart={(e) => handleTouchStart(e, index, crypto.id)}
+                      style={{ touchAction: 'none' }}
                     >
-                      {favoriteCryptos.map((crypto, index) => {
-                        const cryptoWithLivePrice = mergeLivePrices(crypto);
-                        return (
-                        <Draggable key={crypto.id} draggableId={crypto.id} index={index}>
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className={`w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.75rem)] xl:w-[calc(20%-0.8rem)] ${snapshot.isDragging ? 'dragging-card' : ''}`}
-                              style={{
-                                ...provided.draggableProps.style,
-                              }}
-                            >
-                              <CryptoCard
-                                crypto={cryptoWithLivePrice}
-                                onClick={handleCryptoClick}
-                                onFavoriteToggle={toggleFavorite}
-                                isFavorite={true}
-                                showFavoriteButton={true}
-                              />
-                            </div>
-                          )}
-                        </Draggable>
-                      );
-                      })}
-                      {provided.placeholder}
+                      <CryptoCard
+                        crypto={cryptoWithLivePrice}
+                        onClick={handleCryptoClick}
+                        onFavoriteToggle={toggleFavorite}
+                        isFavorite={true}
+                        showFavoriteButton={true}
+                      />
                     </div>
-                  )}
-                </Droppable>
-              </DragDropContext>
+                  );
+                })}
+              </div>
             )}
           </section>
         )}
