@@ -70,13 +70,26 @@ body.black-white .bg-gray-200 {
 }
 
 /* Buttons need black background with white text for contrast */
-body.black-white button,
+body.black-white button {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+}
+
+body.black-white button:hover {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+}
+
+/* Specific button backgrounds that need to be black */
 body.black-white .bg-orange-500,
 body.black-white .bg-orange-600,
 body.black-white .bg-blue-500,
-body.black-white .bg-green-500 {
+body.black-white .bg-green-500,
+body.black-white .bg-slate-800,
+body.black-white .bg-slate-700 {
   background-color: #000000 !important;
-  color: #ffffff !important;
 }
 
 /* All regular text to black - specific overrides */
@@ -114,11 +127,34 @@ body.black-white div:not(button div) {
 }
 
 /* Button text must be white for readability on black buttons */
+body.black-white button,
 body.black-white button *,
-body.black-white button svg {
+body.black-white button svg,
+body.black-white button span,
+body.black-white button div {
   color: #ffffff !important;
   fill: #ffffff !important;
   stroke: #ffffff !important;
+}
+
+/* Dropdown menus and select elements */
+body.black-white select,
+body.black-white select option {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
+/* Input fields */
+body.black-white input {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
+body.black-white input::placeholder {
+  color: #000000 !important;
+  opacity: 0.5;
 }
 
 /* All borders to black */
