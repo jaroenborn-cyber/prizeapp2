@@ -263,6 +263,8 @@ function AppContent() {
   const touchStartPos = useRef(null);
   const draggedCardRef = useRef(null);
   const cardRefs = useRef({});
+  const longPressTimer = useRef(null);
+  const pendingDrag = useRef(null);
   
   // Document-level touch move/end handlers
   useEffect(() => {
@@ -359,44 +361,85 @@ function AppContent() {
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
     
-    touchStartPos.current = {
-      x: touch.clientX,
-      y: touch.clientY,
-      offsetX: touch.clientX - rect.left,
-      offsetY: touch.clientY - rect.top,
-      startIndex: index,
-      cryptoId: cryptoId,
-      rect: rect
+    // Store pending drag info
+    pendingDrag.current = {
+      touch: { x: touch.clientX, y: touch.clientY },
+      card,
+      rect,
+      index,
+      cryptoId
     };
     
-    // Haptic feedback
-    if (navigator.vibrate) navigator.vibrate(30);
-    
-    // Create floating clone
-    const clone = card.cloneNode(true);
-    clone.id = 'drag-clone';
-    clone.style.cssText = `
-      position: fixed;
-      left: ${rect.left}px;
-      top: ${rect.top}px;
-      width: ${rect.width}px;
-      height: ${rect.height}px;
-      z-index: 9999;
-      pointer-events: none;
-      transform: rotate(3deg) scale(1.05);
-      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-      border: 2px solid #22d3ee;
-      border-radius: 0.75rem;
-      opacity: 0.95;
-      transition: none;
-    `;
-    document.body.appendChild(clone);
-    draggedCardRef.current = clone;
-    
-    // Hide original
-    card.style.opacity = '0.3';
-    
-    setTouchDrag({ index, cryptoId });
+    // Start long-press timer (300ms hold to drag)
+    longPressTimer.current = setTimeout(() => {
+      if (!pendingDrag.current) return;
+      
+      const { touch: t, card: c, rect: r, index: i, cryptoId: id } = pendingDrag.current;
+      
+      touchStartPos.current = {
+        x: t.x,
+        y: t.y,
+        offsetX: t.x - r.left,
+        offsetY: t.y - r.top,
+        startIndex: i,
+        cryptoId: id,
+        rect: r
+      };
+      
+      // Haptic feedback - drag activated
+      if (navigator.vibrate) navigator.vibrate(50);
+      
+      // Create floating clone
+      const clone = c.cloneNode(true);
+      clone.id = 'drag-clone';
+      clone.style.cssText = `
+        position: fixed;
+        left: ${r.left}px;
+        top: ${r.top}px;
+        width: ${r.width}px;
+        height: ${r.height}px;
+        z-index: 9999;
+        pointer-events: none;
+        transform: rotate(3deg) scale(1.05);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        border: 2px solid #22d3ee;
+        border-radius: 0.75rem;
+        opacity: 0.95;
+        transition: none;
+      `;
+      document.body.appendChild(clone);
+      draggedCardRef.current = clone;
+      
+      // Hide original
+      c.style.opacity = '0.3';
+      
+      setTouchDrag({ index: i, cryptoId: id });
+      pendingDrag.current = null;
+    }, 300);
+  };
+  
+  const handleTouchMoveCancel = (e) => {
+    // If finger moves before long-press, cancel drag and allow scroll
+    if (pendingDrag.current && longPressTimer.current) {
+      const touch = e.touches[0];
+      const dx = Math.abs(touch.clientX - pendingDrag.current.touch.x);
+      const dy = Math.abs(touch.clientY - pendingDrag.current.touch.y);
+      
+      if (dx > 10 || dy > 10) {
+        clearTimeout(longPressTimer.current);
+        longPressTimer.current = null;
+        pendingDrag.current = null;
+      }
+    }
+  };
+  
+  const handleTouchEndCancel = () => {
+    // Cancel long-press if finger lifts early
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+    pendingDrag.current = null;
   };
 
   // Merge live prices with crypto data
@@ -628,7 +671,9 @@ function AppContent() {
                       ref={(el) => cardRefs.current[crypto.id] = el}
                       className={`w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.75rem)] xl:w-[calc(20%-0.8rem)] transition-transform duration-150 ${touchDrag?.cryptoId === crypto.id ? 'opacity-30' : ''}`}
                       onTouchStart={(e) => handleTouchStart(e, index, crypto.id)}
-                      style={{ touchAction: 'none' }}
+                      onTouchMove={handleTouchMoveCancel}
+                      onTouchEnd={handleTouchEndCancel}
+                      style={{ touchAction: touchDrag ? 'none' : 'auto' }}
                     >
                       <CryptoCard
                         crypto={cryptoWithLivePrice}
