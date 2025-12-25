@@ -42,8 +42,8 @@ body.black-white * {
   border-color: #000000 !important;
 }
 
-/* Force ALL text to black by default (except buttons) */
-body.black-white *:not(button):not(button *) {
+/* Force ALL text to black by default (except buttons and badge elements) */
+body.black-white *:not(button):not(button *):not(.bg-slate-700):not(.bg-slate-700 *) {
   color: #000000 !important;
 }
 
