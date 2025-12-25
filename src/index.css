@@ -10,6 +10,18 @@
   -webkit-tap-highlight-color: transparent !important;
   -webkit-user-select: none !important;
   user-select: none !important;
+  outline: none !important;
+}
+
+/* Remove blue glow/outline from all cards */
+.bg-dark-card {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.bg-dark-card:focus,
+.bg-dark-card:active {
+  outline: none !important;
 }
 
 /* Hardware accelerated smooth dragging */

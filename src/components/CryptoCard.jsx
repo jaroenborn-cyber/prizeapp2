@@ -22,7 +22,7 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
   return (
     <div
       onClick={() => onClick(crypto)}
-      className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white rounded-xl p-5 shadow-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black hover:border-neon-cyan dark:hover:border-neon-cyan light:hover:border-neon-purple high-contrast:hover:border-high-contrast-accent transition-all cursor-pointer sm:hover:scale-105 duration-200"
+      className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white rounded-xl p-5 shadow-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black hover:border-neon-cyan dark:hover:border-neon-cyan light:hover:border-neon-purple high-contrast:hover:border-high-contrast-accent transition-all cursor-pointer sm:hover:scale-105 duration-200 outline-none focus:outline-none"
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
