@@ -126,7 +126,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
             <img src={crypto.image} alt={crypto.name} className="w-16 h-16 rounded-full" />
             <div>
               <div className="flex items-center gap-3">
-                <h2 className="text-3xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">{crypto.name}</h2>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black max-w-[40vw] break-words">{crypto.name}</h2>
                 {crypto.isLive && (
                   <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded flex items-center gap-1">
                     <span className="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
@@ -163,7 +163,8 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
             </button>
             <button
               onClick={onClose}
-              className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black text-2xl font-bold"
+              className="p-1.5 w-8 h-8 flex items-center justify-center rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black hover:bg-red-500/70 dark:hover:bg-red-500/70 light:hover:bg-red-400/70 high-contrast:hover:bg-red-500/70 text-xl font-bold"
+              aria-label="Close modal"
             >
               ×
             </button>
