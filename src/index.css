@@ -14,14 +14,23 @@
 }
 
 /* Remove blue glow/outline from all cards */
-.bg-dark-card {
-  -webkit-tap-highlight-color: transparent;
-  outline: none;
+.bg-dark-card,
+.bg-dark-card * {
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
 }
 
 .bg-dark-card:focus,
-.bg-dark-card:active {
+.bg-dark-card:active,
+.bg-dark-card:focus-visible {
   outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Global tap highlight removal */
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Hardware accelerated smooth dragging */
