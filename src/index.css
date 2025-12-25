@@ -24,12 +24,13 @@
 
 /* Hardware accelerated smooth dragging */
 .dragging-card {
-  transform: scale(1.02) !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+  transform: rotate(3deg) scale(1.05) !important;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
   z-index: 9999 !important;
-  opacity: 0.95;
+  opacity: 0.9;
   will-change: transform;
   transition: none !important;
+  border: 2px solid #22d3ee !important;
 }
 
 .dragging-card * {
@@ -38,12 +39,21 @@
 
 /* Disable hover effects during drag on parent */
 [data-rbd-draggable-context-id] .dragging-card:hover {
-  transform: scale(1.02) !important;
+  transform: rotate(3deg) scale(1.05) !important;
 }
 
-/* Smooth placeholder animation */
+/* Drop placeholder styling */
 [data-rbd-placeholder-context-id] {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%) !important;
+  border: 2px dashed #22d3ee !important;
+  border-radius: 0.75rem !important;
   transition: all 200ms ease !important;
+  min-height: 150px;
+}
+
+/* Cards moving out of the way */
+[data-rbd-draggable-id]:not(.dragging-card) {
+  transition: transform 200ms cubic-bezier(0.2, 0, 0, 1) !important;
 }
 
 .drag-over {
