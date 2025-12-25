@@ -31,10 +31,66 @@ body.high-contrast {
   color: #ffffff;
 }
 
-/* Black & White theme */
+/* Black & White theme - pure monochrome */
 body.black-white {
   background-color: #ffffff;
   color: #000000;
+}
+
+/* Black & White theme - force all colors to black or white */
+body.black-white * {
+  border-color: #000000 !important;
+}
+
+/* Remove all gradients and colors */
+body.black-white .bg-gradient-to-br,
+body.black-white .bg-gradient-to-r,
+body.black-white .from-orange-500,
+body.black-white .to-orange-600,
+body.black-white .from-green-500,
+body.black-white .to-green-600,
+body.black-white .from-blue-500,
+body.black-white .to-blue-600 {
+  background-image: none !important;
+}
+
+body.black-white .bg-dark-card,
+body.black-white .bg-slate-800,
+body.black-white .bg-slate-700,
+body.black-white .bg-slate-600,
+body.black-white .bg-gray-100,
+body.black-white .bg-gray-200 {
+  background-color: #ffffff !important;
+}
+
+body.black-white .text-slate-300,
+body.black-white .text-slate-400,
+body.black-white .text-slate-500,
+body.black-white .text-slate-600,
+body.black-white .text-gray-600,
+body.black-white .text-orange-500,
+body.black-white .text-orange-400,
+body.black-white .text-green-400,
+body.black-white .text-blue-400,
+body.black-white .text-neon-cyan,
+body.black-white .text-neon-purple {
+  color: #000000 !important;
+}
+
+body.black-white .border-slate-700,
+body.black-white .border-slate-600,
+body.black-white .border-gray-600,
+body.black-white .border-orange-500,
+body.black-white .border-green-500,
+body.black-white .border-neon-cyan {
+  border-color: #000000 !important;
+}
+
+/* Force shadows to be transparent or black */
+body.black-white .shadow-lg,
+body.black-white .shadow-xl,
+body.black-white .shadow-2xl {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* High contrast dark theme */

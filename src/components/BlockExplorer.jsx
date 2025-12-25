@@ -484,9 +484,9 @@ const BlockExplorer = () => {
         </div>
 
         {/* Block Timeline - Moved to top */}
-        <div className="mb-8 bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black rounded-xl p-6 border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white">
-          <h2 className="text-xl font-bold mb-6 text-white dark:text-white light:text-slate-800 high-contrast:text-white flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-500 dark:text-orange-500 light:text-orange-600 high-contrast:text-high-contrast-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="mb-8 bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black black-white:bg-white rounded-xl p-6 border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white black-white:border-black">
+          <h2 className="text-xl font-bold mb-6 text-white dark:text-white light:text-slate-800 high-contrast:text-white black-white:text-black flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-500 dark:text-orange-500 light:text-orange-600 high-contrast:text-high-contrast-accent black-white:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Block Timeline
@@ -507,19 +507,19 @@ const BlockExplorer = () => {
                 <div key={`mobile-${block.id}`} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:hidden snap-start">
                   <div 
                     onClick={() => setSelectedBlock(block)}
-                    className="relative bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 dark:border-green-500/50 light:border-green-600 light:bg-green-50 high-contrast:border-high-contrast-success high-contrast:bg-black rounded-xl p-2 transition-transform active:scale-95 cursor-pointer h-full"
+                    className="relative bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 dark:border-green-500/50 light:border-green-600 light:bg-green-50 high-contrast:border-high-contrast-success high-contrast:bg-black black-white:border-black black-white:bg-white rounded-xl p-2 transition-transform active:scale-95 cursor-pointer h-full"
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 dark:bg-green-400 light:bg-green-600 high-contrast:bg-high-contrast-success rounded-full animate-pulse"></div>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4 text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-high-contrast-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 dark:bg-green-400 light:bg-green-600 high-contrast:bg-high-contrast-success black-white:bg-black rounded-full animate-pulse"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4 text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-high-contrast-success black-white:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <div className="text-[10px] sm:text-xs text-green-400/70 dark:text-green-400/70 light:text-green-700 high-contrast:text-high-contrast-success mb-0.5 uppercase font-semibold">Mined</div>
-                    <div className="text-xs sm:text-lg font-bold text-white dark:text-white light:text-slate-900 high-contrast:text-white font-mono mb-0.5">
+                    <div className="text-[10px] sm:text-xs text-green-400/70 dark:text-green-400/70 light:text-green-700 high-contrast:text-high-contrast-success black-white:text-black mb-0.5 uppercase font-semibold">Mined</div>
+                    <div className="text-xs sm:text-lg font-bold text-white dark:text-white light:text-slate-900 high-contrast:text-white black-white:text-black font-mono mb-0.5">
                       {block.height?.toLocaleString()}
                     </div>
-                    <div className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-400 light:text-slate-700 high-contrast:text-white">
+                    <div className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-400 light:text-slate-700 high-contrast:text-white black-white:text-black">
                       {block.tx_count} txs
                     </div>
                   </div>
@@ -677,7 +677,7 @@ const BlockExplorer = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search address, transaction or block..."
-              className="flex-1 px-4 py-3 bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black rounded-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white text-white dark:text-white light:text-slate-800 high-contrast:text-white placeholder-slate-500 focus:outline-none focus:border-orange-500 high-contrast:focus:border-high-contrast-accent"
+              className="flex-1 px-4 py-3 bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black black-white:bg-white rounded-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white black-white:border-black text-white dark:text-white light:text-slate-800 high-contrast:text-white black-white:text-black placeholder-slate-500 black-white:placeholder-black focus:outline-none focus:border-orange-500 high-contrast:focus:border-high-contrast-accent black-white:focus:border-black"
             />
             <button
               type="submit"

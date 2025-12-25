@@ -373,9 +373,9 @@ function AppContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-dark-bg dark:bg-dark-bg light:bg-light-bg high-contrast:bg-high-contrast-bg text-white dark:text-white light:text-slate-800 high-contrast:text-high-contrast-text">
+    <div className="min-h-screen bg-dark-bg dark:bg-dark-bg light:bg-light-bg high-contrast:bg-high-contrast-bg black-white:bg-white high-contrast-dark:bg-black text-white dark:text-white light:text-slate-800 high-contrast:text-high-contrast-text black-white:text-black high-contrast-dark:text-lime-500">
       {/* Header */}
-      <header className="border-b border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white bg-dark-card/50 dark:bg-dark-card/50 light:bg-light-card high-contrast:bg-high-contrast-card backdrop-blur-sm sticky top-0 z-40">
+      <header className="border-b border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white black-white:border-black high-contrast-dark:border-lime-500 bg-dark-card/50 dark:bg-dark-card/50 light:bg-light-card high-contrast:bg-high-contrast-card black-white:bg-white high-contrast-dark:bg-black backdrop-blur-sm sticky top-0 z-40">
         <div className="w-full px-3 sm:px-4 py-4 sm:py-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
             <div>
