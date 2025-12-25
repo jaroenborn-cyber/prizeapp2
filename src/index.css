@@ -62,11 +62,20 @@ body.black-white .to-blue-600 {
 /* All backgrounds to white, except buttons which need black background */
 body.black-white .bg-dark-card,
 body.black-white .bg-slate-800,
-body.black-white .bg-slate-700,
 body.black-white .bg-slate-600,
 body.black-white .bg-gray-100,
 body.black-white .bg-gray-200 {
   background-color: #ffffff !important;
+}
+
+/* Small badge/tag elements with bg-slate-700 should have black bg + white text */
+body.black-white .bg-slate-700 {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body.black-white .bg-slate-700 * {
+  color: #ffffff !important;
 }
 
 /* Buttons WITH background classes need black bg + white text */
