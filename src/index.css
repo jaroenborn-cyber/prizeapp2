@@ -124,12 +124,12 @@ body.black-white .bg-dark-card\/50 {
 }
 
 /* Small badge/tag elements with bg-slate-700 should have black bg + white text */
-body.black-white .bg-slate-700 {
+body.black-white .bg-slate-700:not(.switcher-dropdown button):not(.dropdown-item) {
   background-color: #000000 !important;
   color: #ffffff !important;
 }
 
-body.black-white .bg-slate-700 * {
+body.black-white .bg-slate-700:not(.switcher-dropdown button):not(.dropdown-item) * {
   color: #ffffff !important;
 }
 
@@ -301,7 +301,7 @@ body.black-white .bg-orange-600:not(select):not(input),
 body.black-white .bg-blue-500:not(select):not(input),
 body.black-white .bg-green-500:not(select):not(input),
 body.black-white .bg-slate-800:not(select):not(input):not(.opacity-dropdown),
-body.black-white .bg-slate-700:not(select):not(input):not(.slider):not([type="range"]) {
+body.black-white .bg-slate-700:not(select):not(input):not(.slider):not([type="range"]):not(.dropdown-item) {
   background-color: #000000 !important;
 }
 
@@ -643,4 +643,18 @@ body.black-white .switcher-dropdown button div {
 
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-out;
+}
+
+/* Override for selected dropdown items in black-white mode - must be at end for highest priority */
+body.black-white .switcher-dropdown button.dropdown-item.bg-slate-700 {
+  background-color: #e5e5e5 !important;
+  color: #000000 !important;
+  border-left: 4px solid #000000 !important;
+}
+
+body.black-white .switcher-dropdown button.dropdown-item.bg-slate-700 *,
+body.black-white .switcher-dropdown button.dropdown-item.bg-slate-700 span,
+body.black-white .switcher-dropdown button.dropdown-item.bg-slate-700 div {
+  background-color: transparent !important;
+  color: #000000 !important;
 }

@@ -65,7 +65,7 @@ const ThemeSwitcher = () => {
       </button>
 
       {isOpen && (
-        <div className="switcher-dropdown absolute left-0 sm:left-auto sm:right-0 mt-2 w-36 sm:w-56 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black black-white:bg-white high-contrast-dark:bg-black border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white black-white:border-black high-contrast-dark:border-lime-500 shadow-2xl overflow-hidden z-50 animate-fadeIn">
+        <div className="switcher-dropdown absolute right-0 mt-2 w-36 sm:w-56 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black black-white:bg-white high-contrast-dark:bg-black border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white black-white:border-black high-contrast-dark:border-lime-500 shadow-2xl overflow-hidden z-50 animate-fadeIn">
           <div className="py-1">
             <button
               onClick={() => handleThemeSelect('dark')}

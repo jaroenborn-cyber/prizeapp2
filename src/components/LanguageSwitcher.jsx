@@ -51,22 +51,23 @@ const LanguageSwitcher = () => {
       </button>
 
       {isOpen && (
-        <div className="switcher-dropdown absolute left-0 sm:left-auto sm:right-0 mt-2 w-32 sm:w-48 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white black-white:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black black-white:border-black shadow-2xl overflow-hidden z-50 animate-fadeIn">
+        <div className="switcher-dropdown absolute right-0 mt-2 w-32 sm:w-48 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white black-white:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black black-white:border-black shadow-2xl overflow-hidden z-50 animate-fadeIn">
           <div className="py-1">
             <button
               onClick={() => handleLanguageSelect('nl')}
-              className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all text-xs sm:text-base ${
+              className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
                 language === 'nl'
-                  ? 'bg-slate-700 text-white border-l-4 border-orange-500'
-                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-black black-white:text-black hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100'
+                  ? 'bg-slate-700 dark:bg-slate-700 light:bg-slate-200 high-contrast:bg-yellow-400 black-white:bg-gray-200 high-contrast-dark:bg-lime-500 text-white dark:text-white light:text-slate-800 high-contrast:text-black black-white:text-black high-contrast-dark:text-black border-l-4 border-orange-500 dark:border-orange-500 light:border-orange-500 high-contrast:border-yellow-600 black-white:border-black high-contrast-dark:border-lime-700'
+                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-black black-white:text-black high-contrast-dark:text-lime-500 hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 high-contrast-dark:hover:bg-gray-900'
               }`}
             >
               <span className="text-base sm:text-2xl">🇳🇱</span>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-xs sm:text-base">NL</div>
+                <div className="font-semibold text-xs sm:text-base">Nederlands</div>
+                <div className="text-xs opacity-70 hidden sm:block">Nederlandse taal</div>
               </div>
               {language === 'nl' && (
-                <svg className="w-3 h-3 sm:w-5 sm:h-5 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-3 h-3 sm:w-5 sm:h-5 text-orange-500 dark:text-orange-500 light:text-orange-500 high-contrast:text-black black-white:text-black high-contrast-dark:text-black" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               )}
@@ -74,18 +75,19 @@ const LanguageSwitcher = () => {
 
             <button
               onClick={() => handleLanguageSelect('en')}
-              className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all text-xs sm:text-base ${
+              className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
                 language === 'en'
-                  ? 'bg-slate-700 text-white border-l-4 border-blue-500'
-                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-black black-white:text-black hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100'
+                  ? 'bg-slate-700 dark:bg-slate-700 light:bg-slate-200 high-contrast:bg-yellow-400 black-white:bg-gray-200 high-contrast-dark:bg-lime-500 text-white dark:text-white light:text-slate-800 high-contrast:text-black black-white:text-black high-contrast-dark:text-black border-l-4 border-blue-500 dark:border-blue-500 light:border-blue-500 high-contrast:border-yellow-600 black-white:border-black high-contrast-dark:border-lime-700'
+                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-black black-white:text-black high-contrast-dark:text-lime-500 hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 high-contrast-dark:hover:bg-gray-900'
               }`}
             >
               <span className="text-base sm:text-2xl">🇬🇧</span>
               <div className="flex-1 text-left">
-                <div className="font-semibold text-xs sm:text-base">EN</div>
+                <div className="font-semibold text-xs sm:text-base">English</div>
+                <div className="text-xs opacity-70 hidden sm:block">English language</div>
               </div>
               {language === 'en' && (
-                <svg className="w-3 h-3 sm:w-5 sm:h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-3 h-3 sm:w-5 sm:h-5 text-blue-500 dark:text-blue-500 light:text-blue-500 high-contrast:text-black black-white:text-black high-contrast-dark:text-black" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               )}

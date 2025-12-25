@@ -377,12 +377,12 @@ function AppContent() {
       {/* Header */}
       <header className="border-b border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white black-white:border-black high-contrast-dark:border-lime-500 bg-dark-card/50 dark:bg-dark-card/50 light:bg-light-card high-contrast:bg-high-contrast-card black-white:bg-white high-contrast-dark:bg-black backdrop-blur-sm sticky top-0 z-40">
         <div className="w-full px-3 sm:px-4 py-4 sm:py-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
+              <h1 className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
                 {t.appTitle}
               </h1>
-              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-xs sm:text-sm mt-1">{t.appSubtitle}</p>
+              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-xs sm:text-sm mt-1 hidden sm:block">{t.appSubtitle}</p>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
               <LanguageSwitcher />
