@@ -484,13 +484,36 @@ const BlockExplorer = () => {
             <div className="hidden sm:block absolute left-0 right-0 top-1/2 h-1 bg-gradient-to-r from-orange-500/30 via-slate-600 to-slate-700 -translate-y-1/2"></div>
             
             {/* Blocks container - horizontal scroll on mobile, grid on larger screens */}
-            <div className="relative flex sm:grid overflow-x-auto sm:overflow-visible gap-3 sm:gap-4 pb-4 sm:pb-0 sm:grid-cols-5 lg:grid-cols-10 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              {/* Recent mined blocks (last 5 - increased from 3) */}
-              {blocks.slice(0, 5).reverse().map((block, index) => (
-                <div key={block.id} className="relative flex-shrink-0 w-[calc(25%-9px)] sm:w-auto">
+            <div className="relative flex sm:grid overflow-x-auto sm:overflow-visible gap-2 sm:gap-4 pb-4 sm:pb-0 sm:grid-cols-5 lg:grid-cols-10 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {/* Recent mined blocks - show last 2 on mobile (most recent), all 5 on desktop */}
+              {blocks.slice(0, 5).reverse().slice(-2).map((block, index) => (
+                <div key={block.id} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:w-auto sm:hidden">
                   <div 
                     onClick={() => setSelectedBlock(block)}
-                    className="relative z-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 rounded-xl p-3 sm:p-4 hover:scale-105 transition-all cursor-pointer h-full"
+                    className="relative z-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 rounded-xl p-2 sm:p-4 hover:scale-105 transition-all cursor-pointer h-full"
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div className="text-[10px] sm:text-xs text-green-400/70 mb-0.5 uppercase font-semibold">Mined</div>
+                    <div className="text-xs sm:text-lg font-bold text-white font-mono mb-0.5">
+                      {block.height?.toLocaleString()}
+                    </div>
+                    <div className="text-[10px] sm:text-xs text-slate-400">
+                      {block.tx_count} txs
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {/* Desktop: show all 5 mined blocks */}
+              {blocks.slice(0, 5).reverse().map((block, index) => (
+                <div key={`desktop-${block.id}`} className="relative hidden sm:block">
+                  <div 
+                    onClick={() => setSelectedBlock(block)}
+                    className="relative z-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 rounded-xl p-4 hover:scale-105 transition-all cursor-pointer h-full"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
@@ -509,15 +532,49 @@ const BlockExplorer = () => {
                       {formatDate(block.timestamp).split(',')[1]}
                     </div>
                   </div>
-                  {/* Connection line to timeline - hidden on mobile */}
-                  <div className="hidden sm:block absolute left-1/2 bottom-0 w-0.5 h-4 bg-green-500/50 -translate-x-1/2 translate-y-full"></div>
+                  {/* Connection line to timeline */}
+                  <div className="absolute left-1/2 bottom-0 w-0.5 h-4 bg-green-500/50 -translate-x-1/2 translate-y-full"></div>
                 </div>
               ))}
               
-              {/* Expected blocks */}
+              {/* Expected blocks - show first 2 on mobile, all 5 on desktop */}
+              {getExpectedBlocks().slice(0, 2).map((expectedBlock, index) => (
+                <div key={`mobile-expected-${expectedBlock.height}`} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:hidden">
+                  <div className={`relative z-10 rounded-xl p-2 hover:scale-105 transition-all cursor-pointer h-full ${
+                    expectedBlock.status === 'next'
+                      ? 'bg-gradient-to-br from-orange-500/20 to-orange-600/10 border-2 border-orange-500/50 animate-pulse'
+                      : 'bg-gradient-to-br from-slate-700/20 to-slate-800/10 border-2 border-slate-600/30'
+                  }`}>
+                    <div className="flex items-center justify-between mb-1">
+                      <div className={`w-2 h-2 rounded-full ${
+                        expectedBlock.status === 'next' ? 'bg-orange-400 animate-pulse' : 'bg-slate-500'
+                      }`}></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className={`h-3 w-3 ${
+                        expectedBlock.status === 'next' ? 'text-orange-400' : 'text-slate-500'
+                      }`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div className={`text-[10px] mb-0.5 uppercase font-semibold ${
+                      expectedBlock.status === 'next' ? 'text-orange-400/70' : 'text-slate-500'
+                    }`}>
+                      {expectedBlock.status === 'next' ? 'Next' : 'Upcoming'}
+                    </div>
+                    <div className={`text-xs font-bold font-mono mb-0.5 ${
+                      expectedBlock.status === 'next' ? 'text-orange-400' : 'text-slate-400'
+                    }`}>
+                      {expectedBlock.height?.toLocaleString()}
+                    </div>
+                    <div className="text-[10px] text-slate-500">
+                      {formatEstimatedTime(expectedBlock.estimatedMinutes)}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {/* Desktop: show all expected blocks */}
               {getExpectedBlocks().map((expectedBlock, index) => (
-                <div key={`expected-${expectedBlock.height}`} className="relative flex-shrink-0 w-[calc(25%-9px)] sm:w-auto">
-                  <div className={`relative z-10 rounded-xl p-3 sm:p-4 hover:scale-105 transition-all cursor-pointer h-full ${
+                <div key={`expected-${expectedBlock.height}`} className="relative hidden sm:block">
+                  <div className={`relative z-10 rounded-xl p-4 hover:scale-105 transition-all cursor-pointer h-full ${
                     expectedBlock.status === 'next'
                       ? 'bg-gradient-to-br from-orange-500/20 to-orange-600/10 border-2 border-orange-500/50 animate-pulse'
                       : 'bg-gradient-to-br from-slate-700/20 to-slate-800/10 border-2 border-slate-600/30'
@@ -551,8 +608,8 @@ const BlockExplorer = () => {
                       {formatEstimatedTime(expectedBlock.estimatedMinutes)}
                     </div>
                   </div>
-                  {/* Connection line to timeline - hidden on mobile */}
-                  <div className={`hidden sm:block absolute left-1/2 bottom-0 w-0.5 h-4 -translate-x-1/2 translate-y-full ${
+                  {/* Connection line to timeline */}
+                  <div className={`absolute left-1/2 bottom-0 w-0.5 h-4 -translate-x-1/2 translate-y-full ${
                     expectedBlock.status === 'next' ? 'bg-orange-500/50' : 'bg-slate-600/30'
                   }`}></div>
                 </div>
