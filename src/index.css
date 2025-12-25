@@ -189,8 +189,8 @@ body.black-white h4,
 body.black-white h5,
 body.black-white h6,
 body.black-white p,
-body.black-white span,
-body.black-white div:not(button div) {
+body.black-white span:not(.bg-slate-700 span),
+body.black-white div:not(button div):not(.bg-slate-700) {
   color: #000000 !important;
 }
 
