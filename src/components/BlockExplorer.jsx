@@ -28,6 +28,7 @@ const BlockExplorer = () => {
   const [showSoundMenu, setShowSoundMenu] = useState(false);
   const [audioContext, setAudioContext] = useState(null);
   const [audioBlocked, setAudioBlocked] = useState(false);
+  const timelineRef = useRef(null);
   
   // Use refs to access current values in interval callback
   const soundEnabledRef = useRef(soundEnabled);
@@ -47,6 +48,18 @@ const BlockExplorer = () => {
   useEffect(() => {
     audioContextRef.current = audioContext;
   }, [audioContext]);
+
+  // Auto-scroll timeline to show middle 4 blocks on mobile (2 mined + 2 upcoming)
+  useEffect(() => {
+    if (timelineRef.current && blocks.length > 0) {
+      // Scroll to show blocks 4-7 (last 2 mined + first 2 upcoming)
+      // Each block is 25% width, so scroll to position 3 (show blocks 3,4,5,6)
+      const container = timelineRef.current;
+      const blockWidth = container.scrollWidth / 10; // 10 total blocks
+      const scrollPosition = blockWidth * 3; // Start at block 3 to center view
+      container.scrollLeft = scrollPosition;
+    }
+  }, [blocks]);
 
   useEffect(() => {
     fetchData();
@@ -484,13 +497,17 @@ const BlockExplorer = () => {
             <div className="hidden sm:block absolute left-0 right-0 top-1/2 h-1 bg-gradient-to-r from-orange-500/30 via-slate-600 to-slate-700 -translate-y-1/2"></div>
             
             {/* Blocks container - horizontal scroll on mobile, grid on larger screens */}
-            <div className="relative flex sm:grid overflow-x-auto sm:overflow-visible gap-2 sm:gap-4 pb-4 sm:pb-0 sm:grid-cols-5 lg:grid-cols-10 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              {/* Recent mined blocks - show last 2 on mobile (most recent), all 5 on desktop */}
-              {blocks.slice(0, 5).reverse().slice(-2).map((block, index) => (
-                <div key={block.id} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:w-auto sm:hidden">
+            <div 
+              ref={timelineRef}
+              className="relative flex sm:grid overflow-x-auto sm:overflow-visible gap-2 sm:gap-4 pb-4 sm:pb-0 sm:grid-cols-5 lg:grid-cols-10 scrollbar-hide px-1 -mx-1" 
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {/* Mobile: All mined blocks (5) - scrollable */}
+              {blocks.slice(0, 5).reverse().map((block, index) => (
+                <div key={`mobile-${block.id}`} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:hidden">
                   <div 
                     onClick={() => setSelectedBlock(block)}
-                    className="relative z-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 rounded-xl p-2 sm:p-4 hover:scale-105 transition-all cursor-pointer h-full"
+                    className="relative bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 rounded-xl p-2 transition-transform active:scale-95 cursor-pointer h-full"
                   >
                     <div className="flex items-center justify-between mb-1">
                       <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse"></div>
@@ -537,10 +554,10 @@ const BlockExplorer = () => {
                 </div>
               ))}
               
-              {/* Expected blocks - show first 2 on mobile, all 5 on desktop */}
-              {getExpectedBlocks().slice(0, 2).map((expectedBlock, index) => (
+              {/* Mobile: All expected blocks (5) - scrollable */}
+              {getExpectedBlocks().map((expectedBlock, index) => (
                 <div key={`mobile-expected-${expectedBlock.height}`} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:hidden">
-                  <div className={`relative z-10 rounded-xl p-2 hover:scale-105 transition-all cursor-pointer h-full ${
+                  <div className={`relative rounded-xl p-2 transition-transform active:scale-95 cursor-pointer h-full ${
                     expectedBlock.status === 'next'
                       ? 'bg-gradient-to-br from-orange-500/20 to-orange-600/10 border-2 border-orange-500/50 animate-pulse'
                       : 'bg-gradient-to-br from-slate-700/20 to-slate-800/10 border-2 border-slate-600/30'
