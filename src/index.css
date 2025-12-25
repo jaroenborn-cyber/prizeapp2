@@ -4,6 +4,52 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Smooth drag-and-drop for mobile */
+[data-rbd-draggable-context-id] {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+[data-rbd-drag-handle-context-id] {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  cursor: grab;
+}
+
+[data-rbd-drag-handle-context-id]:active {
+  cursor: grabbing;
+}
+
+/* Hardware accelerated smooth dragging */
+.dragging-card {
+  transform: scale(1.02) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+  z-index: 9999 !important;
+  opacity: 0.95;
+  will-change: transform;
+  transition: none !important;
+}
+
+.dragging-card * {
+  transition: none !important;
+}
+
+/* Disable hover effects during drag on parent */
+[data-rbd-draggable-context-id] .dragging-card:hover {
+  transform: scale(1.02) !important;
+}
+
+/* Smooth placeholder animation */
+[data-rbd-placeholder-context-id] {
+  transition: all 200ms ease !important;
+}
+
+.drag-over {
+  background-color: rgba(56, 189, 248, 0.1);
+}
+
 /* Dark theme (default) */
 body {
   margin: 0;

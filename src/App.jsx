@@ -245,6 +245,18 @@ function AppContent() {
 
     setFavoriteCryptos(items);
     localStorage.setItem('favoriteCryptos', JSON.stringify(items));
+    
+    // Haptic feedback on drop (mobile)
+    if (navigator.vibrate) {
+      navigator.vibrate(50);
+    }
+  };
+
+  const handleFavoriteDragStart = () => {
+    // Haptic feedback on start (mobile)
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
+    }
   };
 
   // Merge live prices with crypto data
@@ -382,7 +394,7 @@ function AppContent() {
               <h1 className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
                 {t.appTitle}
               </h1>
-              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-xs sm:text-sm mt-1 hidden sm:block">{t.appSubtitle}</p>
+              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-xs sm:text-sm mt-1">{t.appSubtitle}</p>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
               <LanguageSwitcher />
@@ -465,7 +477,7 @@ function AppContent() {
             {loading ? (
               <SkeletonLoader count={favoriteCryptos.length > 3 ? 3 : favoriteCryptos.length} type="card" />
             ) : (
-              <DragDropContext onDragEnd={handleFavoriteDragEnd}>
+              <DragDropContext onDragStart={handleFavoriteDragStart} onDragEnd={handleFavoriteDragEnd}>
                 <Droppable droppableId="favorites" direction="horizontal">
                   {(provided) => (
                     <div 
@@ -482,7 +494,13 @@ function AppContent() {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              style={provided.draggableProps.style}
+                              className={`transition-transform duration-150 ${snapshot.isDragging ? 'dragging-card' : ''}`}
+                              style={{
+                                ...provided.draggableProps.style,
+                                transform: snapshot.isDragging 
+                                  ? `${provided.draggableProps.style?.transform || ''} scale(1.02)` 
+                                  : provided.draggableProps.style?.transform,
+                              }}
                             >
                               <CryptoCard
                                 crypto={cryptoWithLivePrice}
