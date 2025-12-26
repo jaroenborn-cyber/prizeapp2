@@ -677,7 +677,7 @@ function AppContent() {
                     <div
                       key={crypto.id}
                       ref={(el) => cardRefs.current[crypto.id] = el}
-                      className={`w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.75rem)] xl:w-[calc(20%-0.8rem)] transition-transform duration-150 select-none ${touchDrag?.cryptoId === crypto.id ? 'opacity-30' : ''}`}
+                      className={`w-[calc(50%-0.375rem)] sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.75rem)] xl:w-[calc(20%-0.8rem)] transition-transform duration-150 select-none ${touchDrag?.cryptoId === crypto.id ? 'opacity-30' : ''}`}
                       onTouchStart={(e) => handleTouchStart(e, index, crypto.id)}
                       onTouchMove={handleTouchMoveCancel}
                       onTouchEnd={handleTouchEndCancel}
@@ -877,7 +877,7 @@ function AppContent() {
               <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({recentlyViewed.length} {t.viewed})</span>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
               {recentlyViewed.map((crypto) => {
                 const cryptoWithLivePrice = mergeLivePrices(crypto);
                 return (
