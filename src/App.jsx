@@ -157,7 +157,7 @@ function AppContent() {
   const handleCryptoClick = (crypto) => {
     setSelectedCrypto(crypto);
     
-    // Add to recently viewed (max 5 items)
+    // Add to recently viewed (max 4 items)
     const isAlreadyViewed = recentlyViewed.some(item => item.id === crypto.id);
     let updatedRecentlyViewed;
     
@@ -166,10 +166,10 @@ function AppContent() {
       updatedRecentlyViewed = [
         crypto,
         ...recentlyViewed.filter(item => item.id !== crypto.id)
-      ].slice(0, 5);
+      ].slice(0, 4);
     } else {
-      // Add to front, limit to 5 items
-      updatedRecentlyViewed = [crypto, ...recentlyViewed].slice(0, 5);
+      // Add to front, limit to 4 items
+      updatedRecentlyViewed = [crypto, ...recentlyViewed].slice(0, 4);
     }
     
     setRecentlyViewed(updatedRecentlyViewed);
@@ -877,7 +877,7 @@ function AppContent() {
               <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({recentlyViewed.length} {t.viewed})</span>
             </div>
             
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-2 sm:gap-4">
               {recentlyViewed.map((crypto) => {
                 const cryptoWithLivePrice = mergeLivePrices(crypto);
                 return (
