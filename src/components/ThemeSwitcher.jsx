@@ -22,10 +22,8 @@ const ThemeSwitcher = () => {
     switch(theme) {
       case 'dark': return '🌙';
       case 'light': return '☀️';
-      case 'high-contrast': return '🔲';
       case 'black-white': return '◐';
       case 'white-black': return '◑';
-      case 'high-contrast-dark': return '🔳';
       default: return '🌙';
     }
   };
@@ -34,10 +32,8 @@ const ThemeSwitcher = () => {
     switch(theme) {
       case 'dark': return 'Donker';
       case 'light': return 'Licht';
-      case 'high-contrast': return 'Hoog Contrast';
       case 'black-white': return 'Zwart-Wit';
       case 'white-black': return 'Wit-Zwart';
-      case 'high-contrast-dark': return 'HC Dark';
       default: return 'Donker';
     }
   };
@@ -110,26 +106,6 @@ const ThemeSwitcher = () => {
             </button>
 
             <button
-              onClick={() => handleThemeSelect('high-contrast')}
-              className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
-                theme === 'high-contrast'
-                  ? 'bg-yellow-400 text-black border-l-4 border-yellow-600 font-bold'
-                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-white black-white:text-black white-black:text-white high-contrast-dark:text-lime-500 hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-800 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 high-contrast-dark:hover:bg-gray-900'
-              }`}
-            >
-              <span className="text-base sm:text-2xl">🔲</span>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-xs sm:text-base">Contrast</div>
-                <div className="text-xs opacity-70 hidden sm:block">Voor toegankelijkheid</div>
-              </div>
-              {theme === 'high-contrast' && (
-                <svg className="w-3 h-3 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-              )}
-            </button>
-
-            <button
               onClick={() => handleThemeSelect('black-white')}
               className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
                 theme === 'black-white'
@@ -169,25 +145,6 @@ const ThemeSwitcher = () => {
               )}
             </button>
 
-            <button
-              onClick={() => handleThemeSelect('high-contrast-dark')}
-              className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
-                theme === 'high-contrast-dark'
-                  ? 'bg-lime-500 text-black border-l-4 border-lime-700 font-bold'
-                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-white black-white:text-black white-black:text-white high-contrast-dark:text-lime-500 hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-800 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 high-contrast-dark:hover:bg-gray-900'
-              }`}
-            >
-              <span className="text-base sm:text-2xl">🔳</span>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-xs sm:text-base">HC Dark</div>
-                <div className="text-xs opacity-70 hidden sm:block">Groen op zwart</div>
-              </div>
-              {theme === 'high-contrast-dark' && (
-                <svg className="w-3 h-3 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-              )}
-            </button>
           </div>
         </div>
       )}
