@@ -67,9 +67,11 @@ function AppContent() {
     fetchData();
     // Load favorites and recently viewed from localStorage
     const savedFavorites = JSON.parse(localStorage.getItem('favoriteCryptos') || '[]');
-    const savedRecentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+    const savedRecentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]').slice(0, 4);
     setFavoriteCryptos(savedFavorites);
     setRecentlyViewed(savedRecentlyViewed);
+    // Also update localStorage if it was trimmed
+    localStorage.setItem('recentlyViewed', JSON.stringify(savedRecentlyViewed));
     
     // Clean up old customWatchlist data
     localStorage.removeItem('customWatchlist');
