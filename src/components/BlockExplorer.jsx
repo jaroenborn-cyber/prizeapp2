@@ -510,12 +510,12 @@ const BlockExplorer = () => {
                     className="relative bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 dark:border-green-500/50 light:border-green-600 light:bg-green-50 high-contrast:border-high-contrast-success high-contrast:bg-black black-white:border-black black-white:bg-white rounded-xl p-2 transition-transform active:scale-95 cursor-pointer h-full"
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 dark:bg-green-400 light:bg-green-600 high-contrast:bg-high-contrast-success black-white:bg-black rounded-full animate-pulse"></div>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4 text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-high-contrast-success black-white:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 dark:bg-green-400 light:bg-green-600 high-contrast:bg-high-contrast-success black-white:bg-black white-black:bg-white rounded-full animate-pulse"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4 text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-high-contrast-success black-white:text-black white-black:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <div className="text-[10px] sm:text-xs text-green-400/70 dark:text-green-400/70 light:text-green-700 high-contrast:text-high-contrast-success black-white:text-black mb-0.5 uppercase font-semibold">Mined</div>
+                    <div className="text-[10px] sm:text-xs text-green-400/70 dark:text-green-400/70 light:text-green-700 high-contrast:text-high-contrast-success black-white:text-black white-black:text-white mb-0.5 uppercase font-semibold">Mined</div>
                     <div className="text-xs sm:text-lg font-bold text-white dark:text-white light:text-slate-900 high-contrast:text-white black-white:text-black font-mono mb-0.5">
                       {block.height?.toLocaleString()}
                     </div>
@@ -533,12 +533,12 @@ const BlockExplorer = () => {
                     className="relative z-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 dark:border-green-500/50 light:border-green-600 light:bg-green-50 high-contrast:border-high-contrast-success high-contrast:bg-black rounded-xl p-4 hover:scale-105 transition-all cursor-pointer h-full"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <div className="w-3 h-3 bg-green-400 dark:bg-green-400 light:bg-green-600 high-contrast:bg-high-contrast-success rounded-full animate-pulse"></div>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-high-contrast-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className="w-3 h-3 bg-green-400 dark:bg-green-400 light:bg-green-600 high-contrast:bg-high-contrast-success white-black:bg-white rounded-full animate-pulse"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-high-contrast-success white-black:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <div className="text-xs text-green-400/70 dark:text-green-400/70 light:text-green-700 high-contrast:text-high-contrast-success mb-1 uppercase font-semibold">Mined</div>
+                    <div className="text-xs text-green-400/70 dark:text-green-400/70 light:text-green-700 high-contrast:text-high-contrast-success white-black:text-white mb-1 uppercase font-semibold">Mined</div>
                     <div className="text-lg font-bold text-white dark:text-white light:text-slate-900 high-contrast:text-white font-mono mb-1">
                       {block.height?.toLocaleString()}
                     </div>
@@ -697,7 +697,7 @@ const BlockExplorer = () => {
                 <p className="text-red-400">Error searching. Please try again.</p>
               )}
               {searchResult.type === 'transaction' && (
-                <p className="text-green-400">Transaction found! Opening mempool.space...</p>
+                <p className="text-green-400 white-black:text-white">Transaction found! Opening mempool.space...</p>
               )}
             </div>
           )}
@@ -783,8 +783,8 @@ const BlockExplorer = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-500/20 to-green-600/10 border border-green-500/30 p-6 hover:scale-105 transition-transform">
                 <div className="flex items-center justify-between mb-3">
-                  <div className="text-green-400 font-semibold">Low Priority</div>
-                  <span className="inline-block w-3 h-3 bg-green-400 rounded-full animate-pulse"></span>
+                  <div className="text-green-400 white-black:text-white font-semibold">Low Priority</div>
+                  <span className="inline-block w-3 h-3 bg-green-400 white-black:bg-white rounded-full animate-pulse"></span>
                 </div>
                 <div className="text-4xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black mb-2">
                   {fees.hourFee}

@@ -62,6 +62,11 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
               borderColor: 'rgba(0, 0, 0, 0.4)',
               backgroundColor: 'rgba(0, 0, 0, 0.08)',
             };
+          } else if (theme === 'white-black') {
+            return {
+              borderColor: 'rgba(255, 255, 255, 0.4)',
+              backgroundColor: 'rgba(255, 255, 255, 0.08)',
+            };
           } else if (theme === 'high-contrast-dark') {
             return {
               borderColor: 'rgba(132, 204, 22, 0.4)',
@@ -178,12 +183,12 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   x: {
                     display: true,
                     grid: {
-                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.15)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.1)' : 'rgba(255, 255, 255, 0.1)')),
+                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.15)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.15)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.1)' : 'rgba(255, 255, 255, 0.1)'))),
                       drawBorder: true,
-                      borderColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.25)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.2)' : 'rgba(255, 255, 255, 0.2)')),
+                      borderColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.25)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.25)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.2)' : 'rgba(255, 255, 255, 0.2)'))),
                     },
                     ticks: {
-                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.5)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.6)' : 'rgba(255, 255, 255, 0.4)')),
+                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.5)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.5)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.6)' : 'rgba(255, 255, 255, 0.4)'))),
                       maxTicksLimit: 8,
                       font: {
                         size: 10,
@@ -194,12 +199,12 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                     display: true,
                     position: 'right',
                     grid: {
-                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.15)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.1)' : 'rgba(255, 255, 255, 0.1)')),
+                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.15)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.15)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.1)' : 'rgba(255, 255, 255, 0.1)'))),
                       drawBorder: true,
-                      borderColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.25)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.2)' : 'rgba(255, 255, 255, 0.2)')),
+                      borderColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.25)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.25)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.2)' : 'rgba(255, 255, 255, 0.2)'))),
                     },
                     ticks: {
-                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.5)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.6)' : 'rgba(255, 255, 255, 0.4)')),
+                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.5)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.5)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.6)' : 'rgba(255, 255, 255, 0.4)'))),
                       maxTicksLimit: 6,
                       font: {
                         size: 10,
@@ -478,7 +483,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                 {crypto.name}
               </h1>
               {crypto.isLive && (
-                <span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-400 rounded-full animate-pulse" title="Live updates"></span>
+                <span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-400 white-black:bg-white rounded-full animate-pulse" title="Live updates"></span>
               )}
             </div>
             <p className="text-xl sm:text-2xl md:text-3xl text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600 uppercase mt-1 sm:mt-2">
@@ -489,9 +494,9 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
         {/* Live indicator */}
         {crypto.isLive && (
-          <div className="flex items-center gap-2 sm:gap-3 bg-green-500/20 px-4 py-2 sm:px-6 sm:py-3 rounded-full">
-            <span className="inline-block w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse"></span>
-            <span className="text-green-400 font-semibold text-base sm:text-xl">LIVE</span>
+          <div className="flex items-center gap-2 sm:gap-3 bg-green-500/20 white-black:bg-white/10 px-4 py-2 sm:px-6 sm:py-3 rounded-full">
+            <span className="inline-block w-2 h-2 sm:w-3 sm:h-3 bg-green-400 white-black:bg-white rounded-full animate-pulse"></span>
+            <span className="text-green-400 white-black:text-white font-semibold text-base sm:text-xl">LIVE</span>
           </div>
         )}
 
@@ -502,7 +507,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
           </div>
           <div className={`text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight ${
             isPositive 
-              ? 'text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-green-700' 
+              ? 'text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-green-700 white-black:text-white' 
               : 'text-red-400 dark:text-red-400 light:text-red-600 high-contrast:text-red-700'
           }`}>
             ${crypto.current_price?.toLocaleString('en-US', { 
@@ -515,7 +520,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         {/* 24h Change - LARGE */}
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
           {isPositive ? (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-16 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-16 text-green-400 white-black:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 15l7-7 7 7" />
             </svg>
           ) : (
@@ -569,7 +574,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
               <span className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600">
                 Data: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800">CoinGecko</span>
                 {crypto.isLive && (
-                  <span className="ml-2">• Live: <span className="font-semibold text-green-400">Binance</span></span>
+                  <span className="ml-2">• Live: <span className="font-semibold text-green-400 white-black:text-white">Binance</span></span>
                 )}
               </span>
             </div>

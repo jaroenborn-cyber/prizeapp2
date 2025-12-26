@@ -578,6 +578,256 @@ body.black-white .font-mono {
   color: #000000 !important;
 }
 
+/* White-Black theme - inverted monochrome (white on black) */
+body.white-black {
+  background-color: #000000 !important;
+  color: #ffffff;
+}
+
+/* Override Tailwind's dark-bg color to pure black */
+body.white-black .bg-dark-bg {
+  background-color: #000000 !important;
+}
+
+/* White-Black theme - force all colors to white or black */
+body.white-black * {
+  border-color: #ffffff !important;
+}
+
+/* Force ALL text to white by default (except buttons and badge elements) */
+body.white-black *:not(button):not(button *):not(.bg-slate-700):not(.bg-slate-700 *):not(.live-badge):not(.live-badge *) {
+  color: #ffffff !important;
+}
+
+/* Remove all gradients and colors */
+body.white-black .bg-gradient-to-br,
+body.white-black .bg-gradient-to-r,
+body.white-black .from-orange-500,
+body.white-black .to-orange-600,
+body.white-black .from-green-500,
+body.white-black .to-green-600,
+body.white-black .from-blue-500,
+body.white-black .to-blue-600 {
+  background-image: none !important;
+}
+
+/* All backgrounds to black, except buttons which need white background */
+body.white-black .bg-slate-800,
+body.white-black .bg-slate-600,
+body.white-black .bg-gray-100,
+body.white-black .bg-gray-200 {
+  background-color: #000000 !important;
+}
+
+/* bg-dark-card needs special handling - black for non-buttons, white for buttons */
+body.white-black .bg-dark-card:not(button) {
+  background-color: #000000 !important;
+}
+
+/* Fullscreen popup - ensure solid black background */
+body.white-black .fixed.inset-0 {
+  background-color: #000000 !important;
+  background-image: none !important;
+}
+
+/* Fullscreen control buttons - visible on black background */
+body.white-black .fixed.inset-0 button.bg-slate-700\/30,
+body.white-black .fixed.inset-0 button[class*="bg-slate-700"] {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+
+body.white-black .fixed.inset-0 button.bg-slate-700\/30:hover,
+body.white-black .fixed.inset-0 button[class*="bg-slate-700"]:hover {
+  background-color: #2a2a2a !important;
+}
+
+/* SVG icons in overlay close button should be white */
+body.white-black .fixed.inset-0 > button.bg-slate-700\/30 svg,
+body.white-black .fixed.inset-0 > button[class*="bg-slate-700"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+}
+
+/* Close button in fullscreen */
+body.white-black .fixed.inset-0 button[aria-label="Exit fullscreen"] {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+
+body.white-black .fixed.inset-0 button[aria-label="Exit fullscreen"]:hover {
+  background-color: #2a2a2a !important;
+}
+
+body.white-black .fixed.inset-0 button[aria-label="Exit fullscreen"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+}
+
+/* Chart containers and similar elements - dark gray background */
+body.white-black .bg-slate-800\/50,
+body.white-black .bg-slate-800\/70,
+body.white-black .bg-slate-700\/50,
+body.white-black .bg-dark-card\/50 {
+  background-color: #1a1a1a !important;
+}
+
+/* Small badge/tag elements with bg-slate-700 should have white bg + black text */
+body.white-black .bg-slate-700:not(.switcher-dropdown button):not(.dropdown-item) {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+body.white-black .bg-slate-700:not(.switcher-dropdown button):not(.dropdown-item) * {
+  color: #000000 !important;
+}
+
+/* LIVE badge should have dark grey bg + white text to match other elements */
+body.white-black .live-badge {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+}
+
+body.white-black .live-badge * {
+  color: #ffffff !important;
+}
+
+body.white-black .live-dot,
+body.white-black .bg-green-400 {
+  background-color: #ffffff !important;
+}
+
+/* Price change badges - convert green/red to monochrome white */
+body.white-black .bg-green-500\/20,
+body.white-black .bg-red-500\/20 {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.white-black .text-green-400,
+body.white-black .text-red-400 {
+  color: #ffffff !important;
+}
+
+/* Buttons WITH background classes need white bg + black text (except switcher buttons and fullscreen buttons) */
+body.white-black button.bg-dark-card:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn),
+body.white-black button.bg-orange-500:not(.dropdown-item):not(.fullscreen-btn),
+body.white-black button.bg-orange-600:not(.dropdown-item):not(.fullscreen-btn),
+body.white-black button.bg-blue-500:not(.dropdown-item):not(.fullscreen-btn),
+body.white-black button.bg-green-500:not(.dropdown-item):not(.fullscreen-btn),
+body.white-black button.bg-slate-800:not(.dropdown-item):not(.fullscreen-btn),
+body.white-black button.bg-slate-700:not(.dropdown-item):not(.fullscreen-btn),
+body.white-black button[class*="bg-"]:not(.switcher-btn):not(.dropdown-item):not(.fullscreen-btn) {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+}
+
+/* Switcher buttons (language/theme) should have black bg + white text */
+body.white-black button.switcher-btn {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+body.white-black button.switcher-btn:hover,
+body.white-black button.switcher-btn:focus {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  opacity: 0.9;
+}
+
+body.white-black button.switcher-btn span,
+body.white-black button.switcher-btn svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Switcher dropdown menus */
+body.white-black .switcher-dropdown {
+  background-color: #000000 !important;
+  border-color: #ffffff !important;
+}
+
+body.white-black .switcher-dropdown button {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body.white-black .switcher-dropdown button * {
+  background-color: transparent !important;
+  color: #ffffff !important;
+}
+
+body.white-black .switcher-dropdown button:hover,
+body.white-black .switcher-dropdown button.dropdown-item:hover,
+body.white-black .switcher-dropdown button:hover span,
+body.white-black .switcher-dropdown button:hover div {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+body.white-black .switcher-dropdown button.bg-slate-700,
+body.white-black .switcher-dropdown button.bg-slate-200,
+body.white-black .switcher-dropdown button.bg-gray-200,
+body.white-black .switcher-dropdown button.bg-gray-800,
+body.white-black .switcher-dropdown button.bg-yellow-400,
+body.white-black .switcher-dropdown button.bg-lime-500 {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-left: 4px solid #ffffff !important;
+}
+
+body.white-black .switcher-dropdown button span,
+body.white-black .switcher-dropdown button div,
+body.white-black .switcher-dropdown button svg,
+body.white-black .switcher-dropdown button:hover span,
+body.white-black .switcher-dropdown button:hover div {
+  color: #ffffff !important;
+}
+
+/* Dropdown items - black bg + white text */
+body.white-black button.dropdown-item {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body.white-black button.dropdown-item *,
+body.white-black button.dropdown-item span,
+body.white-black button.dropdown-item div {
+  background-color: transparent !important;
+  color: #ffffff !important;
+}
+
+body.white-black button.dropdown-item:hover {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+/* Buttons WITHOUT background (tab buttons, etc) need transparent bg + white text */
+body.white-black button:not([class*="bg-"]):not(.dropdown-item) {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+body.white-black button:not([class*="bg-"]):not(.dropdown-item):hover,
+body.white-black button:not([class*="bg-"]):not(.dropdown-item):focus,
+body.white-black button:not([class*="bg-"]):not(.dropdown-item).active {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+/* Make sure percentage changes are visible */
+body.white-black .font-mono {
+  color: #ffffff !important;
+}
+
 /* High contrast dark theme */
 body.high-contrast-dark {
   background-color: #000000;

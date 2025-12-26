@@ -61,8 +61,8 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
             {
               label: 'Price (USD)',
               data: prices.map(p => p[1]),
-              borderColor: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'high-contrast-dark' ? '#ffffff' : (theme === 'light' ? '#3b82f6' : '#3b82f6')),
-              backgroundColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.1)' : (theme === 'high-contrast-dark' ? 'rgba(255, 255, 255, 0.1)' : (theme === 'light' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)')),
+              borderColor: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'white-black' || theme === 'high-contrast-dark') ? '#ffffff' : (theme === 'light' ? '#3b82f6' : '#3b82f6'),
+              backgroundColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.1)' : (theme === 'white-black' || theme === 'high-contrast-dark') ? 'rgba(255, 255, 255, 0.1)' : (theme === 'light' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)'),
               fill: true,
               tension: 0.4,
               borderWidth: 2,
@@ -128,8 +128,8 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
               <div className="flex items-center gap-3">
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black max-w-[40vw] break-words">{crypto.name}</h2>
                 {crypto.isLive && (
-                  <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded flex items-center gap-1">
-                    <span className="inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                  <span className="text-xs bg-green-500/20 text-green-400 white-black:bg-white/10 white-black:text-white px-2 py-1 rounded flex items-center gap-1">
+                    <span className="inline-block w-1.5 h-1.5 bg-green-400 white-black:bg-white rounded-full animate-pulse"></span>
                     LIVE
                   </span>
                 )}
@@ -140,7 +140,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
           <div className="flex items-center gap-2">
             <button
               onClick={onFullscreen}
-              className="p-1.5 rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black hover:bg-slate-600/50 dark:hover:bg-slate-600/50 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300"
+              className="p-1.5 rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 white-black:text-white bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 white-black:bg-white/10 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black white-black:hover:text-black hover:bg-slate-600/50 dark:hover:bg-slate-600/50 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300 white-black:hover:bg-white/80"
               aria-label="Open fullscreen"
               title="Fullscreen mode"
             >
@@ -152,8 +152,8 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
               onClick={() => onToggleFavorite(crypto)}
               className={`p-1.5 rounded-full transition-all ${
                 isFavorite(crypto)
-                  ? 'text-yellow-400 bg-yellow-400/20 hover:bg-yellow-400/30'
-                  : 'text-slate-500 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 hover:text-yellow-400 hover:bg-yellow-400/10'
+                  ? 'text-yellow-400 white-black:text-black bg-yellow-400/20 white-black:bg-white hover:bg-yellow-400/30 white-black:hover:bg-white/80'
+                  : 'text-slate-500 white-black:text-white bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 white-black:bg-white/10 hover:text-yellow-400 white-black:hover:text-black hover:bg-yellow-400/10 white-black:hover:bg-white'
               }`}
               aria-label={isFavorite(crypto) ? "Remove from favorites" : "Add to favorites"}
             >
@@ -163,7 +163,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 w-8 h-8 flex items-center justify-center rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black hover:bg-red-500/70 dark:hover:bg-red-500/70 light:hover:bg-red-400/70 high-contrast:hover:bg-red-500/70 text-xl font-bold"
+              className="p-1.5 w-8 h-8 flex items-center justify-center rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 white-black:text-white bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 white-black:bg-white/10 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black white-black:hover:text-black hover:bg-red-500/70 dark:hover:bg-red-500/70 light:hover:bg-red-400/70 high-contrast:hover:bg-red-500/70 white-black:hover:bg-white text-xl font-bold"
               aria-label="Close modal"
             >
               ×
@@ -184,7 +184,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
                   Data: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800">CoinGecko API</span>
                   {crypto.isLive && (
                     <span className="ml-2">
-                      • Live: <span className="font-semibold text-green-400">Binance WebSocket</span>
+                      • Live: <span className="font-semibold text-green-400 white-black:text-white">Binance WebSocket</span>
                     </span>
                   )}
                 </span>
@@ -205,19 +205,19 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
             <div className="flex items-center gap-2 mb-2">
               <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">Current Price</p>
               {crypto.isLive && (
-                <span className="text-xs text-green-400">(Realtime)</span>
+                <span className="text-xs text-green-400 white-black:text-white">(Realtime)</span>
               )}
             </div>
             <p className="text-5xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black mb-4">
               ${formatPrice(crypto.current_price)}
             </p>
             <div className="flex gap-4">
-              <div className={`px-4 py-2 rounded-lg ${isPositive24h ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+              <div className={`px-4 py-2 rounded-lg ${isPositive24h ? 'bg-green-500/20 text-green-400 white-black:bg-white/10 white-black:text-white' : 'bg-red-500/20 text-red-400 white-black:bg-white/10 white-black:text-white'}`}>
                 <span className="font-semibold">
                   {isPositive24h ? '▲' : '▼'} {Math.abs(priceChange24h).toFixed(2)}% (24h)
                 </span>
               </div>
-              <div className={`px-4 py-2 rounded-lg ${isPositive7d ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+              <div className={`px-4 py-2 rounded-lg ${isPositive7d ? 'bg-green-500/20 text-green-400 white-black:bg-white/10 white-black:text-white' : 'bg-red-500/20 text-red-400 white-black:bg-white/10 white-black:text-white'}`}>
                 <span className="font-semibold">
                   {isPositive7d ? '▲' : '▼'} {Math.abs(priceChange7d).toFixed(2)}% (7d)
                 </span>
@@ -293,28 +293,28 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
                         backgroundColor: (theme === 'light' || theme === 'black-white') ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)',
                         titleColor: (theme === 'light' || theme === 'black-white' || theme === 'high-contrast') ? '#000000' : '#ffffff',
                         bodyColor: (theme === 'light' || theme === 'black-white' || theme === 'high-contrast') ? '#000000' : '#ffffff',
-                        borderColor: (theme === 'light' || theme === 'black-white') ? '#000000' : '#334155',
+                        borderColor: (theme === 'light' || theme === 'black-white') ? '#000000' : (theme === 'white-black' ? '#ffffff' : '#334155'),
                         borderWidth: 1,
                       },
                     },
                     scales: {
                       x: {
                         grid: {
-                          color: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'high-contrast-dark' ? '#ffffff' : (theme === 'light' ? '#e2e8f0' : '#334155')),
+                          color: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'white-black' || theme === 'high-contrast-dark') ? '#ffffff' : (theme === 'light' ? '#e2e8f0' : '#334155'),
                           drawBorder: false,
                         },
                         ticks: {
-                          color: (theme === 'black-white' || theme === 'high-contrast') ? '#000000' : (theme === 'high-contrast-dark' ? '#ffffff' : (theme === 'light' ? '#64748b' : '#94a3b8')),
+                          color: (theme === 'black-white' || theme === 'high-contrast') ? '#000000' : (theme === 'white-black' || theme === 'high-contrast-dark') ? '#ffffff' : (theme === 'light' ? '#64748b' : '#94a3b8'),
                           maxTicksLimit: 8,
                         },
                       },
                       y: {
                         grid: {
-                          color: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'high-contrast-dark' ? '#ffffff' : (theme === 'light' ? '#e2e8f0' : '#334155')),
+                          color: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'white-black' || theme === 'high-contrast-dark') ? '#ffffff' : (theme === 'light' ? '#e2e8f0' : '#334155'),
                           drawBorder: false,
                         },
                         ticks: {
-                          color: (theme === 'black-white' || theme === 'high-contrast') ? '#000000' : (theme === 'high-contrast-dark' ? '#ffffff' : (theme === 'light' ? '#64748b' : '#94a3b8')),
+                          color: (theme === 'black-white' || theme === 'high-contrast') ? '#000000' : (theme === 'white-black' || theme === 'high-contrast-dark') ? '#ffffff' : (theme === 'light' ? '#64748b' : '#94a3b8'),
                           callback: function(value) {
                             return '$' + value.toLocaleString();
                           },
@@ -354,7 +354,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
 
             <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
               <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 mb-2">24h High</p>
-              <p className="text-2xl font-bold text-green-400">${formatPrice(crypto.high_24h)}</p>
+              <p className="text-2xl font-bold text-green-400 white-black:text-white">${formatPrice(crypto.high_24h)}</p>
             </div>
 
             <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">

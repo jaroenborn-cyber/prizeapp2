@@ -11,8 +11,8 @@ export const ThemeProvider = ({ children }) => {
   // Apply theme class to document body
   useEffect(() => {
     // Remove all theme classes from both html and body
-    document.documentElement.classList.remove('dark', 'light', 'high-contrast', 'black-white', 'high-contrast-dark');
-    document.body.classList.remove('dark', 'light', 'high-contrast', 'black-white', 'high-contrast-dark');
+    document.documentElement.classList.remove('dark', 'light', 'high-contrast', 'black-white', 'white-black', 'high-contrast-dark');
+    document.body.classList.remove('dark', 'light', 'high-contrast', 'black-white', 'white-black', 'high-contrast-dark');
     
     // Add current theme class to both html and body
     document.documentElement.classList.add(theme);

@@ -87,10 +87,10 @@ const MarketMonitor = () => {
           {status && (
             <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
               status.open 
-                ? 'bg-green-500/20 text-green-400' 
-                : 'bg-slate-700/50 text-slate-400'
+                ? 'bg-green-500/20 text-green-400 white-black:bg-white/10 white-black:text-white' 
+                : 'bg-slate-700/50 text-slate-400 white-black:bg-white/10 white-black:text-white'
             }`}>
-              <span className={`w-2 h-2 rounded-full ${status.open ? 'bg-green-400 animate-pulse' : 'bg-slate-500'}`}></span>
+              <span className={`w-2 h-2 rounded-full ${status.open ? 'bg-green-400 white-black:bg-white animate-pulse' : 'bg-slate-500 white-black:bg-white/50'}`}></span>
               {status.status}
             </div>
           )}
@@ -109,7 +109,7 @@ const MarketMonitor = () => {
 
   const IndexCard = ({ index }) => {
     const isPositive = index.changesPercentage >= 0;
-    const changeColor = isPositive ? 'text-green-400' : 'text-red-400';
+    const changeColor = isPositive ? 'text-green-400 white-black:text-white' : 'text-red-400 white-black:text-white';
     const bgGradient = isPositive 
       ? 'from-green-500/10 to-green-600/5 border-green-500/30 hover:border-green-500/50' 
       : 'from-red-500/10 to-red-600/5 border-red-500/30 hover:border-red-500/50';
@@ -241,13 +241,13 @@ const MarketMonitor = () => {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-2xl">{icon}</span>
                 {status && (
-                  <span className={`w-2 h-2 rounded-full ${status.open ? 'bg-green-400 animate-pulse' : 'bg-slate-500'}`}></span>
+                  <span className={`w-2 h-2 rounded-full ${status.open ? 'bg-green-400 white-black:bg-white animate-pulse' : 'bg-slate-500 white-black:bg-white/50'}`}></span>
                 )}
               </div>
               <h3 className="font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
                 {region}
               </h3>
-              <p className={`text-2xl font-bold mt-1 ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+              <p className={`text-2xl font-bold mt-1 ${isPositive ? 'text-green-400 white-black:text-white' : 'text-red-400 white-black:text-white'}`}>
                 {isPositive ? '+' : ''}{avgChange.toFixed(2)}%
               </p>
               <p className="text-xs text-slate-400 mt-1">

@@ -197,7 +197,7 @@ const IndexDetail = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {sortedStocks.map((stock) => {
             const isPositive = (stock.changesPercentage || 0) >= 0;
-            const changeColor = isPositive ? 'text-green-400' : 'text-red-400';
+            const changeColor = isPositive ? 'text-green-400 white-black:text-white' : 'text-red-400 white-black:text-white';
             const bgGradient = isPositive 
               ? 'from-green-500/10 to-green-600/5 border-green-500/30 hover:border-green-500/50' 
               : 'from-red-500/10 to-red-600/5 border-red-500/30 hover:border-red-500/50';
@@ -279,7 +279,7 @@ const IndexDetail = () => {
                 <tbody>
                   {sortedStocks.map((stock) => {
                     const isPositive = (stock.changesPercentage || 0) >= 0;
-                    const changeColor = isPositive ? 'text-green-400' : 'text-red-400';
+                    const changeColor = isPositive ? 'text-green-400 white-black:text-white' : 'text-red-400 white-black:text-white';
                     
                     return (
                       <tr key={stock.symbol} className="border-t border-slate-700/50 hover:bg-slate-700/30 transition">

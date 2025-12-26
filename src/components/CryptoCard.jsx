@@ -78,7 +78,7 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
       <div className="flex items-center justify-between text-xs sm:text-sm">
         <div>
           <p className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-400 high-contrast:text-gray-700 mb-0.5 sm:mb-1">24h</p>
-          <p className={`font-semibold ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+          <p className={`font-semibold ${isPositive ? 'text-green-400 white-black:text-white' : 'text-red-400 white-black:text-white'}`}>
             {isPositive ? '▲' : '▼'} {Math.abs(priceChange24h).toFixed(2)}%
           </p>
         </div>

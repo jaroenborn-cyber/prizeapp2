@@ -67,8 +67,17 @@ function AppContent() {
     fetchData();
     // Load favorites and recently viewed from localStorage
     const savedFavorites = JSON.parse(localStorage.getItem('favoriteCryptos') || '[]');
+    
+    // Set default favorites (Bitcoin and Ethereum) for new visitors
+    if (savedFavorites.length === 0) {
+      const defaultFavorites = ['bitcoin', 'ethereum'];
+      localStorage.setItem('favoriteCryptos', JSON.stringify(defaultFavorites));
+      setFavoriteCryptos(defaultFavorites);
+    } else {
+      setFavoriteCryptos(savedFavorites);
+    }
+    
     const savedRecentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]').slice(0, 4);
-    setFavoriteCryptos(savedFavorites);
     setRecentlyViewed(savedRecentlyViewed);
     // Also update localStorage if it was trimmed
     localStorage.setItem('recentlyViewed', JSON.stringify(savedRecentlyViewed));
@@ -578,9 +587,9 @@ function AppContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-dark-bg dark:bg-dark-bg light:bg-light-bg high-contrast:bg-high-contrast-bg black-white:bg-white high-contrast-dark:bg-black text-white dark:text-white light:text-slate-800 high-contrast:text-high-contrast-text black-white:text-black high-contrast-dark:text-lime-500">
+    <div className="min-h-screen bg-dark-bg dark:bg-dark-bg light:bg-light-bg high-contrast:bg-high-contrast-bg black-white:bg-white white-black:bg-black high-contrast-dark:bg-black text-white dark:text-white light:text-slate-800 high-contrast:text-high-contrast-text black-white:text-black white-black:text-white high-contrast-dark:text-lime-500">
       {/* Header */}
-      <header className="border-b border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white black-white:border-black high-contrast-dark:border-lime-500 bg-dark-card/50 dark:bg-dark-card/50 light:bg-light-card high-contrast:bg-high-contrast-card black-white:bg-white high-contrast-dark:bg-black backdrop-blur-sm sticky top-0 z-40">
+      <header className="border-b border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white black-white:border-black white-black:border-white high-contrast-dark:border-lime-500 bg-dark-card/50 dark:bg-dark-card/50 light:bg-light-card high-contrast:bg-high-contrast-card black-white:bg-white white-black:bg-black high-contrast-dark:bg-black backdrop-blur-sm sticky top-0 z-40">
         <div className="w-full px-3 sm:px-4 py-4 sm:py-6">
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -782,9 +791,9 @@ function AppContent() {
                                   <span className="text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black truncate">{crypto.name}</span>
                                   {cryptoWithLivePrice.isLive && (
                                     <>
-                                      <span className="sm:hidden inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse flex-shrink-0" title="Live updates"></span>
-                                      <span className="hidden sm:flex text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded items-center gap-1 flex-shrink-0">
-                                        <span className="inline-block w-1 h-1 bg-green-400 rounded-full animate-pulse"></span>
+                                      <span className="sm:hidden inline-block w-1.5 h-1.5 bg-green-400 white-black:bg-white rounded-full animate-pulse flex-shrink-0" title="Live updates"></span>
+                                      <span className="hidden sm:flex text-xs bg-green-500/20 text-green-400 white-black:bg-white/10 white-black:text-white px-1.5 py-0.5 rounded items-center gap-1 flex-shrink-0">
+                                        <span className="inline-block w-1 h-1 bg-green-400 white-black:bg-white rounded-full animate-pulse"></span>
                                         {t.live}
                                       </span>
                                     </>
@@ -798,7 +807,7 @@ function AppContent() {
                             ${formatPrice(cryptoWithLivePrice.current_price)}
                           </td>
                           <td className="px-1 sm:px-3 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm font-semibold">
-                            <span className={isPositive24h ? 'text-green-400' : 'text-red-400'}>
+                            <span className={isPositive24h ? 'text-green-400 white-black:text-white' : 'text-red-400 white-black:text-white'}>
                               {isPositive24h ? '▲' : '▼'} {Math.abs(priceChange24h).toFixed(2)}%
                             </span>
                           </td>
