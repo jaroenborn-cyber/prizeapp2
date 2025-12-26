@@ -33,14 +33,23 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
           </div>
         </div>
         <div className="grid grid-cols-2 gap-1.5 place-items-center sm:flex sm:items-center sm:gap-2" style={{ gridTemplateColumns: 'repeat(2, 24px)' }}>
-          {/* Row 1 Left: Live dot */}
+          {/* Row 1 Left: Live indicator - dot on mobile, badge on desktop */}
           {crypto.isLive ? (
-            <span 
-              className="live-dot inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse"
-              style={theme === 'black-white' ? { backgroundColor: '#000000' } : {}}
-              title="Live price"
-            ></span>
-          ) : <span></span>}
+            <>
+              <span 
+                className="sm:hidden live-dot inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                style={theme === 'black-white' ? { backgroundColor: '#000000' } : {}}
+                title="Live price"
+              ></span>
+              <span 
+                className="hidden sm:flex text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded items-center gap-1 live-badge"
+                style={theme === 'black-white' ? { backgroundColor: '#e0e0e0', color: '#000000' } : {}}
+              >
+                <span className="inline-block w-1 h-1 bg-green-400 rounded-full animate-pulse" style={theme === 'black-white' ? { backgroundColor: '#000000' } : {}}></span>
+                LIVE
+              </span>
+            </>
+          ) : <span className="sm:hidden"></span>}
           {/* Row 1 Right: Favorite */}
           {showFavoriteButton ? (
             <button

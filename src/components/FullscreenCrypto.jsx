@@ -494,7 +494,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
         {/* Live indicator */}
         {crypto.isLive && (
-          <div className="flex items-center gap-2 sm:gap-3 bg-green-500/20 white-black:bg-white/10 px-4 py-2 sm:px-6 sm:py-3 rounded-full">
+          <div className="flex items-center gap-2 sm:gap-3 bg-green-500/20 white-black:bg-white/10 px-4 py-2 sm:px-6 sm:py-3 rounded-full live-badge">
             <span className="inline-block w-2 h-2 sm:w-3 sm:h-3 bg-green-400 white-black:bg-white rounded-full animate-pulse"></span>
             <span className="text-green-400 white-black:text-white font-semibold text-base sm:text-xl">LIVE</span>
           </div>

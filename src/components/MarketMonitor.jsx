@@ -87,7 +87,7 @@ const MarketMonitor = () => {
           {status && (
             <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
               status.open 
-                ? 'bg-green-500/20 text-green-400 white-black:bg-white/10 white-black:text-white' 
+                ? 'bg-green-500/20 text-green-400 white-black:bg-white/10 white-black:text-white live-badge' 
                 : 'bg-slate-700/50 text-slate-400 white-black:bg-white/10 white-black:text-white'
             }`}>
               <span className={`w-2 h-2 rounded-full ${status.open ? 'bg-green-400 white-black:bg-white animate-pulse' : 'bg-slate-500 white-black:bg-white/50'}`}></span>

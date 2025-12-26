@@ -128,7 +128,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
               <div className="flex items-center gap-3">
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black max-w-[40vw] break-words">{crypto.name}</h2>
                 {crypto.isLive && (
-                  <span className="text-xs bg-green-500/20 text-green-400 white-black:bg-white/10 white-black:text-white px-2 py-1 rounded flex items-center gap-1">
+                  <span className="text-xs bg-green-500/20 text-green-400 white-black:bg-white/10 white-black:text-white px-2 py-1 rounded flex items-center gap-1 live-badge">
                     <span className="inline-block w-1.5 h-1.5 bg-green-400 white-black:bg-white rounded-full animate-pulse"></span>
                     LIVE
                   </span>

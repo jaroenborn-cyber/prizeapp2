@@ -701,14 +701,14 @@ body.white-black .bg-green-400 {
   background-color: #ffffff !important;
 }
 
-/* Price change badges - convert green/red to monochrome white */
-body.white-black .bg-green-500\/20,
-body.white-black .bg-red-500\/20 {
+/* Price change badges - convert green/red to monochrome white (but not LIVE badges) */
+body.white-black .bg-green-500\/20:not(.live-badge):not(.live-badge *),
+body.white-black .bg-red-500\/20:not(.live-badge):not(.live-badge *) {
   background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-body.white-black .text-green-400,
-body.white-black .text-red-400 {
+body.white-black .text-green-400:not(.live-badge):not(.live-badge *),
+body.white-black .text-red-400:not(.live-badge):not(.live-badge *) {
   color: #ffffff !important;
 }
 
