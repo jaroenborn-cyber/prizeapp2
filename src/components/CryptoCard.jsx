@@ -35,15 +35,10 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
         <div className="flex items-center gap-1 sm:gap-2">
           {crypto.isLive && (
             <span 
-              className="live-badge text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded flex items-center gap-1"
-              style={theme === 'black-white' ? { backgroundColor: '#000000', color: '#ffffff' } : {}}
-            >
-              <span 
-                className="live-dot inline-block w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"
-                style={theme === 'black-white' ? { backgroundColor: '#ffffff' } : {}}
-              ></span>
-              LIVE
-            </span>
+              className="live-dot inline-block w-2 h-2 sm:w-1.5 sm:h-1.5 bg-green-400 rounded-full animate-pulse"
+              style={theme === 'black-white' ? { backgroundColor: '#000000' } : {}}
+              title="Live price"
+            ></span>
           )}
           {showFavoriteButton && (
             <button
