@@ -32,12 +32,12 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
             <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-800 uppercase">{crypto.symbol}</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-1.5 place-items-center sm:flex sm:items-center sm:gap-2" style={{ gridTemplateColumns: 'repeat(2, 24px)' }}>
-          {/* Row 1 Left: Live indicator - dot on mobile, badge on desktop */}
-          {crypto.isLive ? (
+        <div className="flex items-center gap-1.5">
+          {/* Live indicator */}
+          {crypto.isLive && (
             <>
               <span 
-                className="sm:hidden live-dot inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                className="sm:hidden live-dot w-2 h-2 bg-green-400 rounded-full animate-pulse"
                 style={theme === 'black-white' ? { backgroundColor: '#000000' } : {}}
                 title="Live price"
               ></span>
@@ -45,13 +45,13 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
                 className="hidden sm:flex text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded items-center gap-1 live-badge"
                 style={theme === 'black-white' ? { backgroundColor: '#e0e0e0', color: '#000000' } : {}}
               >
-                <span className="inline-block w-1 h-1 bg-green-400 rounded-full animate-pulse" style={theme === 'black-white' ? { backgroundColor: '#000000' } : {}}></span>
+                <span className="w-1 h-1 bg-green-400 rounded-full animate-pulse" style={theme === 'black-white' ? { backgroundColor: '#000000' } : {}}></span>
                 LIVE
               </span>
             </>
-          ) : <span className="sm:hidden"></span>}
-          {/* Row 1 Right: Favorite */}
-          {showFavoriteButton ? (
+          )}
+          {/* Favorite button */}
+          {showFavoriteButton && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -68,12 +68,10 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
             </button>
-          ) : <span></span>}
-          {/* Row 2 Left: Empty */}
-          <span></span>
-          {/* Row 2 Right: Rank */}
+          )}
+          {/* Rank badge */}
           <span 
-            className="text-xs bg-slate-700 dark:bg-slate-700 light:bg-slate-200 high-contrast:bg-gray-300 text-white dark:text-white light:text-slate-800 high-contrast:text-black px-1 py-0.5 sm:px-2 sm:py-1 rounded whitespace-nowrap"
+            className="text-xs bg-slate-700 dark:bg-slate-700 light:bg-slate-200 high-contrast:bg-gray-300 text-white dark:text-white light:text-slate-800 high-contrast:text-black px-1.5 py-0.5 rounded whitespace-nowrap"
             style={theme === 'black-white' ? { backgroundColor: '#000000', color: '#ffffff' } : {}}
           >#{crypto.market_cap_rank}</span>
         </div>
