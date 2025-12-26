@@ -67,11 +67,6 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
               borderColor: 'rgba(255, 255, 255, 0.4)',
               backgroundColor: 'rgba(255, 255, 255, 0.08)',
             };
-          } else if (theme === 'high-contrast-dark') {
-            return {
-              borderColor: 'rgba(132, 204, 22, 0.4)',
-              backgroundColor: 'rgba(132, 204, 22, 0.08)',
-            };
           }
           return {
             borderColor: 'rgba(59, 130, 246, 0.3)',
@@ -183,12 +178,12 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   x: {
                     display: true,
                     grid: {
-                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.15)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.15)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.1)' : 'rgba(255, 255, 255, 0.1)'))),
+                      color: theme === 'black-white' ? 'rgba(0, 0, 0, 0.15)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.15)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)')),
                       drawBorder: true,
-                      borderColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.25)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.25)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.2)' : 'rgba(255, 255, 255, 0.2)'))),
+                      borderColor: theme === 'black-white' ? 'rgba(0, 0, 0, 0.25)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.25)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.2)')),
                     },
                     ticks: {
-                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.5)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.5)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.6)' : 'rgba(255, 255, 255, 0.4)'))),
+                      color: theme === 'black-white' ? 'rgba(0, 0, 0, 0.5)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.5)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)')),
                       maxTicksLimit: 8,
                       font: {
                         size: 10,
@@ -199,12 +194,12 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                     display: true,
                     position: 'right',
                     grid: {
-                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.15)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.15)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.1)' : 'rgba(255, 255, 255, 0.1)'))),
+                      color: theme === 'black-white' ? 'rgba(0, 0, 0, 0.15)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.15)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)')),
                       drawBorder: true,
-                      borderColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.25)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.25)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.2)' : 'rgba(255, 255, 255, 0.2)'))),
+                      borderColor: theme === 'black-white' ? 'rgba(0, 0, 0, 0.25)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.25)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.2)')),
                     },
                     ticks: {
-                      color: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.5)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.5)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : (theme === 'high-contrast-dark' ? 'rgba(132, 204, 22, 0.6)' : 'rgba(255, 255, 255, 0.4)'))),
+                      color: theme === 'black-white' ? 'rgba(0, 0, 0, 0.5)' : (theme === 'white-black' ? 'rgba(255, 255, 255, 0.5)' : (theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)')),
                       maxTicksLimit: 6,
                       font: {
                         size: 10,
@@ -242,36 +237,30 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
             )}
-            {theme === 'high-contrast' && (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
-            )}
             {theme === 'black-white' && (
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
               </svg>
             )}
-            {theme === 'high-contrast-dark' && (
+            {theme === 'white-black' && (
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
               </svg>
             )}
           </button>
 
           {/* Dropdown Menu */}
           {showThemeMenu && (
-            <div className="absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white black-white:bg-white black-white:border black-white:border-black rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
+            <div className="absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white black-white:bg-white black-white:border black-white:border-black white-black:bg-black white-black:border white-black:border-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 overflow-hidden">
               <button
                 onClick={() => {
                   setTheme('dark');
                   setShowThemeMenu(false);
                 }}
-                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
                   theme === 'dark'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -284,10 +273,10 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   setTheme('light');
                   setShowThemeMenu(false);
                 }}
-                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
                   theme === 'light'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -297,30 +286,13 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
               </button>
               <button
                 onClick={() => {
-                  setTheme('high-contrast');
-                  setShowThemeMenu(false);
-                }}
-                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
-                  theme === 'high-contrast'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
-                }`}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                <span className="text-sm font-medium">Hoog Contrast</span>
-              </button>
-              <button
-                onClick={() => {
                   setTheme('black-white');
                   setShowThemeMenu(false);
                 }}
-                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
                   theme === 'black-white'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -330,19 +302,19 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
               </button>
               <button
                 onClick={() => {
-                  setTheme('high-contrast-dark');
+                  setTheme('white-black');
                   setShowThemeMenu(false);
                 }}
-                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 high-contrast-dark:hover:bg-gray-900 transition-colors ${
-                  theme === 'high-contrast-dark'
-                    ? 'bg-lime-500/30 text-lime-500 dark:text-lime-500 light:text-lime-700 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black high-contrast-dark:text-lime-400 high-contrast-dark:border-l-4 high-contrast-dark:border-l-lime-500'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white high-contrast-dark:text-lime-500'
+                className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
+                  theme === 'white-black'
+                    ? 'bg-gray-800 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
                 </svg>
-                <span className="text-sm font-medium">HC Dark</span>
+                <span className="text-sm font-medium">Wit-Zwart</span>
               </button>
             </div>
           )}
