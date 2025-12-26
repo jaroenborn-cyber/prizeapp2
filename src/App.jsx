@@ -271,7 +271,9 @@ function AppContent() {
 
   // Custom mobile touch drag state
   const [touchDrag, setTouchDrag] = useState(null);
+  const [mouseDrag, setMouseDrag] = useState(null);
   const touchStartPos = useRef(null);
+  const mouseStartPos = useRef(null);
   const draggedCardRef = useRef(null);
   const cardRefs = useRef({});
   const longPressTimer = useRef(null);
@@ -460,6 +462,142 @@ function AppContent() {
     }
     pendingDrag.current = null;
   };
+
+  // Mouse drag handlers for desktop
+  const handleMouseDown = (e, index, cryptoId) => {
+    e.preventDefault();
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    
+    mouseStartPos.current = {
+      x: e.clientX,
+      y: e.clientY,
+      offsetX: e.clientX - rect.left,
+      offsetY: e.clientY - rect.top,
+      startIndex: index,
+      cryptoId: cryptoId,
+      rect: rect
+    };
+    
+    // Create floating clone
+    const clone = card.cloneNode(true);
+    clone.id = 'drag-clone';
+    clone.style.cssText = `
+      position: fixed;
+      left: ${rect.left}px;
+      top: ${rect.top}px;
+      width: ${rect.width}px;
+      height: ${rect.height}px;
+      z-index: 9999;
+      pointer-events: none;
+      transform: rotate(3deg) scale(1.05);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+      border-radius: 0.75rem;
+      opacity: 0.95;
+      transition: none;
+    `;
+    document.body.appendChild(clone);
+    draggedCardRef.current = clone;
+    
+    // Hide original
+    card.style.opacity = '0.3';
+    
+    setMouseDrag({ index, cryptoId });
+  };
+
+  // Document-level mouse handlers for desktop drag
+  useEffect(() => {
+    const handleDocMouseMove = (e) => {
+      if (!mouseStartPos.current || !draggedCardRef.current) return;
+      e.preventDefault();
+      
+      const clone = draggedCardRef.current;
+      
+      // Move clone with mouse
+      clone.style.left = `${e.clientX - mouseStartPos.current.offsetX}px`;
+      clone.style.top = `${e.clientY - mouseStartPos.current.offsetY}px`;
+      
+      // Auto-scroll when near edges
+      const scrollZone = 100;
+      const scrollSpeed = 16; // Double the scroll speed for desktop
+      if (e.clientY < scrollZone) {
+        window.scrollBy(0, -scrollSpeed);
+      } else if (e.clientY > window.innerHeight - scrollZone) {
+        window.scrollBy(0, scrollSpeed);
+      }
+      
+      // Find which card we're over
+      const cards = Object.entries(cardRefs.current);
+      for (const [id, ref] of cards) {
+        if (ref && id !== mouseStartPos.current.cryptoId) {
+          const rect = ref.getBoundingClientRect();
+          if (e.clientX >= rect.left && e.clientX <= rect.right &&
+              e.clientY >= rect.top && e.clientY <= rect.bottom) {
+            ref.style.transform = 'scale(0.95)';
+            ref.style.border = '2px dashed #22d3ee';
+          } else {
+            ref.style.transform = '';
+            ref.style.border = '';
+          }
+        }
+      }
+    };
+    
+    const handleDocMouseUp = (e) => {
+      if (!mouseStartPos.current || !draggedCardRef.current) return;
+      
+      let targetIndex = mouseStartPos.current.startIndex;
+      
+      // Find drop target
+      const cards = Object.entries(cardRefs.current);
+      for (const [id, ref] of cards) {
+        if (ref) {
+          ref.style.transform = '';
+          ref.style.border = '';
+          
+          if (id !== mouseStartPos.current.cryptoId) {
+            const rect = ref.getBoundingClientRect();
+            if (e.clientX >= rect.left && e.clientX <= rect.right &&
+                e.clientY >= rect.top && e.clientY <= rect.bottom) {
+              targetIndex = favoriteCryptos.findIndex(c => c.id === id);
+            }
+          }
+        }
+      }
+      
+      // Restore original card
+      const origCard = cardRefs.current[mouseStartPos.current.cryptoId];
+      if (origCard) origCard.style.opacity = '';
+      
+      // Remove clone
+      if (draggedCardRef.current) {
+        draggedCardRef.current.remove();
+        draggedCardRef.current = null;
+      }
+      
+      // Reorder if needed
+      if (targetIndex !== mouseStartPos.current.startIndex) {
+        const items = Array.from(favoriteCryptos);
+        const [reorderedItem] = items.splice(mouseStartPos.current.startIndex, 1);
+        items.splice(targetIndex, 0, reorderedItem);
+        setFavoriteCryptos(items);
+        localStorage.setItem('favoriteCryptos', JSON.stringify(items));
+      }
+      
+      mouseStartPos.current = null;
+      setMouseDrag(null);
+    };
+    
+    if (mouseDrag) {
+      document.addEventListener('mousemove', handleDocMouseMove);
+      document.addEventListener('mouseup', handleDocMouseUp);
+    }
+    
+    return () => {
+      document.removeEventListener('mousemove', handleDocMouseMove);
+      document.removeEventListener('mouseup', handleDocMouseUp);
+    };
+  }, [mouseDrag, favoriteCryptos]);
 
   // Merge live prices with crypto data
   const mergeLivePrices = (crypto) => {  if (livePrices[crypto.id]) {
@@ -688,7 +826,8 @@ function AppContent() {
                     <div
                       key={crypto.id}
                       ref={(el) => cardRefs.current[crypto.id] = el}
-                      className={`w-[calc(50%-0.375rem)] sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.75rem)] xl:w-[calc(20%-0.8rem)] transition-transform duration-150 select-none ${touchDrag?.cryptoId === crypto.id ? 'opacity-30' : ''}`}
+                      className={`w-[calc(50%-0.375rem)] sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.75rem)] xl:w-[calc(20%-0.8rem)] transition-transform duration-150 select-none ${touchDrag?.cryptoId === crypto.id || mouseDrag?.cryptoId === crypto.id ? 'opacity-30' : ''}`}
+                      onMouseDown={(e) => handleMouseDown(e, index, crypto.id)}
                       onTouchStart={(e) => handleTouchStart(e, index, crypto.id)}
                       onTouchMove={handleTouchMoveCancel}
                       onTouchEnd={handleTouchEndCancel}
@@ -697,7 +836,8 @@ function AppContent() {
                         WebkitUserSelect: 'none', 
                         userSelect: 'none',
                         WebkitTouchCallout: 'none',
-                        WebkitTapHighlightColor: 'transparent'
+                        WebkitTapHighlightColor: 'transparent',
+                        cursor: 'grab'
                       }}
                     >
                       <CryptoCard
