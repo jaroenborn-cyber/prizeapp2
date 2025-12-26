@@ -33,7 +33,7 @@ export const translations = {
     // Recently Viewed
     recentlyViewed: 'Laatst Bezocht',
     viewed: 'bekeken',
-    recentlyViewedDesc: 'Je laatst bekeken cryptocurrencies (max 20)',
+    recentlyViewedDesc: 'Je laatst bekeken cryptocurrencies (max 5)',
     
     // Footer
     dataProvidedBy: 'Data geleverd door CoinGecko API en ExchangeRate-API',
@@ -132,7 +132,7 @@ export const translations = {
     // Recently Viewed
     recentlyViewed: 'Recently Viewed',
     viewed: 'viewed',
-    recentlyViewedDesc: 'Your recently viewed cryptocurrencies (max 20)',
+    recentlyViewedDesc: 'Your recently viewed cryptocurrencies (max 5)',
     
     // Footer
     dataProvidedBy: 'Data provided by CoinGecko API and ExchangeRate-API',

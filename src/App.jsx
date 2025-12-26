@@ -157,7 +157,7 @@ function AppContent() {
   const handleCryptoClick = (crypto) => {
     setSelectedCrypto(crypto);
     
-    // Add to recently viewed (max 20 items)
+    // Add to recently viewed (max 5 items)
     const isAlreadyViewed = recentlyViewed.some(item => item.id === crypto.id);
     let updatedRecentlyViewed;
     
@@ -166,10 +166,10 @@ function AppContent() {
       updatedRecentlyViewed = [
         crypto,
         ...recentlyViewed.filter(item => item.id !== crypto.id)
-      ];
+      ].slice(0, 5);
     } else {
-      // Add to front, limit to 20 items
-      updatedRecentlyViewed = [crypto, ...recentlyViewed].slice(0, 20);
+      // Add to front, limit to 5 items
+      updatedRecentlyViewed = [crypto, ...recentlyViewed].slice(0, 5);
     }
     
     setRecentlyViewed(updatedRecentlyViewed);
