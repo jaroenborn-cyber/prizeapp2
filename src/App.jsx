@@ -725,16 +725,16 @@ function AppContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-dark-bg dark:bg-dark-bg light:bg-light-bg high-contrast:bg-high-contrast-bg black-white:bg-white white-black:bg-black high-contrast-dark:bg-black text-white dark:text-white light:text-slate-800 high-contrast:text-high-contrast-text black-white:text-black white-black:text-white high-contrast-dark:text-lime-500">
+    <div className="min-h-screen bg-dark-bg dark:bg-dark-bg light:bg-light-bg black-white:bg-white white-black:bg-black text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white black-white:border-black white-black:border-white high-contrast-dark:border-lime-500 bg-dark-card/50 dark:bg-dark-card/50 light:bg-light-card high-contrast:bg-high-contrast-card black-white:bg-white white-black:bg-black high-contrast-dark:bg-black backdrop-blur-sm sticky top-0 z-40">
+      <header className="border-b border-slate-800 dark:border-slate-800 light:border-slate-300 black-white:border-black white-black:border-white bg-dark-card/50 dark:bg-dark-card/50 light:bg-light-card black-white:bg-white white-black:bg-black backdrop-blur-sm sticky top-0 z-40">
         <div className="w-full px-3 sm:px-4 py-4 sm:py-6">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-xl sm:text-3xl font-bold bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
                 {t.appTitle}
               </h1>
-              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-xs sm:text-sm mt-1">{t.appSubtitle}</p>
+              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 text-xs sm:text-sm mt-1">{t.appSubtitle}</p>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
               <LanguageSwitcher />
@@ -743,13 +743,13 @@ function AppContent() {
           </div>
           
           {/* Tab Navigation */}
-          <div className="flex gap-1 sm:gap-2 mt-4 sm:mt-6 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-x-auto">
+          <div className="flex gap-1 sm:gap-2 mt-4 sm:mt-6 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white overflow-x-auto">
             <button
               onClick={() => handleTabChange('crypto')}
               className={`px-4 sm:px-6 py-2 sm:py-3 font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'crypto'
                   ? 'text-neon-cyan border-b-2 border-neon-cyan'
-                  : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 high-contrast:text-gray-600 high-contrast:hover:text-black'
+                  : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 black-white:text-gray-600 black-white:hover:text-black white-black:text-gray-400 white-black:hover:text-white'
               }`}
             >
               💰 {t.cryptoTracker}
@@ -759,7 +759,7 @@ function AppContent() {
               className={`px-4 sm:px-6 py-2 sm:py-3 font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'explorer'
                   ? 'text-orange-500 border-b-2 border-orange-500'
-                  : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 high-contrast:text-gray-600 high-contrast:hover:text-black'
+                  : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 black-white:text-gray-600 black-white:hover:text-black white-black:text-gray-400 white-black:hover:text-white'
               }`}
             >
               ₿ {t.blockExplorer}
@@ -769,7 +769,7 @@ function AppContent() {
               className={`px-4 sm:px-6 py-2 sm:py-3 font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'markets'
                   ? 'text-green-500 border-b-2 border-green-500'
-                  : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 high-contrast:text-gray-600 high-contrast:hover:text-black'
+                  : 'text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 black-white:text-gray-600 black-white:hover:text-black white-black:text-gray-400 white-black:hover:text-white'
               }`}
             >
               📊 {t.marketMonitor || 'Markets'}
@@ -796,7 +796,7 @@ function AppContent() {
       ) : (
       <main className="w-full px-3 sm:px-4 py-6 sm:py-8">
         {error && (
-          <div className="mb-4 sm:mb-6 bg-red-500/10 dark:bg-red-500/10 light:bg-red-100 high-contrast:bg-red-900 border border-red-500/50 dark:border-red-500/50 light:border-red-300 high-contrast:border-red-300 rounded-lg p-3 sm:p-4 text-red-400 dark:text-red-400 light:text-red-700 high-contrast:text-red-200">
+          <div className="mb-4 sm:mb-6 bg-red-500/10 dark:bg-red-500/10 light:bg-red-100 black-white:bg-red-100 white-black:bg-red-900 border border-red-500/50 dark:border-red-500/50 light:border-red-300 black-white:border-red-300 white-black:border-red-600 rounded-lg p-3 sm:p-4 text-red-400 dark:text-red-400 light:text-red-700 black-white:text-red-700 white-black:text-red-200">
             <p className="font-semibold text-sm sm:text-base">⚠️ {error}</p>
           </div>
         )}
@@ -809,8 +809,8 @@ function AppContent() {
                 <span className="text-yellow-400">{t.myFavorites}</span>
               </h2>
               <div className="flex items-center gap-2 sm:gap-3">
-                <span className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-700">👆 {t.dragToReorder}</span>
-                <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({favoriteCryptos.length})</span>
+                <span className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400">👆 {t.dragToReorder}</span>
+                <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400">({favoriteCryptos.length})</span>
               </div>
             </div>
             
@@ -859,13 +859,13 @@ function AppContent() {
         <section className="mb-8 sm:mb-12">
           <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
             <span className="text-neon-cyan">{t.topCryptos}</span>
-            <span className="text-xs sm:text-sm font-normal text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({t.clickForDetails})</span>
+            <span className="text-xs sm:text-sm font-normal text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400">({t.clickForDetails})</span>
           </h2>
           
           {loading ? (
             <SkeletonLoader count={10} type="card" />
           ) : (
-            <div className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
+            <div className="bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full table-fixed">
                   <colgroup>
@@ -879,20 +879,20 @@ function AppContent() {
                     <col className="w-10 sm:w-14" />
                     <col className="w-10 sm:w-14" />
                   </colgroup>
-                  <thead className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-200 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black">
+                  <thead className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 black-white:bg-gray-200 white-black:bg-gray-900 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white">
                     <tr>
-                      <th className="pl-1 sm:pl-3 pr-0.5 sm:pr-1.5 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.rank}</th>
-                      <th className="pl-0.5 sm:pl-1.5 pr-1 sm:pr-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.name}</th>
-                      <th className="px-1 sm:px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">{t.price}</th>
-                      <th className="px-1 sm:px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">24h</th>
-                      <th className="hidden md:table-cell px-2 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">7d</th>
-                      <th className="hidden lg:table-cell px-2 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Cap</th>
-                      <th className="hidden xl:table-cell px-2 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">Vol</th>
-                      <th className="px-1 sm:px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">★</th>
-                      <th className="px-1 sm:px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-700 uppercase tracking-wider">⛶</th>
+                      <th className="pl-1 sm:pl-3 pr-0.5 sm:pr-1.5 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-700 white-black:text-gray-400 uppercase tracking-wider">{t.rank}</th>
+                      <th className="pl-0.5 sm:pl-1.5 pr-1 sm:pr-3 py-2 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-700 white-black:text-gray-400 uppercase tracking-wider">{t.name}</th>
+                      <th className="px-1 sm:px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-700 white-black:text-gray-400 uppercase tracking-wider">{t.price}</th>
+                      <th className="px-1 sm:px-3 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-700 white-black:text-gray-400 uppercase tracking-wider">24h</th>
+                      <th className="hidden md:table-cell px-2 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-700 white-black:text-gray-400 uppercase tracking-wider">7d</th>
+                      <th className="hidden lg:table-cell px-2 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-700 white-black:text-gray-400 uppercase tracking-wider">Cap</th>
+                      <th className="hidden xl:table-cell px-2 py-2 text-right text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-700 white-black:text-gray-400 uppercase tracking-wider">Vol</th>
+                      <th className="px-1 sm:px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-700 white-black:text-gray-400 uppercase tracking-wider">★</th>
+                      <th className="px-1 sm:px-3 py-2 text-center text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-700 white-black:text-gray-400 uppercase tracking-wider">⛶</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-700 dark:divide-slate-700 light:divide-slate-300 high-contrast:divide-black">
+                  <tbody className="divide-y divide-slate-700 dark:divide-slate-700 light:divide-slate-300 black-white:divide-black white-black:divide-white">
                     {cryptoData.map((crypto) => {
                       const cryptoWithLivePrice = mergeLivePrices(crypto);
                       const priceChange24h = cryptoWithLivePrice.price_change_percentage_24h || 0;
@@ -918,9 +918,9 @@ function AppContent() {
                         <tr 
                           key={crypto.id} 
                           onClick={() => handleCryptoClick(cryptoWithLivePrice)}
-                          className="hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-50 high-contrast:hover:bg-gray-100 cursor-pointer transition-colors"
+                          className="hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-50 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 cursor-pointer transition-colors"
                         >
-                          <td className="pl-1 sm:pl-3 pr-0.5 sm:pr-1.5 py-1.5 sm:py-2.5 whitespace-nowrap text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-800">
+                          <td className="pl-1 sm:pl-3 pr-0.5 sm:pr-1.5 py-1.5 sm:py-2.5 whitespace-nowrap text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-800 white-black:text-gray-300">
                             {crypto.market_cap_rank}
                           </td>
                           <td className="pl-0.5 sm:pl-1.5 py-1.5 sm:py-2.5" style={{paddingRight: '10px'}}>
@@ -928,7 +928,7 @@ function AppContent() {
                               <img src={crypto.image} alt={crypto.name} className="w-5 h-5 sm:w-7 sm:h-7 rounded-full flex-shrink-0" />
                               <div className="overflow-hidden">
                                 <div className="flex items-center gap-1">
-                                  <span className="text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black truncate">{crypto.name}</span>
+                                  <span className="text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white truncate">{crypto.name}</span>
                                   {cryptoWithLivePrice.isLive && (
                                     <>
                                       <span className="sm:hidden inline-block w-1.5 h-1.5 bg-green-400 white-black:bg-white rounded-full animate-pulse flex-shrink-0 live-dot" title="Live updates"></span>
@@ -939,11 +939,11 @@ function AppContent() {
                                     </>
                                   )}
                                 </div>
-                                <div className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-800 uppercase truncate">{crypto.symbol}</div>
+                                <div className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-800 white-black:text-gray-400 uppercase truncate">{crypto.symbol}</div>
                               </div>
                             </div>
                           </td>
-                          <td className="px-1 sm:px-3 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                          <td className="px-1 sm:px-3 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm font-medium text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                             ${formatPrice(cryptoWithLivePrice.current_price)}
                           </td>
                           <td className="px-1 sm:px-3 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm font-semibold">
@@ -956,10 +956,10 @@ function AppContent() {
                               {isPositive7d ? '▲' : '▼'} {Math.abs(priceChange7d).toFixed(2)}%
                             </span>
                           </td>
-                          <td className="hidden lg:table-cell px-2 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
+                          <td className="hidden lg:table-cell px-2 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 black-white:text-gray-800 white-black:text-gray-300">
                             {formatMarketCap(crypto.market_cap)}
                           </td>
-                          <td className="hidden xl:table-cell px-2 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">
+                          <td className="hidden xl:table-cell px-2 py-1.5 sm:py-2.5 whitespace-nowrap text-right text-xs sm:text-sm text-slate-300 dark:text-slate-300 light:text-slate-600 black-white:text-gray-800 white-black:text-gray-300">
                             {formatMarketCap(crypto.total_volume)}
                           </td>
                           <td className="px-1 sm:px-3 py-1.5 sm:py-2.5 whitespace-nowrap text-center" onClick={(e) => e.stopPropagation()}>
@@ -1025,7 +1025,7 @@ function AppContent() {
               <h2 className="text-xl sm:text-2xl font-bold">
                 <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">{t.recentlyViewed}</span>
               </h2>
-              <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">({recentlyViewed.length} {t.viewed})</span>
+              <span className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400">({recentlyViewed.length} {t.viewed})</span>
             </div>
             
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-2 sm:gap-4">
@@ -1059,8 +1059,8 @@ function AppContent() {
       )}
 
       {/* Footer */}
-      <footer className="border-t border-slate-800 dark:border-slate-800 light:border-slate-300 high-contrast:border-white mt-12 sm:mt-16 py-6 sm:py-8">
-        <div className="w-full px-3 sm:px-4 text-center text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-400 text-xs sm:text-sm">
+      <footer className="border-t border-slate-800 dark:border-slate-800 light:border-slate-300 black-white:border-black white-black:border-white mt-12 sm:mt-16 py-6 sm:py-8">
+        <div className="w-full px-3 sm:px-4 text-center text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400 text-xs sm:text-sm">
           <p>{t.dataProvidedBy}</p>
           <p className="mt-2">{t.updatesEvery}</p>
         </div>

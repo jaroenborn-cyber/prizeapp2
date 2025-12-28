@@ -80,7 +80,7 @@ const MarketMonitor = () => {
     return (
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black flex items-center gap-2">
+          <h2 className="text-xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white flex items-center gap-2">
             <span className={`text-2xl`}>{icon}</span>
             <span>{title}</span>
           </h2>
@@ -120,10 +120,10 @@ const MarketMonitor = () => {
           <div className="flex items-center gap-2">
             <span className="text-2xl">{index.flag}</span>
             <div>
-              <h3 className="font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+              <h3 className="font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                 {index.name}
               </h3>
-              <p className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-600">
+              <p className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-600 white-black:text-gray-400">
                 {index.country}
               </p>
             </div>
@@ -143,7 +143,7 @@ const MarketMonitor = () => {
         
         <div className="space-y-2">
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+            <span className="text-2xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
               {formatNumber(index.price)}
             </span>
           </div>
@@ -158,13 +158,13 @@ const MarketMonitor = () => {
           </div>
           
           {index.dayHigh && index.dayLow && (
-            <div className="pt-2 border-t border-slate-700/50 dark:border-slate-700/50 light:border-slate-200 high-contrast:border-gray-400">
-              <div className="flex justify-between text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-600">
+            <div className="pt-2 border-t border-slate-700/50 dark:border-slate-700/50 light:border-slate-200 black-white:border-gray-400 white-black:border-gray-600">
+              <div className="flex justify-between text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-600 white-black:text-gray-400">
                 <span>L: {formatNumber(index.dayLow)}</span>
                 <span>H: {formatNumber(index.dayHigh)}</span>
               </div>
               {/* Range bar */}
-              <div className="mt-1 h-1.5 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-300 rounded-full overflow-hidden">
+              <div className="mt-1 h-1.5 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 black-white:bg-gray-300 white-black:bg-gray-700 rounded-full overflow-hidden">
                 <div 
                   className={`h-full ${isPositive ? 'bg-green-500' : 'bg-red-500'} rounded-full`}
                   style={{
@@ -199,17 +199,17 @@ const MarketMonitor = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black flex items-center gap-3">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white flex items-center gap-3">
             <span className="text-3xl">📊</span>
             {t.marketMonitor || 'Market Monitor'}
           </h1>
-          <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 text-sm mt-1">
+          <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400 text-sm mt-1">
             {t.marketMonitorDesc || 'Real-time global stock market indices'}
           </p>
         </div>
         
         {lastUpdate && (
-          <div className="flex items-center gap-2 text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">
+          <div className="flex items-center gap-2 text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -244,7 +244,7 @@ const MarketMonitor = () => {
                   <span className={`w-2 h-2 rounded-full ${status.open ? 'bg-green-400 white-black:bg-white animate-pulse' : 'bg-slate-500 white-black:bg-white/50'}`}></span>
                 )}
               </div>
-              <h3 className="font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+              <h3 className="font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                 {region}
               </h3>
               <p className={`text-2xl font-bold mt-1 ${isPositive ? 'text-green-400 white-black:text-white' : 'text-red-400 white-black:text-white'}`}>
@@ -281,8 +281,8 @@ const MarketMonitor = () => {
       />
 
       {/* Footer Info */}
-      <div className="mt-8 p-4 bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
-        <div className="flex items-center gap-2 text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">
+      <div className="mt-8 p-4 bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-gray-900 rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-gray-400 white-black:border-gray-600">
+        <div className="flex items-center gap-2 text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>

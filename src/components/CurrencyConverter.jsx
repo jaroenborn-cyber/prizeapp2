@@ -74,8 +74,8 @@ const CurrencyConverter = ({ cryptoData, fiatRates }) => {
   }, [amount, fromCurrency, toCurrency, cryptoData, fiatRates]);
 
   return (
-    <div className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white rounded-xl p-6 shadow-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black">
-      <h2 className="text-2xl font-bold mb-6 text-neon-cyan dark:text-neon-cyan light:text-neon-purple high-contrast:text-high-contrast-accent">Valuta Converter</h2>
+    <div className="bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black rounded-xl p-6 shadow-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white">
+      <h2 className="text-2xl font-bold mb-6 text-neon-cyan dark:text-neon-cyan light:text-neon-purple black-white:text-black white-black:text-white">Valuta Converter</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div>
@@ -84,7 +84,7 @@ const CurrencyConverter = ({ cryptoData, fiatRates }) => {
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white border border-slate-600 dark:border-slate-600 light:border-slate-300 high-contrast:border-black rounded-lg px-4 py-3 text-white dark:text-white light:text-slate-800 high-contrast:text-black focus:outline-none focus:ring-2 focus:ring-neon-cyan dark:focus:ring-neon-cyan light:focus:ring-neon-purple high-contrast:focus:ring-high-contrast-accent"
+            className="w-full bg-slate-800 dark:bg-slate-800 light:bg-white black-white:bg-white white-black:bg-black border border-slate-600 dark:border-slate-600 light:border-slate-300 black-white:border-black white-black:border-white rounded-lg px-4 py-3 text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan dark:focus:ring-neon-cyan light:focus:ring-neon-purple black-white:focus:ring-black white-black:focus:ring-white"
             placeholder="Voer bedrag in"
           />
         </div>
@@ -94,7 +94,7 @@ const CurrencyConverter = ({ cryptoData, fiatRates }) => {
           <select
             value={fromCurrency}
             onChange={(e) => setFromCurrency(e.target.value)}
-            className="w-full bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white border border-slate-600 dark:border-slate-600 light:border-slate-300 high-contrast:border-black rounded-lg px-4 py-3 text-white dark:text-white light:text-slate-800 high-contrast:text-black focus:outline-none focus:ring-2 focus:ring-neon-cyan dark:focus:ring-neon-cyan light:focus:ring-neon-purple high-contrast:focus:ring-high-contrast-accent"
+            className="w-full bg-slate-800 dark:bg-slate-800 light:bg-white black-white:bg-white white-black:bg-black border border-slate-600 dark:border-slate-600 light:border-slate-300 black-white:border-black white-black:border-white rounded-lg px-4 py-3 text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan dark:focus:ring-neon-cyan light:focus:ring-neon-purple black-white:focus:ring-black white-black:focus:ring-white"
           >
             {currencies.map((curr) => (
               <option key={curr.symbol} value={curr.symbol}>
@@ -109,7 +109,7 @@ const CurrencyConverter = ({ cryptoData, fiatRates }) => {
           <select
             value={toCurrency}
             onChange={(e) => setToCurrency(e.target.value)}
-            className="w-full bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white border border-slate-600 dark:border-slate-600 light:border-slate-300 high-contrast:border-black rounded-lg px-4 py-3 text-white dark:text-white light:text-slate-800 high-contrast:text-black focus:outline-none focus:ring-2 focus:ring-neon-cyan dark:focus:ring-neon-cyan light:focus:ring-neon-purple high-contrast:focus:ring-high-contrast-accent"
+            className="w-full bg-slate-800 dark:bg-slate-800 light:bg-white black-white:bg-white white-black:bg-black border border-slate-600 dark:border-slate-600 light:border-slate-300 black-white:border-black white-black:border-white rounded-lg px-4 py-3 text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan dark:focus:ring-neon-cyan light:focus:ring-neon-purple black-white:focus:ring-black white-black:focus:ring-white"
           >
             {currencies.map((curr) => (
               <option key={curr.symbol} value={curr.symbol}>
@@ -121,9 +121,9 @@ const CurrencyConverter = ({ cryptoData, fiatRates }) => {
       </div>
 
       {result !== null && (
-        <div className="bg-gradient-to-r from-neon-cyan/10 dark:from-neon-cyan/10 light:from-neon-purple/10 high-contrast:from-gray-800 to-neon-purple/10 dark:to-neon-purple/10 light:to-neon-cyan/10 high-contrast:to-gray-900 border border-neon-cyan/30 dark:border-neon-cyan/30 light:border-neon-purple/30 high-contrast:border-high-contrast-accent rounded-lg p-6 text-center">
-          <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-300 mb-2">Omgerekend Bedrag</p>
-          <p className="text-3xl font-bold text-neon-cyan dark:text-neon-cyan light:text-neon-purple high-contrast:text-high-contrast-accent">
+        <div className="bg-gradient-to-r from-neon-cyan/10 dark:from-neon-cyan/10 light:from-neon-purple/10 black-white:from-gray-100 white-black:from-gray-800 to-neon-purple/10 dark:to-neon-purple/10 light:to-neon-cyan/10 black-white:to-gray-200 white-black:to-gray-900 border border-neon-cyan/30 dark:border-neon-cyan/30 light:border-neon-purple/30 black-white:border-black white-black:border-white rounded-lg p-6 text-center">
+          <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-600 white-black:text-gray-400 mb-2">Omgerekend Bedrag</p>
+          <p className="text-3xl font-bold text-neon-cyan dark:text-neon-cyan light:text-neon-purple black-white:text-black white-black:text-white">
             {result.toLocaleString(undefined, { 
               minimumFractionDigits: 2, 
               maximumFractionDigits: 8 

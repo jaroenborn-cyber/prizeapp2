@@ -160,7 +160,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
   const isPositive = priceChange >= 0;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 light:from-slate-100 light:via-slate-50 light:to-slate-100 high-contrast:from-white high-contrast:via-gray-50 high-contrast:to-white black-white:bg-white overflow-hidden">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 light:from-slate-100 light:via-slate-50 light:to-slate-100 black-white:bg-white white-black:bg-black overflow-hidden">
       {/* Background Chart */}
       {chartData && (
         <div className="absolute inset-0" style={{ opacity: chartOpacity }}>
@@ -224,7 +224,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         <div className="theme-switcher-container relative">
           <button
             onClick={() => setShowThemeMenu(!showThemeMenu)}
-            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 black-white:bg-gray-100 black-white:border black-white:border-black text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 black-white:text-black hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black black-white:hover:text-black black-white:hover:bg-gray-200 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
+            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200"
             aria-label="Change theme"
           >
             {theme === 'dark' && (
@@ -324,7 +324,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         <div className="timeframe-switcher-container relative">
           <button
             onClick={() => setShowTimeframeMenu(!showTimeframeMenu)}
-            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 black-white:bg-gray-100 black-white:border black-white:border-black text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 black-white:text-black hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black black-white:hover:text-black black-white:hover:bg-gray-200 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
+            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200"
             aria-label="Change timeframe"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -334,16 +334,16 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
           {/* Dropdown Menu */}
           {showTimeframeMenu && (
-            <div className="absolute top-12 right-0 w-36 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white black-white:bg-white black-white:border black-white:border-black rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden">
+            <div className="absolute top-12 right-0 w-36 bg-slate-800 dark:bg-slate-800 light:bg-white black-white:bg-white black-white:border black-white:border-black white-black:bg-black white-black:border white-black:border-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 overflow-hidden">
               <button
                 onClick={() => {
                   setChartPeriod('1');
                   setShowTimeframeMenu(false);
                 }}
-                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
                   chartPeriod === '1'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black font-semibold'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <span className="text-sm">24 Uur</span>
@@ -353,10 +353,10 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   setChartPeriod('7');
                   setShowTimeframeMenu(false);
                 }}
-                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
                   chartPeriod === '7'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black font-semibold'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <span className="text-sm">7 Dagen</span>
@@ -366,10 +366,10 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   setChartPeriod('30');
                   setShowTimeframeMenu(false);
                 }}
-                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
                   chartPeriod === '30'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black font-semibold'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <span className="text-sm">30 Dagen</span>
@@ -379,10 +379,10 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                   setChartPeriod('365');
                   setShowTimeframeMenu(false);
                 }}
-                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-100 black-white:hover:bg-gray-100 transition-colors ${
+                className={`dropdown-item w-full px-4 py-3 text-left hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
                   chartPeriod === '365'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 high-contrast:text-black black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black font-semibold'
-                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-700 black-white:text-black black-white:bg-white'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white font-semibold'
+                    : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <span className="text-sm">1 Jaar</span>
@@ -395,7 +395,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         <div className="opacity-switcher-container relative">
           <button
             onClick={() => setShowOpacityMenu(!showOpacityMenu)}
-            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 high-contrast:bg-gray-200 black-white:bg-gray-100 black-white:border black-white:border-black text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 black-white:text-black hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black black-white:hover:text-black black-white:hover:bg-gray-200 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200"
+            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200"
             aria-label="Change opacity"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -406,8 +406,8 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
           {/* Dropdown Menu */}
           {showOpacityMenu && (
-            <div className="opacity-dropdown absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white black-white:bg-white black-white:border black-white:border-black rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black overflow-hidden p-4">
-              <label className="text-sm font-medium text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800 black-white:text-black block mb-2">
+            <div className="opacity-dropdown absolute top-12 right-0 w-48 bg-slate-800 dark:bg-slate-800 light:bg-white black-white:bg-white black-white:border black-white:border-black white-black:bg-black white-black:border white-black:border-white rounded-lg shadow-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 overflow-hidden p-4">
+              <label className="text-sm font-medium text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black white-black:text-white block mb-2">
                 Transparantie: {Math.round(chartOpacity * 100)}%
               </label>
               <input
@@ -416,7 +416,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                 max="100"
                 value={chartOpacity * 100}
                 onChange={(e) => setChartOpacity(e.target.value / 100)}
-                className="w-full h-2 bg-slate-700 dark:bg-slate-700 light:bg-slate-300 high-contrast:bg-gray-300 black-white:bg-gray-200 black-white:border black-white:border-black rounded-lg appearance-none cursor-pointer"
+                className="w-full h-2 bg-slate-700 dark:bg-slate-700 light:bg-slate-300 black-white:bg-gray-200 white-black:bg-gray-700 black-white:border black-white:border-black rounded-lg appearance-none cursor-pointer"
               />
             </div>
           )}
@@ -425,7 +425,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="fullscreen-btn text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 black-white:text-black black-white:bg-gray-100 black-white:border black-white:border-black hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black black-white:hover:text-black black-white:hover:bg-gray-200 transition-all p-1.5 sm:p-2 hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 high-contrast:hover:bg-gray-200 rounded-lg"
+          className="fullscreen-btn text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all p-1.5 sm:p-2 hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 rounded-lg"
           aria-label="Exit fullscreen"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -435,8 +435,8 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
       </div>
 
       {/* ESC hint */}
-      <div className="hidden sm:flex absolute top-4 left-4 sm:top-8 sm:left-8 text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-600 black-white:text-black text-xs sm:text-sm items-center gap-2">
-        <kbd className="px-2 py-1 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 black-white:bg-gray-100 black-white:border black-white:border-black rounded border border-slate-600 dark:border-slate-600 light:border-slate-300 high-contrast:border-gray-400 text-xs">ESC</kbd>
+      <div className="hidden sm:flex absolute top-4 left-4 sm:top-8 sm:left-8 text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-black white-black:text-white text-xs sm:text-sm items-center gap-2">
+        <kbd className="px-2 py-1 bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white rounded border border-slate-600 dark:border-slate-600 light:border-slate-300 text-xs">ESC</kbd>
         <span>to exit</span>
       </div>
 
@@ -451,14 +451,14 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
           />
           <div className="text-center sm:text-left">
             <div className="flex items-center justify-center sm:justify-start gap-2">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white dark:text-white light:text-slate-900 high-contrast:text-black">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white dark:text-white light:text-slate-900 black-white:text-black white-black:text-white">
                 {crypto.name}
               </h1>
               {crypto.isLive && (
                 <span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-400 white-black:bg-white rounded-full animate-pulse" title="Live updates"></span>
               )}
             </div>
-            <p className="text-xl sm:text-2xl md:text-3xl text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600 uppercase mt-1 sm:mt-2">
+            <p className="text-xl sm:text-2xl md:text-3xl text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-300 uppercase mt-1 sm:mt-2">
               {crypto.symbol}
             </p>
           </div>
@@ -474,13 +474,13 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
         {/* Price - HUGE */}
         <div className="text-center">
-          <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-600 mb-1 sm:mb-2 uppercase tracking-wider">
+          <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400 mb-1 sm:mb-2 uppercase tracking-wider">
             Current Price
           </div>
           <div className={`text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight ${
             isPositive 
-              ? 'text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-green-700 white-black:text-white' 
-              : 'text-red-400 dark:text-red-400 light:text-red-600 high-contrast:text-red-700'
+              ? 'text-green-400 dark:text-green-400 light:text-green-600 black-white:text-green-700 white-black:text-white' 
+              : 'text-red-400 dark:text-red-400 light:text-red-600 black-white:text-red-700'
           }`}>
             ${crypto.current_price?.toLocaleString('en-US', { 
               minimumFractionDigits: 2,
@@ -501,13 +501,13 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
             </svg>
           )}
           <div className="text-center">
-            <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-600 mb-1 uppercase tracking-wider">
+            <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400 mb-1 uppercase tracking-wider">
               24h Change
             </div>
             <div className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold ${
               isPositive 
-                ? 'text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-green-700' 
-                : 'text-red-400 dark:text-red-400 light:text-red-600 high-contrast:text-red-700'
+                ? 'text-green-400 dark:text-green-400 light:text-green-600 black-white:text-green-700 white-black:text-white' 
+                : 'text-red-400 dark:text-red-400 light:text-red-600 black-white:text-red-700 white-black:text-white'
             }`}>
               {isPositive ? '+' : ''}{priceChange.toFixed(2)}%
             </div>
@@ -516,46 +516,46 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
 
         {/* Additional stats in smaller text */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6 lg:gap-8 mt-4 sm:mt-6 md:mt-8 w-full max-w-4xl px-4">
-          <div className="text-center px-4 py-3 sm:px-6 sm:py-4 bg-slate-800/50 dark:bg-slate-800/50 light:bg-white/50 high-contrast:bg-gray-100 rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
-            <div className="text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-600 text-xs sm:text-sm mb-1">Market Cap</div>
-            <div className="text-white dark:text-white light:text-slate-900 high-contrast:text-black text-lg sm:text-xl md:text-2xl font-bold">
+          <div className="text-center px-4 py-3 sm:px-6 sm:py-4 bg-slate-800/50 dark:bg-slate-800/50 light:bg-white/50 black-white:bg-gray-100 white-black:bg-gray-900 rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-gray-400 white-black:border-gray-600">
+            <div className="text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400 text-xs sm:text-sm mb-1">Market Cap</div>
+            <div className="text-white dark:text-white light:text-slate-900 black-white:text-black white-black:text-white text-lg sm:text-xl md:text-2xl font-bold">
               ${(crypto.market_cap / 1e9).toFixed(2)}B
             </div>
           </div>
-          <div className="text-center px-4 py-3 sm:px-6 sm:py-4 bg-slate-800/50 dark:bg-slate-800/50 light:bg-white/50 high-contrast:bg-gray-100 rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
-            <div className="text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-600 text-xs sm:text-sm mb-1">24h High</div>
-            <div className="text-white dark:text-white light:text-slate-900 high-contrast:text-black text-lg sm:text-xl md:text-2xl font-bold">
+          <div className="text-center px-4 py-3 sm:px-6 sm:py-4 bg-slate-800/50 dark:bg-slate-800/50 light:bg-white/50 black-white:bg-gray-100 white-black:bg-gray-900 rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-gray-400 white-black:border-gray-600">
+            <div className="text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400 text-xs sm:text-sm mb-1">24h High</div>
+            <div className="text-white dark:text-white light:text-slate-900 black-white:text-black white-black:text-white text-lg sm:text-xl md:text-2xl font-bold">
               ${crypto.high_24h?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
           </div>
-          <div className="text-center px-4 py-3 sm:px-6 sm:py-4 bg-slate-800/50 dark:bg-slate-800/50 light:bg-white/50 high-contrast:bg-gray-100 rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
-            <div className="text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-600 text-xs sm:text-sm mb-1">24h Low</div>
-            <div className="text-white dark:text-white light:text-slate-900 high-contrast:text-black text-lg sm:text-xl md:text-2xl font-bold">
+          <div className="text-center px-4 py-3 sm:px-6 sm:py-4 bg-slate-800/50 dark:bg-slate-800/50 light:bg-white/50 black-white:bg-gray-100 white-black:bg-gray-900 rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-gray-400 white-black:border-gray-600">
+            <div className="text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400 text-xs sm:text-sm mb-1">24h Low</div>
+            <div className="text-white dark:text-white light:text-slate-900 black-white:text-black white-black:text-white text-lg sm:text-xl md:text-2xl font-bold">
               ${crypto.low_24h?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
           </div>
         </div>
 
         {/* Data Source Info */}
-        <div className="mt-4 sm:mt-6 px-4 py-2 sm:px-6 sm:py-3 bg-slate-800/30 dark:bg-slate-800/30 light:bg-white/30 high-contrast:bg-gray-50 rounded-lg border border-slate-700/50 dark:border-slate-700/50 light:border-slate-300/50 high-contrast:border-gray-400">
+        <div className="mt-4 sm:mt-6 px-4 py-2 sm:px-6 sm:py-3 bg-slate-800/30 dark:bg-slate-800/30 light:bg-white/30 black-white:bg-gray-50 white-black:bg-gray-900 rounded-lg border border-slate-700/50 dark:border-slate-700/50 light:border-slate-300/50 black-white:border-gray-400 white-black:border-gray-600">
           <div className="flex items-center justify-center gap-3 sm:gap-6 flex-wrap text-xs sm:text-sm">
             <div className="flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600">
-                Data: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800">CoinGecko</span>
+              <span className="text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400">
+                Data: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-gray-800 white-black:text-gray-200">CoinGecko</span>
                 {crypto.isLive && (
                   <span className="ml-2">• Live: <span className="font-semibold text-green-400 white-black:text-white">Binance</span></span>
                 )}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600">
-                Updated: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800">{lastUpdate.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+              <span className="text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400">
+                Updated: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-gray-800 white-black:text-gray-200">{lastUpdate.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
               </span>
             </div>
           </div>

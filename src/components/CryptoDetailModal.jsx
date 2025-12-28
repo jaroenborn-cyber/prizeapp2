@@ -61,8 +61,8 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
             {
               label: 'Price (USD)',
               data: prices.map(p => p[1]),
-              borderColor: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'white-black' || theme === 'high-contrast-dark') ? '#ffffff' : (theme === 'light' ? '#3b82f6' : '#3b82f6'),
-              backgroundColor: (theme === 'high-contrast' || theme === 'black-white') ? 'rgba(0, 0, 0, 0.1)' : (theme === 'white-black' || theme === 'high-contrast-dark') ? 'rgba(255, 255, 255, 0.1)' : (theme === 'light' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)'),
+              borderColor: theme === 'black-white' ? '#000000' : theme === 'white-black' ? '#ffffff' : (theme === 'light' ? '#3b82f6' : '#3b82f6'),
+              backgroundColor: theme === 'black-white' ? 'rgba(0, 0, 0, 0.1)' : theme === 'white-black' ? 'rgba(255, 255, 255, 0.1)' : (theme === 'light' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)'),
               fill: true,
               tension: 0.4,
               borderWidth: 2,
@@ -115,18 +115,18 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 dark:bg-black/70 light:bg-black/50 high-contrast:bg-black/90 flex items-center justify-center z-50 p-4" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/70 dark:bg-black/70 light:bg-black/50 black-white:bg-black/90 white-black:bg-black/90 flex items-center justify-center z-50 p-4" onClick={onClose}>
       <div 
-        className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black"
+        className="bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black p-6 flex items-center justify-between">
+        <div className="sticky top-0 bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black border-b border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white p-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <img src={crypto.image} alt={crypto.name} className="w-16 h-16 rounded-full" />
             <div>
               <div className="flex items-center gap-3">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black max-w-[40vw] break-words">{crypto.name}</h2>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white max-w-[40vw] break-words">{crypto.name}</h2>
                 {crypto.isLive && (
                   <span className="text-xs bg-green-500/20 text-green-400 white-black:bg-white/10 white-black:text-white px-2 py-1 rounded flex items-center gap-1 live-badge">
                     <span className="inline-block w-1.5 h-1.5 bg-green-400 white-black:bg-white rounded-full animate-pulse"></span>
@@ -134,13 +134,13 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
                   </span>
                 )}
               </div>
-              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 uppercase">{crypto.symbol}</p>
+              <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 uppercase">{crypto.symbol}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={onFullscreen}
-              className="p-1.5 rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 white-black:text-white bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 white-black:bg-white/10 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black white-black:hover:text-black hover:bg-slate-600/50 dark:hover:bg-slate-600/50 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300 white-black:hover:bg-white/80"
+              className="p-1.5 rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-white bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 black-white:bg-gray-200 white-black:bg-white/10 hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-black hover:bg-slate-600/50 dark:hover:bg-slate-600/50 light:hover:bg-slate-300 black-white:hover:bg-gray-300 white-black:hover:bg-white/80"
               aria-label="Open fullscreen"
               title="Fullscreen mode"
             >
@@ -153,7 +153,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
               className={`p-1.5 rounded-full transition-all ${
                 isFavorite(crypto)
                   ? 'text-yellow-400 white-black:text-black bg-yellow-400/20 white-black:bg-white hover:bg-yellow-400/30 white-black:hover:bg-white/80'
-                  : 'text-slate-500 white-black:text-white bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 white-black:bg-white/10 hover:text-yellow-400 white-black:hover:text-black hover:bg-yellow-400/10 white-black:hover:bg-white'
+                  : 'text-slate-500 white-black:text-white bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 black-white:bg-gray-200 white-black:bg-white/10 hover:text-yellow-400 white-black:hover:text-black hover:bg-yellow-400/10 white-black:hover:bg-white'
               }`}
               aria-label={isFavorite(crypto) ? "Remove from favorites" : "Add to favorites"}
             >
@@ -163,7 +163,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 w-8 h-8 flex items-center justify-center rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 white-black:text-white bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 high-contrast:bg-gray-200 white-black:bg-white/10 hover:text-white dark:hover:text-white light:hover:text-slate-900 high-contrast:hover:text-black white-black:hover:text-black hover:bg-red-500/70 dark:hover:bg-red-500/70 light:hover:bg-red-400/70 high-contrast:hover:bg-red-500/70 white-black:hover:bg-white text-xl font-bold"
+              className="p-1.5 w-8 h-8 flex items-center justify-center rounded-full transition-all text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-white bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 black-white:bg-gray-200 white-black:bg-white/10 hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-black hover:bg-red-500/70 dark:hover:bg-red-500/70 light:hover:bg-red-400/70 black-white:hover:bg-red-500/70 white-black:hover:bg-white text-xl font-bold"
               aria-label="Close modal"
             >
               ×
@@ -174,14 +174,14 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
         {/* Content */}
         <div className="p-6">
           {/* Data Source Info */}
-          <div className="mb-6 p-4 bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-gray-400">
+          <div className="mb-6 p-4 bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-gray-900 rounded-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-gray-400 white-black:border-gray-600">
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600">
-                  Data: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800">CoinGecko API</span>
+                <span className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400">
+                  Data: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-gray-800 white-black:text-gray-200">CoinGecko API</span>
                   {crypto.isLive && (
                     <span className="ml-2">
                       • Live: <span className="font-semibold text-green-400 white-black:text-white">Binance WebSocket</span>
@@ -190,11 +190,11 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600">
-                  Updated: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-gray-800">{lastUpdate.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+                <span className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400">
+                  Updated: <span className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-gray-800 white-black:text-gray-200">{lastUpdate.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
                 </span>
               </div>
             </div>
@@ -203,12 +203,12 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
           {/* Price Info */}
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
-              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">Current Price</p>
+              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300">Current Price</p>
               {crypto.isLive && (
                 <span className="text-xs text-green-400 white-black:text-white">(Realtime)</span>
               )}
             </div>
-            <p className="text-5xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black mb-4">
+            <p className="text-5xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white mb-4">
               ${formatPrice(crypto.current_price)}
             </p>
             <div className="flex gap-4">
@@ -228,14 +228,14 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
           {/* Chart */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">Price Chart</h3>
+              <h3 className="text-xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">Price Chart</h3>
               <div className="flex gap-2">
                 <button
                   onClick={() => setChartPeriod('1')}
                   className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
                     chartPeriod === '1'
                       ? 'bg-blue-500 text-white'
-                      : 'bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300'
+                      : 'bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-200 black-white:bg-gray-200 white-black:bg-gray-800 text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-300 black-white:hover:bg-gray-300 white-black:hover:bg-gray-700'
                   }`}
                 >
                   24H
@@ -245,7 +245,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
                   className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
                     chartPeriod === '7'
                       ? 'bg-blue-500 text-white'
-                      : 'bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300'
+                      : 'bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-200 black-white:bg-gray-200 white-black:bg-gray-800 text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-300 black-white:hover:bg-gray-300 white-black:hover:bg-gray-700'
                   }`}
                 >
                   7D
@@ -255,7 +255,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
                   className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
                     chartPeriod === '30'
                       ? 'bg-blue-500 text-white'
-                      : 'bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300'
+                      : 'bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-200 black-white:bg-gray-200 white-black:bg-gray-800 text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-300 black-white:hover:bg-gray-300 white-black:hover:bg-gray-700'
                   }`}
                 >
                   30D
@@ -265,17 +265,17 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
                   className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
                     chartPeriod === '365'
                       ? 'bg-blue-500 text-white'
-                      : 'bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-200 high-contrast:bg-gray-200 text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-300 high-contrast:hover:bg-gray-300'
+                      : 'bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-200 black-white:bg-gray-200 white-black:bg-gray-800 text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-300 black-white:hover:bg-gray-300 white-black:hover:bg-gray-700'
                   }`}
                 >
                   1Y
                 </button>
               </div>
             </div>
-            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4 h-80">
+            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-gray-900 rounded-xl p-4 h-80">
               {loading ? (
                 <div className="flex items-center justify-center h-full">
-                  <div className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">Loading chart...</div>
+                  <div className="text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300">Loading chart...</div>
                 </div>
               ) : chartData ? (
                 <Line
@@ -291,8 +291,8 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
                         mode: 'index',
                         intersect: false,
                         backgroundColor: (theme === 'light' || theme === 'black-white') ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.8)',
-                        titleColor: (theme === 'light' || theme === 'black-white' || theme === 'high-contrast') ? '#000000' : '#ffffff',
-                        bodyColor: (theme === 'light' || theme === 'black-white' || theme === 'high-contrast') ? '#000000' : '#ffffff',
+                        titleColor: (theme === 'light' || theme === 'black-white') ? '#000000' : '#ffffff',
+                        bodyColor: (theme === 'light' || theme === 'black-white') ? '#000000' : '#ffffff',
                         borderColor: (theme === 'light' || theme === 'black-white') ? '#000000' : (theme === 'white-black' ? '#ffffff' : '#334155'),
                         borderWidth: 1,
                       },
@@ -300,21 +300,21 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
                     scales: {
                       x: {
                         grid: {
-                          color: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'white-black' || theme === 'high-contrast-dark') ? '#ffffff' : (theme === 'light' ? '#e2e8f0' : '#334155'),
+                          color: theme === 'black-white' ? '#000000' : theme === 'white-black' ? '#ffffff' : (theme === 'light' ? '#e2e8f0' : '#334155'),
                           drawBorder: false,
                         },
                         ticks: {
-                          color: (theme === 'black-white' || theme === 'high-contrast') ? '#000000' : (theme === 'white-black' || theme === 'high-contrast-dark') ? '#ffffff' : (theme === 'light' ? '#64748b' : '#94a3b8'),
+                          color: theme === 'black-white' ? '#000000' : theme === 'white-black' ? '#ffffff' : (theme === 'light' ? '#64748b' : '#94a3b8'),
                           maxTicksLimit: 8,
                         },
                       },
                       y: {
                         grid: {
-                          color: (theme === 'high-contrast' || theme === 'black-white') ? '#000000' : (theme === 'white-black' || theme === 'high-contrast-dark') ? '#ffffff' : (theme === 'light' ? '#e2e8f0' : '#334155'),
+                          color: theme === 'black-white' ? '#000000' : theme === 'white-black' ? '#ffffff' : (theme === 'light' ? '#e2e8f0' : '#334155'),
                           drawBorder: false,
                         },
                         ticks: {
-                          color: (theme === 'black-white' || theme === 'high-contrast') ? '#000000' : (theme === 'white-black' || theme === 'high-contrast-dark') ? '#ffffff' : (theme === 'light' ? '#64748b' : '#94a3b8'),
+                          color: theme === 'black-white' ? '#000000' : theme === 'white-black' ? '#ffffff' : (theme === 'light' ? '#64748b' : '#94a3b8'),
                           callback: function(value) {
                             return '$' + value.toLocaleString();
                           },
@@ -325,7 +325,7 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
                 />
               ) : (
                 <div className="flex items-center justify-center h-full">
-                  <div className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">No chart data available</div>
+                  <div className="text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300">No chart data available</div>
                 </div>
               )}
             </div>
@@ -333,38 +333,38 @@ const CryptoDetailModal = ({ crypto, onClose, onToggleFavorite, isFavorite, onFu
 
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
-              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 mb-2">Market Cap</p>
-              <p className="text-2xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">{formatMarketCap(crypto.market_cap)}</p>
-              <p className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-700 mt-1">Rank #{crypto.market_cap_rank}</p>
+            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-gray-900 rounded-xl p-4">
+              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 mb-2">Market Cap</p>
+              <p className="text-2xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">{formatMarketCap(crypto.market_cap)}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400 mt-1">Rank #{crypto.market_cap_rank}</p>
             </div>
 
-            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
-              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 mb-2">24h Volume</p>
-              <p className="text-2xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">{formatVolume(crypto.total_volume)}</p>
+            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-gray-900 rounded-xl p-4">
+              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 mb-2">24h Volume</p>
+              <p className="text-2xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">{formatVolume(crypto.total_volume)}</p>
             </div>
 
-            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
-              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 mb-2">Circulating Supply</p>
-              <p className="text-2xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-gray-900 rounded-xl p-4">
+              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 mb-2">Circulating Supply</p>
+              <p className="text-2xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                 {crypto.circulating_supply?.toLocaleString(undefined, { maximumFractionDigits: 0 })}
               </p>
-              <p className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-gray-700 mt-1 uppercase">{crypto.symbol}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400 mt-1 uppercase">{crypto.symbol}</p>
             </div>
 
-            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
-              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 mb-2">24h High</p>
+            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-gray-900 rounded-xl p-4">
+              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 mb-2">24h High</p>
               <p className="text-2xl font-bold text-green-400 white-black:text-white">${formatPrice(crypto.high_24h)}</p>
             </div>
 
-            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
-              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 mb-2">24h Low</p>
+            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-gray-900 rounded-xl p-4">
+              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 mb-2">24h Low</p>
               <p className="text-2xl font-bold text-red-400">${formatPrice(crypto.low_24h)}</p>
             </div>
 
-            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
-              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 mb-2">All-Time High</p>
-              <p className="text-2xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">${formatPrice(crypto.ath)}</p>
+            <div className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-gray-900 rounded-xl p-4">
+              <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-300 mb-2">All-Time High</p>
+              <p className="text-2xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">${formatPrice(crypto.ath)}</p>
             </div>
           </div>
         </div>

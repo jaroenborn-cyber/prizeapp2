@@ -47,7 +47,7 @@ const ThemeSwitcher = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="switcher-btn flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black black-white:bg-white white-black:bg-black high-contrast-dark:bg-black border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white black-white:border-black white-black:border-white high-contrast-dark:border-lime-500 hover:border-neon-cyan dark:hover:border-neon-cyan light:hover:border-slate-400 high-contrast:hover:border-high-contrast-accent black-white:hover:border-gray-600 white-black:hover:border-gray-400 high-contrast-dark:hover:border-lime-400 transition-all text-white dark:text-white light:text-slate-800 high-contrast:text-white black-white:text-black white-black:text-white high-contrast-dark:text-lime-500 shadow-lg hover:shadow-neon-cyan/20"
+        className="switcher-btn flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white hover:border-neon-cyan dark:hover:border-neon-cyan light:hover:border-slate-400 black-white:hover:border-gray-600 white-black:hover:border-gray-400 transition-all text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white shadow-lg hover:shadow-neon-cyan/20"
         aria-label="Theme selector"
       >
         <span className="text-base sm:text-lg">{getThemeIcon()}</span>
@@ -63,14 +63,14 @@ const ThemeSwitcher = () => {
       </button>
 
       {isOpen && (
-        <div className="switcher-dropdown absolute right-0 mt-2 w-36 sm:w-56 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black black-white:bg-white white-black:bg-black high-contrast-dark:bg-black border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white black-white:border-black white-black:border-white high-contrast-dark:border-lime-500 shadow-2xl overflow-hidden z-50 animate-fadeIn">
+        <div className="switcher-dropdown absolute right-0 mt-2 w-36 sm:w-56 rounded-lg bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white shadow-2xl overflow-hidden z-50 animate-fadeIn">
           <div className="py-1">
             <button
               onClick={() => handleThemeSelect('dark')}
               className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
                 theme === 'dark'
                   ? 'bg-slate-700 text-white border-l-4 border-neon-cyan'
-                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-white black-white:text-black white-black:text-white high-contrast-dark:text-lime-500 hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-800 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 high-contrast-dark:hover:bg-gray-900'
+                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black white-black:text-white hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900'
               }`}
             >
               <span className="text-base sm:text-2xl">🌙</span>
@@ -90,7 +90,7 @@ const ThemeSwitcher = () => {
               className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
                 theme === 'light'
                   ? 'bg-slate-200 text-slate-800 border-l-4 border-neon-purple'
-                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-white black-white:text-black white-black:text-white high-contrast-dark:text-lime-500 hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-800 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 high-contrast-dark:hover:bg-gray-900'
+                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black white-black:text-white hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900'
               }`}
             >
               <span className="text-base sm:text-2xl">☀️</span>
@@ -110,7 +110,7 @@ const ThemeSwitcher = () => {
               className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
                 theme === 'black-white'
                   ? 'bg-gray-200 text-black border-l-4 border-black font-bold'
-                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-white black-white:text-black white-black:text-white high-contrast-dark:text-lime-500 hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-800 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 high-contrast-dark:hover:bg-gray-900'
+                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black white-black:text-white hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900'
               }`}
             >
               <span className="text-base sm:text-2xl">◐</span>
@@ -130,7 +130,7 @@ const ThemeSwitcher = () => {
               className={`dropdown-item w-full px-2 sm:px-4 py-1.5 sm:py-3 flex items-center gap-1.5 sm:gap-3 transition-all ${
                 theme === 'white-black'
                   ? 'bg-gray-800 text-white border-l-4 border-white font-bold'
-                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 high-contrast:text-white black-white:text-black white-black:text-white high-contrast-dark:text-lime-500 hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-800 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 high-contrast-dark:hover:bg-gray-900'
+                  : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black white-black:text-white hover:bg-slate-800/50 dark:hover:bg-slate-800/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900'
               }`}
             >
               <span className="text-base sm:text-2xl">◑</span>

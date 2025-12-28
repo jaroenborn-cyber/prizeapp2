@@ -103,17 +103,17 @@ const IndexDetail = () => {
         <div className="flex items-center gap-4 mb-4">
           <span className="text-5xl">{indexInfo.flag}</span>
           <div>
-            <h1 className="text-3xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+            <h1 className="text-3xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
               {indexInfo.name}
             </h1>
-            <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">
+            <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400">
               {indexInfo.country}
             </p>
           </div>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
-          <div className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700">
+          <div className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400">
             {stocks.length} {t.companiesListed || 'companies listed'}
           </div>
           <button
@@ -209,12 +209,12 @@ const IndexDetail = () => {
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black text-lg truncate">
+                    <h3 className="font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white text-lg truncate">
                       {stock.name || stock.companyName || stock.symbol}
                     </h3>
                   </div>
                   <div className="flex items-center gap-2 ml-2">
-                    <span className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-600 font-mono">
+                    <span className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-600 white-black:text-gray-400 font-mono">
                       {stock.symbol}
                     </span>
                     <div className={`flex items-center ${changeColor}`}>
@@ -233,7 +233,7 @@ const IndexDetail = () => {
 
                 <div className="space-y-2">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                    <span className="text-xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                       {formatNumber(stock.price)}
                     </span>
                   </div>
@@ -248,15 +248,15 @@ const IndexDetail = () => {
                   </div>
 
                   {stock.marketCap && (
-                    <div className="pt-2 border-t border-slate-700/50 dark:border-slate-700/50 light:border-slate-200 high-contrast:border-gray-400">
-                      <p className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-600">
+                    <div className="pt-2 border-t border-slate-700/50 dark:border-slate-700/50 light:border-slate-200 black-white:border-gray-300 white-black:border-slate-600">
+                      <p className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-600 white-black:text-gray-400">
                         {t.marketCap || 'Market Cap'}: {formatLargeNumber(stock.marketCap)}
                       </p>
                     </div>
                   )}
 
                   {stock.pe && (
-                    <p className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-600">
+                    <p className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-600 white-black:text-gray-400">
                       P/E: {formatNumber(stock.pe, 1)}
                     </p>
                   )}
@@ -314,7 +314,7 @@ const IndexDetail = () => {
       {/* Empty State */}
       {!loading && stocks.length === 0 && !error && (
         <div className="text-center py-12">
-          <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-700 mb-4">
+          <p className="text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400 mb-4">
             {t.noStocksFound || 'No stocks found for this index'}
           </p>
           <button

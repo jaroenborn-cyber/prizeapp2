@@ -366,7 +366,7 @@ const BlockExplorer = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark-bg via-slate-900 to-dark-bg dark:from-dark-bg dark:via-slate-900 dark:to-dark-bg light:from-slate-50 light:via-white light:to-slate-50 high-contrast:from-white high-contrast:to-white">
+    <div className="min-h-screen bg-gradient-to-br from-dark-bg via-slate-900 to-dark-bg dark:from-dark-bg dark:via-slate-900 dark:to-dark-bg light:from-slate-50 light:via-white light:to-slate-50 black-white:from-white black-white:to-white white-black:from-black white-black:to-black">
       <div className="container mx-auto px-4 py-8 max-w-full">
         {/* Header */}
         <div className="mb-8">
@@ -403,7 +403,7 @@ const BlockExplorer = () => {
 
                   {/* Dropdown Menu */}
                   {showSoundMenu && (
-                    <div className="absolute right-0 mt-2 w-56 rounded-xl bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white shadow-2xl overflow-hidden z-50 animate-fadeIn">
+                    <div className="absolute right-0 mt-2 w-56 rounded-xl bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white shadow-2xl overflow-hidden z-50 animate-fadeIn">
                       <div className="py-1">
                         {soundOptions.map((sound) => (
                           <button
@@ -412,13 +412,13 @@ const BlockExplorer = () => {
                             className={`w-full text-left px-4 py-3 transition-colors ${
                               selectedSound === sound.id
                                 ? 'bg-orange-500/20 text-orange-400'
-                                : 'text-white dark:text-white light:text-slate-800 high-contrast:text-black hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 high-contrast:hover:bg-gray-200'
+                                : 'text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-200 white-black:hover:bg-slate-700'
                             }`}
                           >
                             <div className="flex items-center justify-between">
                               <div>
                                 <div className="font-semibold">{sound.name}</div>
-                                <div className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-600 high-contrast:text-gray-600">
+                                <div className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-400">
                                   {sound.description}
                                 </div>
                               </div>
@@ -484,9 +484,9 @@ const BlockExplorer = () => {
         </div>
 
         {/* Block Timeline - Moved to top */}
-        <div className="mb-8 bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black black-white:bg-white rounded-xl p-6 border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white black-white:border-black">
-          <h2 className="text-xl font-bold mb-6 text-white dark:text-white light:text-slate-800 high-contrast:text-white black-white:text-black flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-500 dark:text-orange-500 light:text-orange-600 high-contrast:text-high-contrast-accent black-white:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="mb-8 bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black rounded-xl p-6 border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white">
+          <h2 className="text-xl font-bold mb-6 text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-500 dark:text-orange-500 light:text-orange-600 black-white:text-black white-black:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Block Timeline
@@ -507,19 +507,19 @@ const BlockExplorer = () => {
                 <div key={`mobile-${block.id}`} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:hidden snap-start">
                   <div 
                     onClick={() => setSelectedBlock(block)}
-                    className="relative bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 dark:border-green-500/50 light:border-green-600 light:bg-green-50 high-contrast:border-high-contrast-success high-contrast:bg-black black-white:border-black black-white:bg-white rounded-xl p-2 transition-transform active:scale-95 cursor-pointer h-full"
+                    className="relative bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 dark:border-green-500/50 light:border-green-600 light:bg-green-50 black-white:border-black black-white:bg-white white-black:border-white white-black:bg-black rounded-xl p-2 transition-transform active:scale-95 cursor-pointer h-full"
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 dark:bg-green-400 light:bg-green-600 high-contrast:bg-high-contrast-success black-white:bg-black white-black:bg-white rounded-full animate-pulse"></div>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4 text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-high-contrast-success black-white:text-black white-black:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 dark:bg-green-400 light:bg-green-600 black-white:bg-black white-black:bg-white rounded-full animate-pulse"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4 text-green-400 dark:text-green-400 light:text-green-600 black-white:text-black white-black:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <div className="text-[10px] sm:text-xs text-green-400/70 dark:text-green-400/70 light:text-green-700 high-contrast:text-high-contrast-success black-white:text-black white-black:text-white mb-0.5 uppercase font-semibold">Mined</div>
-                    <div className="text-xs sm:text-lg font-bold text-white dark:text-white light:text-slate-900 high-contrast:text-white black-white:text-black font-mono mb-0.5">
+                    <div className="text-[10px] sm:text-xs text-green-400/70 dark:text-green-400/70 light:text-green-700 black-white:text-black white-black:text-white mb-0.5 uppercase font-semibold">Mined</div>
+                    <div className="text-xs sm:text-lg font-bold text-white dark:text-white light:text-slate-900 black-white:text-black white-black:text-white font-mono mb-0.5">
                       {block.height?.toLocaleString()}
                     </div>
-                    <div className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-400 light:text-slate-700 high-contrast:text-white black-white:text-black">
+                    <div className="text-[10px] sm:text-xs text-slate-400 dark:text-slate-400 light:text-slate-700 black-white:text-black white-black:text-white">
                       {block.tx_count} txs
                     </div>
                   </div>
@@ -530,22 +530,22 @@ const BlockExplorer = () => {
                 <div key={`desktop-${block.id}`} className="relative hidden sm:block">
                   <div 
                     onClick={() => setSelectedBlock(block)}
-                    className="relative z-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 dark:border-green-500/50 light:border-green-600 light:bg-green-50 high-contrast:border-high-contrast-success high-contrast:bg-black rounded-xl p-4 hover:scale-105 transition-all cursor-pointer h-full"
+                    className="relative z-10 bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/50 dark:border-green-500/50 light:border-green-600 light:bg-green-50 black-white:border-black black-white:bg-white white-black:border-white white-black:bg-black rounded-xl p-4 hover:scale-105 transition-all cursor-pointer h-full"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <div className="w-3 h-3 bg-green-400 dark:bg-green-400 light:bg-green-600 high-contrast:bg-high-contrast-success white-black:bg-white rounded-full animate-pulse"></div>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-400 dark:text-green-400 light:text-green-600 high-contrast:text-high-contrast-success white-black:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className="w-3 h-3 bg-green-400 dark:bg-green-400 light:bg-green-600 black-white:bg-black white-black:bg-white rounded-full animate-pulse"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-400 dark:text-green-400 light:text-green-600 black-white:text-black white-black:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <div className="text-xs text-green-400/70 dark:text-green-400/70 light:text-green-700 high-contrast:text-high-contrast-success white-black:text-white mb-1 uppercase font-semibold">Mined</div>
-                    <div className="text-lg font-bold text-white dark:text-white light:text-slate-900 high-contrast:text-white font-mono mb-1">
+                    <div className="text-xs text-green-400/70 dark:text-green-400/70 light:text-green-700 black-white:text-black white-black:text-white mb-1 uppercase font-semibold">Mined</div>
+                    <div className="text-lg font-bold text-white dark:text-white light:text-slate-900 black-white:text-black white-black:text-white font-mono mb-1">
                       {block.height?.toLocaleString()}
                     </div>
-                    <div className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-700 high-contrast:text-white">
+                    <div className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-700 black-white:text-black white-black:text-white">
                       {block.tx_count} txs
                     </div>
-                    <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-white mt-1">
+                    <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-black white-black:text-white mt-1">
                       {formatDate(block.timestamp).split(',')[1]}
                     </div>
                   </div>
@@ -559,38 +559,38 @@ const BlockExplorer = () => {
                 <div key={`mobile-expected-${expectedBlock.height}`} className="relative flex-shrink-0 w-[calc(25%-6px)] sm:hidden snap-start">
                   <div className={`relative rounded-xl p-2 transition-transform active:scale-95 cursor-pointer h-full ${
                     expectedBlock.status === 'next'
-                      ? 'bg-gradient-to-br from-orange-500/20 to-orange-600/10 border-2 border-orange-500/50 dark:border-orange-500/50 light:border-orange-600 light:bg-orange-50 high-contrast:border-high-contrast-accent high-contrast:bg-black animate-pulse'
-                      : 'bg-gradient-to-br from-slate-700/20 to-slate-800/10 border-2 border-slate-600/30 dark:border-slate-600/30 light:border-slate-400 light:bg-slate-100 high-contrast:border-white high-contrast:bg-black'
+                      ? 'bg-gradient-to-br from-orange-500/20 to-orange-600/10 border-2 border-orange-500/50 dark:border-orange-500/50 light:border-orange-600 light:bg-orange-50 black-white:border-black black-white:bg-white white-black:border-white white-black:bg-black animate-pulse'
+                      : 'bg-gradient-to-br from-slate-700/20 to-slate-800/10 border-2 border-slate-600/30 dark:border-slate-600/30 light:border-slate-400 light:bg-slate-100 black-white:border-black black-white:bg-white white-black:border-white white-black:bg-black'
                   }`}>
                     <div className="flex items-center justify-between mb-1">
                       <div className={`w-2 h-2 rounded-full ${
                         expectedBlock.status === 'next' 
-                          ? 'bg-orange-400 dark:bg-orange-400 light:bg-orange-600 high-contrast:bg-high-contrast-accent animate-pulse' 
-                          : 'bg-slate-500 dark:bg-slate-500 light:bg-slate-600 high-contrast:bg-white'
+                          ? 'bg-orange-400 dark:bg-orange-400 light:bg-orange-600 black-white:bg-black white-black:bg-white animate-pulse' 
+                          : 'bg-slate-500 dark:bg-slate-500 light:bg-slate-600 black-white:bg-black white-black:bg-white'
                       }`}></div>
                       <svg xmlns="http://www.w3.org/2000/svg" className={`h-3 w-3 ${
                         expectedBlock.status === 'next' 
-                          ? 'text-orange-400 dark:text-orange-400 light:text-orange-600 high-contrast:text-high-contrast-accent' 
-                          : 'text-slate-500 dark:text-slate-500 light:text-slate-700 high-contrast:text-white'
+                          ? 'text-orange-400 dark:text-orange-400 light:text-orange-600 black-white:text-black white-black:text-white' 
+                          : 'text-slate-500 dark:text-slate-500 light:text-slate-700 black-white:text-black white-black:text-white'
                       }`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div className={`text-[10px] mb-0.5 uppercase font-semibold ${
                       expectedBlock.status === 'next' 
-                        ? 'text-orange-400/70 dark:text-orange-400/70 light:text-orange-700 high-contrast:text-high-contrast-accent' 
-                        : 'text-slate-500 dark:text-slate-500 light:text-slate-700 high-contrast:text-white'
+                        ? 'text-orange-400/70 dark:text-orange-400/70 light:text-orange-700 black-white:text-black white-black:text-white' 
+                        : 'text-slate-500 dark:text-slate-500 light:text-slate-700 black-white:text-black white-black:text-white'
                     }`}>
                       {expectedBlock.status === 'next' ? 'Next' : 'Upcoming'}
                     </div>
                     <div className={`text-xs font-bold font-mono mb-0.5 ${
                       expectedBlock.status === 'next' 
-                        ? 'text-orange-400 dark:text-orange-400 light:text-orange-700 high-contrast:text-white' 
-                        : 'text-slate-400 dark:text-slate-400 light:text-slate-700 high-contrast:text-white'
+                        ? 'text-orange-400 dark:text-orange-400 light:text-orange-700 black-white:text-black white-black:text-white' 
+                        : 'text-slate-400 dark:text-slate-400 light:text-slate-700 black-white:text-black white-black:text-white'
                     }`}>
                       {expectedBlock.height?.toLocaleString()}
                     </div>
-                    <div className="text-[10px] text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-white">
+                    <div className="text-[10px] text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-black white-black:text-white">
                       {formatEstimatedTime(expectedBlock.estimatedMinutes)}
                     </div>
                   </div>
@@ -601,44 +601,44 @@ const BlockExplorer = () => {
                 <div key={`expected-${expectedBlock.height}`} className="relative hidden sm:block">
                   <div className={`relative z-10 rounded-xl p-4 hover:scale-105 transition-all cursor-pointer h-full ${
                     expectedBlock.status === 'next'
-                      ? 'bg-gradient-to-br from-orange-500/20 to-orange-600/10 border-2 border-orange-500/50 dark:border-orange-500/50 light:border-orange-600 light:bg-orange-50 high-contrast:border-high-contrast-accent high-contrast:bg-black animate-pulse'
-                      : 'bg-gradient-to-br from-slate-700/20 to-slate-800/10 border-2 border-slate-600/30 dark:border-slate-600/30 light:border-slate-400 light:bg-slate-100 high-contrast:border-white high-contrast:bg-black'
+                      ? 'bg-gradient-to-br from-orange-500/20 to-orange-600/10 border-2 border-orange-500/50 dark:border-orange-500/50 light:border-orange-600 light:bg-orange-50 black-white:border-black black-white:bg-white white-black:border-white white-black:bg-black animate-pulse'
+                      : 'bg-gradient-to-br from-slate-700/20 to-slate-800/10 border-2 border-slate-600/30 dark:border-slate-600/30 light:border-slate-400 light:bg-slate-100 black-white:border-black black-white:bg-white white-black:border-white white-black:bg-black'
                   }`}>
                     <div className="flex items-center justify-between mb-2">
                       <div className={`w-3 h-3 rounded-full ${
                         expectedBlock.status === 'next' 
-                          ? 'bg-orange-400 dark:bg-orange-400 light:bg-orange-600 high-contrast:bg-high-contrast-accent animate-pulse' 
-                          : 'bg-slate-500 dark:bg-slate-500 light:bg-slate-600 high-contrast:bg-white'
+                          ? 'bg-orange-400 dark:bg-orange-400 light:bg-orange-600 black-white:bg-black white-black:bg-white animate-pulse' 
+                          : 'bg-slate-500 dark:bg-slate-500 light:bg-slate-600 black-white:bg-black white-black:bg-white'
                       }`}></div>
                       <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 ${
                         expectedBlock.status === 'next' 
-                          ? 'text-orange-400 dark:text-orange-400 light:text-orange-600 high-contrast:text-high-contrast-accent' 
-                          : 'text-slate-500 dark:text-slate-500 light:text-slate-700 high-contrast:text-white'
+                          ? 'text-orange-400 dark:text-orange-400 light:text-orange-600 black-white:text-black white-black:text-white' 
+                          : 'text-slate-500 dark:text-slate-500 light:text-slate-700 black-white:text-black white-black:text-white'
                       }`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div className={`text-xs mb-1 uppercase font-semibold ${
                       expectedBlock.status === 'next' 
-                        ? 'text-orange-400/70 dark:text-orange-400/70 light:text-orange-700 high-contrast:text-high-contrast-accent' 
-                        : 'text-slate-500 dark:text-slate-500 light:text-slate-700 high-contrast:text-white'
+                        ? 'text-orange-400/70 dark:text-orange-400/70 light:text-orange-700 black-white:text-black white-black:text-white' 
+                        : 'text-slate-500 dark:text-slate-500 light:text-slate-700 black-white:text-black white-black:text-white'
                     }`}>
                       {expectedBlock.status === 'next' ? 'Next' : 'Upcoming'}
                     </div>
                     <div className={`text-lg font-bold font-mono mb-1 ${
                       expectedBlock.status === 'next' 
-                        ? 'text-orange-400 dark:text-orange-400 light:text-orange-700 high-contrast:text-white' 
-                        : 'text-slate-400 dark:text-slate-400 light:text-slate-700 high-contrast:text-white'
+                        ? 'text-orange-400 dark:text-orange-400 light:text-orange-700 black-white:text-black white-black:text-white' 
+                        : 'text-slate-400 dark:text-slate-400 light:text-slate-700 black-white:text-black white-black:text-white'
                     }`}>
                       {expectedBlock.height?.toLocaleString()}
                     </div>
-                    <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-white">
+                    <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-black white-black:text-white">
                       {mempoolInfo?.count ? `${Math.floor(mempoolInfo.count / 3000)} txs` : '~2500 txs'}
                     </div>
                     <div className={`text-xs mt-1 ${
                       expectedBlock.status === 'next' 
-                        ? 'text-orange-400/80 dark:text-orange-400/80 light:text-orange-700 high-contrast:text-high-contrast-accent' 
-                        : 'text-slate-500 dark:text-slate-500 light:text-slate-600 high-contrast:text-white'
+                        ? 'text-orange-400/80 dark:text-orange-400/80 light:text-orange-700 black-white:text-black white-black:text-white' 
+                        : 'text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-black white-black:text-white'
                     }`}>
                       {formatEstimatedTime(expectedBlock.estimatedMinutes)}
                     </div>
@@ -677,7 +677,7 @@ const BlockExplorer = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search address, transaction or block..."
-              className="flex-1 px-4 py-3 bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black black-white:bg-white rounded-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white black-white:border-black text-white dark:text-white light:text-slate-800 high-contrast:text-white black-white:text-black placeholder-slate-500 black-white:placeholder-black focus:outline-none focus:border-orange-500 high-contrast:focus:border-high-contrast-accent black-white:focus:border-black"
+              className="flex-1 px-4 py-3 bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black rounded-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white placeholder-slate-500 black-white:placeholder-black white-black:placeholder-white focus:outline-none focus:border-orange-500 black-white:focus:border-black white-black:focus:border-white"
             />
             <button
               type="submit"
@@ -728,7 +728,7 @@ const BlockExplorer = () => {
                 </svg>
                 Network Hashrate
               </div>
-              <div className="text-4xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+              <div className="text-4xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                 {formatHashrate(stats?.hashrate)}
               </div>
             </div>
@@ -773,8 +773,8 @@ const BlockExplorer = () => {
 
         {/* Fees */}
         {fees && (
-          <div className="mb-8 bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black rounded-xl p-6 border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white">
-            <h2 className="text-xl font-bold mb-6 text-white dark:text-white light:text-slate-800 high-contrast:text-white flex items-center gap-2">
+          <div className="mb-8 bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black rounded-xl p-6 border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white">
+            <h2 className="text-xl font-bold mb-6 text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -786,7 +786,7 @@ const BlockExplorer = () => {
                   <div className="text-green-400 white-black:text-white font-semibold">Low Priority</div>
                   <span className="inline-block w-3 h-3 bg-green-400 white-black:bg-white rounded-full animate-pulse"></span>
                 </div>
-                <div className="text-4xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black mb-2">
+                <div className="text-4xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white mb-2">
                   {fees.hourFee}
                 </div>
                 <div className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 mb-4">sat/vB</div>
@@ -804,7 +804,7 @@ const BlockExplorer = () => {
                   <div className="text-yellow-400 font-semibold">Medium Priority</div>
                   <span className="inline-block w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></span>
                 </div>
-                <div className="text-4xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black mb-2">
+                <div className="text-4xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white mb-2">
                   {fees.halfHourFee}
                 </div>
                 <div className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 mb-4">sat/vB</div>
@@ -822,7 +822,7 @@ const BlockExplorer = () => {
                   <div className="text-red-400 font-semibold">High Priority</div>
                   <span className="inline-block w-3 h-3 bg-red-400 rounded-full animate-pulse"></span>
                 </div>
-                <div className="text-4xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black mb-2">
+                <div className="text-4xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white mb-2">
                   {fees.fastestFee}
                 </div>
                 <div className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-600 mb-4">sat/vB</div>
@@ -864,9 +864,9 @@ const BlockExplorer = () => {
         )}
 
         {/* Recent Blocks */}
-        <div className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-black rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white overflow-hidden">
-          <div className="p-6 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-white">
-            <h2 className="text-xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-white flex items-center gap-2">
+        <div className="bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black rounded-xl border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white overflow-hidden">
+          <div className="p-6 border-b border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white">
+            <h2 className="text-xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
@@ -922,7 +922,7 @@ const BlockExplorer = () => {
             {/* Detailed table view */}
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 high-contrast:bg-gray-200">
+                <thead className="bg-slate-800/50 dark:bg-slate-800/50 light:bg-slate-100 black-white:bg-gray-200 white-black:bg-slate-800">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-600 uppercase">Height</th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-600 uppercase">Timestamp</th>
@@ -931,7 +931,7 @@ const BlockExplorer = () => {
                     <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 dark:text-slate-400 light:text-slate-600 uppercase">Miner</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-700 dark:divide-slate-700 light:divide-slate-300 high-contrast:divide-black">
+                <tbody className="divide-y divide-slate-700 dark:divide-slate-700 light:divide-slate-300 black-white:divide-black white-black:divide-white">
                   {blocks.map((block, index) => (
                     <tr key={block.id} className="hover:bg-slate-800/30 dark:hover:bg-slate-800/30 light:hover:bg-slate-50 transition-colors">
                       <td className="px-4 py-3 text-sm font-mono text-orange-500">
@@ -981,11 +981,11 @@ const BlockExplorer = () => {
       {/* Block Details Modal */}
       {selectedBlock && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedBlock(null)}>
-          <div className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white rounded-2xl border-2 border-orange-500/50 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black rounded-2xl border-2 border-orange-500/50 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div className="sticky top-0 bg-gradient-to-br from-orange-500/20 to-orange-600/10 border-b border-orange-500/30 p-6 flex items-center justify-between">
               <div>
-                <h3 className="text-2xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black flex items-center gap-2">
+                <h3 className="text-2xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white flex items-center gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
@@ -1009,43 +1009,43 @@ const BlockExplorer = () => {
             <div className="p-6 space-y-6">
               {/* Stats Grid */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
+                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-slate-800 rounded-xl p-4">
                   <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 uppercase mb-2 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                     </svg>
                     Transactions
                   </div>
-                  <div className="text-2xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                  <div className="text-2xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                     {selectedBlock.tx_count?.toLocaleString()}
                   </div>
                 </div>
 
-                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
+                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-slate-800 rounded-xl p-4">
                   <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 uppercase mb-2 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
                     </svg>
                     Size
                   </div>
-                  <div className="text-2xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                  <div className="text-2xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                     {formatBytes(selectedBlock.size)}
                   </div>
                 </div>
 
-                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
+                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-slate-800 rounded-xl p-4">
                   <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 uppercase mb-2 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                     </svg>
                     Weight
                   </div>
-                  <div className="text-2xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                  <div className="text-2xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                     {selectedBlock.weight?.toLocaleString() || 'N/A'}
                   </div>
                 </div>
 
-                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
+                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-slate-800 rounded-xl p-4">
                   <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 uppercase mb-2 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -1060,7 +1060,7 @@ const BlockExplorer = () => {
 
               {/* Block Info */}
               <div className="space-y-3">
-                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
+                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-slate-800 rounded-xl p-4">
                   <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 uppercase mb-2">Block Hash</div>
                   <div className="text-sm font-mono text-orange-500 break-all">
                     {selectedBlock.id}
@@ -1068,7 +1068,7 @@ const BlockExplorer = () => {
                 </div>
 
                 {selectedBlock.previousblockhash && (
-                  <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
+                  <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-slate-800 rounded-xl p-4">
                     <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 uppercase mb-2">Previous Block Hash</div>
                     <div className="text-sm font-mono text-slate-400 dark:text-slate-400 light:text-slate-600 break-all">
                       {selectedBlock.previousblockhash}
@@ -1076,14 +1076,14 @@ const BlockExplorer = () => {
                   </div>
                 )}
 
-                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-4">
+                <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-slate-800 rounded-xl p-4">
                   <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 uppercase mb-2">Mined By</div>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold">
                       {selectedBlock.extras?.pool?.name?.charAt(0) || '?'}
                     </div>
                     <div>
-                      <div className="text-lg font-semibold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                      <div className="text-lg font-semibold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                         {selectedBlock.extras?.pool?.name || 'Unknown Pool'}
                       </div>
                       {selectedBlock.extras?.pool?.url && (
@@ -1102,30 +1102,30 @@ const BlockExplorer = () => {
 
                 {/* Additional Block Details */}
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-3">
+                  <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-slate-800 rounded-xl p-3">
                     <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 uppercase mb-1">Difficulty</div>
-                    <div className="text-sm font-semibold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                    <div className="text-sm font-semibold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                       {selectedBlock.difficulty?.toLocaleString() || 'N/A'}
                     </div>
                   </div>
 
-                  <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-3">
+                  <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-slate-800 rounded-xl p-3">
                     <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 uppercase mb-1">Nonce</div>
-                    <div className="text-sm font-mono font-semibold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                    <div className="text-sm font-mono font-semibold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                       {selectedBlock.nonce?.toLocaleString() || 'N/A'}
                     </div>
                   </div>
 
-                  <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-3">
+                  <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-slate-800 rounded-xl p-3">
                     <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 uppercase mb-1">Version</div>
-                    <div className="text-sm font-semibold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                    <div className="text-sm font-semibold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                       0x{selectedBlock.version?.toString(16) || 'N/A'}
                     </div>
                   </div>
 
-                  <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 high-contrast:bg-gray-100 rounded-xl p-3">
+                  <div className="bg-slate-800/30 dark:bg-slate-800/30 light:bg-slate-100 black-white:bg-gray-100 white-black:bg-slate-800 rounded-xl p-3">
                     <div className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 uppercase mb-1">Median Time</div>
-                    <div className="text-sm font-semibold text-white dark:text-white light:text-slate-800 high-contrast:text-black">
+                    <div className="text-sm font-semibold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">
                       {selectedBlock.mediantime ? new Date(selectedBlock.mediantime * 1000).toLocaleTimeString() : 'N/A'}
                     </div>
                   </div>

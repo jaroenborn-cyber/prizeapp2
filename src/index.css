@@ -72,12 +72,6 @@ body.light {
   color: #1e293b;
 }
 
-/* High contrast theme */
-body.high-contrast {
-  background-color: #000000;
-  color: #ffffff;
-}
-
 /* Black & White theme - pure monochrome */
 body.black-white {
   background-color: #ffffff;
@@ -828,12 +822,6 @@ body.white-black .font-mono {
   color: #ffffff !important;
 }
 
-/* High contrast dark theme */
-body.high-contrast-dark {
-  background-color: #000000;
-  color: #00FF00;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -874,19 +862,6 @@ body.light ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
-/* Custom scrollbar for high contrast theme */
-body.high-contrast ::-webkit-scrollbar-track {
-  background: #333333;
-}
-
-body.high-contrast ::-webkit-scrollbar-thumb {
-  background: #ffff00;
-}
-
-body.high-contrast ::-webkit-scrollbar-thumb:hover {
-  background: #ffff00;
-}
-
 /* Custom scrollbar for black-white theme */
 body.black-white ::-webkit-scrollbar-track {
   background: #e0e0e0;
@@ -900,17 +875,17 @@ body.black-white ::-webkit-scrollbar-thumb:hover {
   background: #333333;
 }
 
-/* Custom scrollbar for high-contrast-dark theme */
-body.high-contrast-dark ::-webkit-scrollbar-track {
+/* Custom scrollbar for white-black theme */
+body.white-black ::-webkit-scrollbar-track {
   background: #000000;
 }
 
-body.high-contrast-dark ::-webkit-scrollbar-thumb {
-  background: #00FF00;
+body.white-black ::-webkit-scrollbar-thumb {
+  background: #ffffff;
 }
 
-body.high-contrast-dark ::-webkit-scrollbar-thumb:hover {
-  background: #00FF00;
+body.white-black ::-webkit-scrollbar-thumb:hover {
+  background: #cccccc;
 }
 
 /* Final overrides for switcher dropdowns in black-white mode */

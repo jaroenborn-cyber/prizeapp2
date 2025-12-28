@@ -45,7 +45,7 @@ const SearchBar = ({ onSelectCrypto, onToggleFavorite, isFavorite }) => {
           onChange={(e) => handleSearch(e.target.value)}
           onFocus={() => query.length >= 2 && setShowResults(true)}
           placeholder="Zoek naar cryptocurrencies..."
-          className="w-full bg-slate-800 dark:bg-slate-800 light:bg-white high-contrast:bg-white black-white:bg-white black-white:hover:bg-[#f8f8f8] border border-slate-600 dark:border-slate-600 light:border-slate-300 high-contrast:border-black black-white:border-black rounded-lg px-4 py-3 pl-12 text-white dark:text-white light:text-slate-800 high-contrast:text-black black-white:text-black placeholder-slate-500 dark:placeholder-slate-500 light:placeholder-slate-400 high-contrast:placeholder-gray-700 black-white:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-neon-purple dark:focus:ring-neon-purple light:focus:ring-neon-purple high-contrast:focus:ring-high-contrast-accent black-white:focus:ring-black"
+          className="w-full bg-slate-800 dark:bg-slate-800 light:bg-white black-white:bg-white black-white:hover:bg-[#f8f8f8] white-black:bg-black border border-slate-600 dark:border-slate-600 light:border-slate-300 black-white:border-black white-black:border-white rounded-lg px-4 py-3 pl-12 text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white placeholder-slate-500 dark:placeholder-slate-500 light:placeholder-slate-400 black-white:placeholder-gray-600 white-black:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-neon-purple dark:focus:ring-neon-purple light:focus:ring-neon-purple black-white:focus:ring-black white-black:focus:ring-white"
         />
         <svg
           className="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500"
@@ -68,19 +68,19 @@ const SearchBar = ({ onSelectCrypto, onToggleFavorite, isFavorite }) => {
       </div>
 
       {showResults && results.length > 0 && (
-        <div className="absolute z-10 w-full mt-2 bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black rounded-lg shadow-xl max-h-96 overflow-y-auto">
+        <div className="absolute z-10 w-full mt-2 bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white rounded-lg shadow-xl max-h-96 overflow-y-auto">
           {results.map((coin) => (
             <div
               key={coin.id}
-              className="flex items-center gap-3 p-4 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-100 high-contrast:hover:bg-gray-300 transition-colors border-b border-slate-700 dark:border-slate-700 light:border-slate-200 high-contrast:border-gray-400 last:border-b-0"
+              className="flex items-center gap-3 p-4 hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-100 black-white:hover:bg-gray-200 white-black:hover:bg-slate-700 transition-colors border-b border-slate-700 dark:border-slate-700 light:border-slate-200 black-white:border-gray-300 white-black:border-slate-600 last:border-b-0"
             >
               <img src={coin.thumb || coin.large} alt={coin.name} className="w-8 h-8 rounded-full" />
               <div 
                 className="flex-1 cursor-pointer"
                 onClick={() => handleSelectCrypto(coin)}
               >
-                <p className="font-semibold text-white dark:text-white light:text-slate-800 high-contrast:text-black">{coin.name}</p>
-                <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-800 uppercase">{coin.symbol}</p>
+                <p className="font-semibold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">{coin.name}</p>
+                <p className="text-sm text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-600 white-black:text-gray-400 uppercase">{coin.symbol}</p>
               </div>
               <div className="flex items-center gap-2">
                 <button

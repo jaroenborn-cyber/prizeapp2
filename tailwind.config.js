@@ -13,15 +13,6 @@ export default {
         'dark-card': '#1e293b',
         'light-bg': '#f8fafc',
         'light-card': '#ffffff',
-        // High-contrast mode: WCAG AAA compliant colors
-        'high-contrast-bg': '#000000',
-        'high-contrast-card': '#000000',
-        'high-contrast-text': '#FFFFFF',
-        'high-contrast-accent': '#FFD700', // Gold - high visibility
-        'high-contrast-success': '#00FF00', // Lime green
-        'high-contrast-warning': '#FFFF00', // Yellow
-        'high-contrast-danger': '#FF0000', // Red
-        'high-contrast-info': '#00FFFF', // Cyan
         'neon-cyan': '#06b6d4',
         'neon-purple': '#a855f7',
       },
@@ -33,9 +24,8 @@ export default {
   plugins: [
     plugin(function({ addVariant }) {
       addVariant('light', '.light &');
-      addVariant('high-contrast', '.high-contrast &');
       addVariant('black-white', '.black-white &');
-      addVariant('high-contrast-dark', '.high-contrast-dark &');
+      addVariant('white-black', '.white-black &');
     })
   ],
   darkMode: 'class',

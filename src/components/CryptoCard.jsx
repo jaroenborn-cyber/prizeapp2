@@ -22,14 +22,14 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
   return (
     <div
       onClick={() => onClick(crypto)}
-      className="bg-dark-card dark:bg-dark-card light:bg-white high-contrast:bg-white rounded-xl p-3 sm:p-5 shadow-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 high-contrast:border-black hover:border-neon-cyan dark:hover:border-neon-cyan light:hover:border-neon-purple high-contrast:hover:border-high-contrast-accent transition-all cursor-pointer sm:hover:scale-105 duration-200 outline-none focus:outline-none"
+      className="bg-dark-card dark:bg-dark-card light:bg-white black-white:bg-white white-black:bg-black rounded-xl p-3 sm:p-5 shadow-lg border border-slate-700 dark:border-slate-700 light:border-slate-300 black-white:border-black white-black:border-white hover:border-neon-cyan dark:hover:border-neon-cyan light:hover:border-neon-purple black-white:hover:border-gray-600 white-black:hover:border-gray-400 transition-all cursor-pointer sm:hover:scale-105 duration-200 outline-none focus:outline-none"
     >
       <div className="flex items-center justify-between mb-2 sm:mb-4">
         <div className="flex items-center gap-2 sm:gap-3">
           <img src={crypto.image} alt={crypto.name} className="w-7 h-7 sm:w-10 sm:h-10 rounded-full" />
           <div>
-            <h3 className="font-bold text-sm sm:text-base text-white dark:text-white light:text-slate-800 high-contrast:text-black truncate max-w-[80px] sm:max-w-none">{crypto.name}</h3>
-            <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-800 uppercase">{crypto.symbol}</p>
+            <h3 className="font-bold text-sm sm:text-base text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white truncate max-w-[80px] sm:max-w-none">{crypto.name}</h3>
+            <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-800 white-black:text-gray-300 uppercase">{crypto.symbol}</p>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
@@ -71,27 +71,27 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
           )}
           {/* Rank badge */}
           <span 
-            className="text-xs bg-slate-700 dark:bg-slate-700 light:bg-slate-200 high-contrast:bg-gray-300 text-white dark:text-white light:text-slate-800 high-contrast:text-black px-1.5 py-0.5 rounded whitespace-nowrap"
+            className="text-xs bg-slate-700 dark:bg-slate-700 light:bg-slate-200 black-white:bg-gray-300 white-black:bg-gray-700 text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white px-1.5 py-0.5 rounded whitespace-nowrap"
             style={theme === 'black-white' ? { backgroundColor: '#000000', color: '#ffffff' } : {}}
           >#{crypto.market_cap_rank}</span>
         </div>
       </div>
 
       <div className="mb-2 sm:mb-3">
-        <p className="text-lg sm:text-2xl font-bold text-white dark:text-white light:text-slate-800 high-contrast:text-black">${formatPrice(crypto.current_price)}</p>
-        <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-500 high-contrast:text-gray-800">USD</p>
+        <p className="text-lg sm:text-2xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">${formatPrice(crypto.current_price)}</p>
+        <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-400 light:text-slate-500 black-white:text-gray-800 white-black:text-gray-300">USD</p>
       </div>
 
       <div className="flex items-center justify-between text-xs sm:text-sm">
         <div>
-          <p className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-400 high-contrast:text-gray-700 mb-0.5 sm:mb-1">24h</p>
+          <p className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-400 black-white:text-gray-700 white-black:text-gray-400 mb-0.5 sm:mb-1">24h</p>
           <p className={`font-semibold ${isPositive ? 'text-green-400 white-black:text-white' : 'text-red-400 white-black:text-white'}`}>
             {isPositive ? '▲' : '▼'} {Math.abs(priceChange24h).toFixed(2)}%
           </p>
         </div>
         <div className="text-right">
-          <p className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-400 high-contrast:text-gray-700 mb-0.5 sm:mb-1">MCap</p>
-          <p className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-600 high-contrast:text-gray-800">{formatMarketCap(crypto.market_cap)}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-500 light:text-slate-400 black-white:text-gray-700 white-black:text-gray-400 mb-0.5 sm:mb-1">MCap</p>
+          <p className="font-semibold text-slate-300 dark:text-slate-300 light:text-slate-600 black-white:text-gray-800 white-black:text-gray-300">{formatMarketCap(crypto.market_cap)}</p>
         </div>
       </div>
     </div>
