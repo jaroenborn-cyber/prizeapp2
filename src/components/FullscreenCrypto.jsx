@@ -224,7 +224,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         <div className="theme-switcher-container relative">
           <button
             onClick={() => setShowThemeMenu(!showThemeMenu)}
-            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200"
+            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all hover:bg-slate-700/70 dark:hover:bg-slate-700/70 light:hover:bg-slate-300"
             aria-label="Change theme"
           >
             {theme === 'dark' && (
@@ -259,14 +259,19 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                 }}
                 className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
                   theme === 'dark'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-white black-white:bg-black black-white:border-l-4 black-white:border-l-white white-black:text-black white-black:bg-white white-black:border-l-4 white-black:border-l-black font-semibold'
                     : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
-                <span className="text-sm font-medium">Donker</span>
+                <span className="text-sm font-medium flex-1">Donker</span>
+                {theme === 'dark' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 black-white:text-white white-black:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
               </button>
               <button
                 onClick={() => {
@@ -275,14 +280,19 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                 }}
                 className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
                   theme === 'light'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-white black-white:bg-black black-white:border-l-4 black-white:border-l-white white-black:text-black white-black:bg-white white-black:border-l-4 white-black:border-l-black font-semibold'
                     : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
-                <span className="text-sm font-medium">Licht</span>
+                <span className="text-sm font-medium flex-1">Licht</span>
+                {theme === 'light' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 black-white:text-white white-black:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
               </button>
               <button
                 onClick={() => {
@@ -291,14 +301,19 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                 }}
                 className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
                   theme === 'black-white'
-                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white'
+                    ? 'bg-slate-700/30 text-white dark:text-white light:text-slate-900 black-white:text-white black-white:bg-black black-white:border-l-4 black-white:border-l-white white-black:text-black white-black:bg-white white-black:border-l-4 white-black:border-l-black font-semibold'
                     : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
                 </svg>
-                <span className="text-sm font-medium">Zwart-Wit</span>
+                <span className="text-sm font-medium flex-1">Zwart-Wit</span>
+                {theme === 'black-white' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 black-white:text-white white-black:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
               </button>
               <button
                 onClick={() => {
@@ -307,14 +322,19 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                 }}
                 className={`dropdown-item w-full px-4 py-3 text-left flex items-center gap-3 hover:bg-slate-700/50 dark:hover:bg-slate-700/50 light:hover:bg-slate-100 black-white:hover:bg-gray-100 white-black:hover:bg-gray-900 transition-colors ${
                   theme === 'white-black'
-                    ? 'bg-gray-800 text-white dark:text-white light:text-slate-900 black-white:text-black black-white:bg-white black-white:border-l-4 black-white:border-l-black white-black:text-white white-black:border-l-4 white-black:border-l-white'
+                    ? 'bg-gray-800 text-white dark:text-white light:text-slate-900 black-white:text-white black-white:bg-black black-white:border-l-4 black-white:border-l-white white-black:text-black white-black:bg-white white-black:border-l-4 white-black:border-l-black font-semibold'
                     : 'text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black black-white:bg-white white-black:text-white white-black:bg-black'
                 }`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
                 </svg>
-                <span className="text-sm font-medium">Wit-Zwart</span>
+                <span className="text-sm font-medium flex-1">Wit-Zwart</span>
+                {theme === 'white-black' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 black-white:text-white white-black:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
               </button>
             </div>
           )}
@@ -324,7 +344,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         <div className="timeframe-switcher-container relative">
           <button
             onClick={() => setShowTimeframeMenu(!showTimeframeMenu)}
-            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200"
+            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all hover:bg-slate-700/70 dark:hover:bg-slate-700/70 light:hover:bg-slate-300"
             aria-label="Change timeframe"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -395,7 +415,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         <div className="opacity-switcher-container relative">
           <button
             onClick={() => setShowOpacityMenu(!showOpacityMenu)}
-            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/30 dark:bg-slate-700/30 light:bg-slate-200 black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200"
+            className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all hover:bg-slate-700/70 dark:hover:bg-slate-700/70 light:hover:bg-slate-300"
             aria-label="Change opacity"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -425,7 +445,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="fullscreen-btn text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all p-1.5 sm:p-2 hover:bg-slate-700/30 dark:hover:bg-slate-700/30 light:hover:bg-slate-200 rounded-lg"
+          className="fullscreen-btn p-1.5 sm:p-2 rounded-lg bg-slate-700/50 dark:bg-slate-700/50 light:bg-slate-200 black-white:bg-gray-100 white-black:bg-gray-800 black-white:border black-white:border-black white-black:border white-black:border-white text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-black white-black:text-white hover:text-white dark:hover:text-white light:hover:text-slate-900 black-white:hover:text-black white-black:hover:text-white black-white:hover:bg-gray-200 white-black:hover:bg-gray-700 transition-all hover:bg-slate-700/70 dark:hover:bg-slate-700/70 light:hover:bg-slate-300"
           aria-label="Exit fullscreen"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -455,7 +475,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
                 {crypto.name}
               </h1>
               {crypto.isLive && (
-                <span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-400 white-black:bg-white rounded-full animate-pulse" title="Live updates"></span>
+                <span className="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-400 black-white:bg-black white-black:bg-white rounded-full animate-pulse live-dot" title="Live updates"></span>
               )}
             </div>
             <p className="text-xl sm:text-2xl md:text-3xl text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-600 white-black:text-gray-300 uppercase mt-1 sm:mt-2">
@@ -467,7 +487,7 @@ const FullscreenCrypto = ({ crypto, onClose }) => {
         {/* Live indicator */}
         {crypto.isLive && (
           <div className="flex items-center gap-2 sm:gap-3 bg-green-500/20 white-black:bg-white/10 px-4 py-2 sm:px-6 sm:py-3 rounded-full live-badge">
-            <span className="inline-block w-2 h-2 sm:w-3 sm:h-3 bg-green-400 white-black:bg-white rounded-full animate-pulse"></span>
+            <span className="inline-block w-2 h-2 sm:w-3 sm:h-3 bg-green-400 black-white:bg-black white-black:bg-white rounded-full animate-pulse live-dot"></span>
             <span className="text-green-400 white-black:text-white font-semibold text-base sm:text-xl">LIVE</span>
           </div>
         )}

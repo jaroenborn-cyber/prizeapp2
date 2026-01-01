@@ -90,7 +90,7 @@ const MarketMonitor = () => {
                 ? 'bg-green-500/20 text-green-400 white-black:bg-white/10 white-black:text-white live-badge' 
                 : 'bg-slate-700/50 text-slate-400 white-black:bg-white/10 white-black:text-white'
             }`}>
-              <span className={`w-2 h-2 rounded-full ${status.open ? 'bg-green-400 white-black:bg-white animate-pulse' : 'bg-slate-500 white-black:bg-white/50'}`}></span>
+              <span className={`w-2 h-2 rounded-full ${status.open ? 'bg-green-400 black-white:bg-black white-black:bg-white animate-pulse live-dot' : 'bg-slate-500 white-black:bg-white/50'}`}></span>
               {status.status}
             </div>
           )}
@@ -241,7 +241,7 @@ const MarketMonitor = () => {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-2xl">{icon}</span>
                 {status && (
-                  <span className={`w-2 h-2 rounded-full ${status.open ? 'bg-green-400 white-black:bg-white animate-pulse' : 'bg-slate-500 white-black:bg-white/50'}`}></span>
+                  <span className={`w-2 h-2 rounded-full ${status.open ? 'bg-green-400 black-white:bg-black white-black:bg-white animate-pulse live-dot' : 'bg-slate-500 white-black:bg-white/50'}`}></span>
                 )}
               </div>
               <h3 className="font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white">

@@ -784,7 +784,7 @@ const BlockExplorer = () => {
               <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-500/20 to-green-600/10 border border-green-500/30 p-6 hover:scale-105 transition-transform">
                 <div className="flex items-center justify-between mb-3">
                   <div className="text-green-400 white-black:text-white font-semibold">Low Priority</div>
-                  <span className="inline-block w-3 h-3 bg-green-400 white-black:bg-white rounded-full animate-pulse"></span>
+                  <span className="inline-block w-3 h-3 bg-green-400 black-white:bg-black white-black:bg-white rounded-full animate-pulse live-dot"></span>
                 </div>
                 <div className="text-4xl font-bold text-white dark:text-white light:text-slate-800 black-white:text-black white-black:text-white mb-2">
                   {fees.hourFee}
