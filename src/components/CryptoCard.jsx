@@ -6,6 +6,7 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
   const isPositive = priceChange24h >= 0;
 
   const formatPrice = (price) => {
+    if (!price && price !== 0) return 'N/A';
     if (price >= 1) {
       return price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
@@ -13,6 +14,7 @@ const CryptoCard = ({ crypto, onClick, onFavoriteToggle, isFavorite, showFavorit
   };
 
   const formatMarketCap = (marketCap) => {
+    if (!marketCap && marketCap !== 0) return 'N/A';
     if (marketCap >= 1e12) return `$${(marketCap / 1e12).toFixed(2)}T`;
     if (marketCap >= 1e9) return `$${(marketCap / 1e9).toFixed(2)}B`;
     if (marketCap >= 1e6) return `$${(marketCap / 1e6).toFixed(2)}M`;

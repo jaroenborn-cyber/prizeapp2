@@ -1,37 +1,116 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
+const CACHE_KEY = 'crypto_news_cache';
+const ARCHIVE_KEY = 'crypto_news_archive';
+const CACHE_DURATION = 8 * 60 * 60 * 1000; // 8 hours in milliseconds
+
 function NewsWidget() {
   const { language } = useLanguage();
   const [news, setNews] = useState([]);
+  const [archive, setArchive] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showArchive, setShowArchive] = useState(false);
 
   useEffect(() => {
     fetchCryptoNews();
+    loadArchive();
   }, []);
 
   const fetchCryptoNews = async () => {
     try {
-      // Using CoinGecko trending/search trending coins as "news"
-      const response = await fetch('https://api.coingecko.com/api/v3/search/trending');
-      const data = await response.json();
+      // Check cache first
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        const age = Date.now() - timestamp;
+        
+        // Use cache if less than 8 hours old
+        if (age < CACHE_DURATION) {
+          setNews(data || []);
+          setLoading(false);
+          return;
+        }
+      }
+
+      // Fetch fresh data from CoinGecko trending
+      const response = await fetch(
+        'https://api.coingecko.com/api/v3/search/trending'
+      );
       
-      // Transform trending coins into news-like items
-      const trendingNews = data.coins.slice(0, 6).map((item) => ({
-        title: `${item.item.name} (${item.item.symbol}) - Trending #${item.item.market_cap_rank || 'N/A'}`,
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      
+      if (!result || !result.coins || !Array.isArray(result.coins)) {
+        console.error('Invalid API response:', result);
+        setNews([]);
+        setLoading(false);
+        return;
+      }
+      
+      // Transform trending coins into news items
+      const newsData = result.coins.slice(0, 6).map((item) => ({
+        id: item.item.id,
+        title: `${item.item.name} (${item.item.symbol}) ${language === 'nl' ? 'Trending' : 'Trending'} #${item.item.score + 1}`,
         url: `https://www.coingecko.com/en/coins/${item.item.id}`,
-        source: { title: 'CoinGecko' },
+        source: { title: 'CoinGecko Trending' },
         published_at: new Date().toISOString(),
-        score: item.item.score,
-        crypto: item.item.symbol.toUpperCase(),
-        description: `Market Cap Rank: #${item.item.market_cap_rank || 'N/A'} • Price BTC: ${item.item.price_btc.toFixed(8)}`
+        currencies: [{ code: item.item.symbol.toUpperCase() }],
+        description: `Market Cap Rank: #${item.item.market_cap_rank || 'N/A'}`
       }));
       
-      setNews(trendingNews);
+      // Update archive
+      updateArchive(newsData);
+      
+      // Cache the data
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        data: newsData,
+        timestamp: Date.now()
+      }));
+      
+      setNews(newsData);
       setLoading(false);
     } catch (error) {
-      console.error('Failed to fetch trending:', error);
+      console.error('Failed to fetch news:', error);
+      setNews([]);
       setLoading(false);
+    }
+  };
+
+  const loadArchive = () => {
+    try {
+      const stored = localStorage.getItem(ARCHIVE_KEY);
+      if (stored) {
+        const archiveData = JSON.parse(stored);
+        setArchive(archiveData);
+      }
+    } catch (error) {
+      console.error('Failed to load archive:', error);
+    }
+  };
+
+  const updateArchive = (newItems) => {
+    try {
+      const existing = localStorage.getItem(ARCHIVE_KEY);
+      let archiveData = existing ? JSON.parse(existing) : [];
+      
+      // Add new items that aren't already in archive
+      newItems.forEach(item => {
+        if (!archiveData.find(a => a.id === item.id)) {
+          archiveData.unshift(item);
+        }
+      });
+      
+      // Keep last 100 items
+      archiveData = archiveData.slice(0, 100);
+      
+      localStorage.setItem(ARCHIVE_KEY, JSON.stringify(archiveData));
+      setArchive(archiveData);
+    } catch (error) {
+      console.error('Failed to update archive:', error);
     }
   };
 
@@ -76,14 +155,30 @@ function NewsWidget() {
 
   return (
     <section className="mb-8 sm:mb-12">
-      <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
-        <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
-          {language === 'nl' ? '🔥 Trending Crypto' : '🔥 Trending Crypto'}
-        </span>
-      </h2>
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h2 className="text-xl sm:text-2xl font-bold">
+          <span className="bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent">
+            {language === 'nl' ? '🔥 Trending Crypto' : '🔥 Trending Crypto'}
+          </span>
+        </h2>
+        <button
+          onClick={() => setShowArchive(!showArchive)}
+          className="px-3 py-1.5 text-sm rounded-lg bg-slate-800 dark:bg-slate-800 light:bg-slate-200 black-white:bg-gray-200 white-black:bg-gray-800 text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black white-black:text-white hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-300 black-white:hover:bg-gray-300 white-black:hover:bg-gray-700 transition-colors"
+        >
+          {showArchive 
+            ? (language === 'nl' ? '← Terug' : '← Back')
+            : (language === 'nl' ? `Archief (${archive.length})` : `Archive (${archive.length})`)
+          }
+        </button>
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {news.map((item, index) => (
+        {(showArchive ? archive : news).length === 0 ? (
+          <div className="col-span-full text-center text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400 py-8">
+            {language === 'nl' ? 'Geen nieuws beschikbaar' : 'No news available'}
+          </div>
+        ) : (
+          (showArchive ? archive : news).map((item, index) => (
           <div
             key={index}
             onClick={() => window.open(item.url, '_blank', 'noopener,noreferrer')}
@@ -94,22 +189,28 @@ function NewsWidget() {
                 {item.title}
               </h3>
               
-              {item.description && (
-                <p className="text-xs text-slate-400 dark:text-slate-400 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400 mb-2">
-                  {item.description}
-                </p>
-              )}
-              
               <div className="flex items-center gap-2 mt-auto pt-2 text-xs text-slate-500 dark:text-slate-500 light:text-slate-600 black-white:text-gray-700 white-black:text-gray-400">
                 <span>{item.source.title}</span>
                 <span>•</span>
-                <span className="px-2 py-0.5 rounded-full bg-neon-cyan/20 text-neon-cyan font-semibold">
-                  {item.crypto}
-                </span>
+                <span>{formatTimeAgo(item.published_at)}</span>
               </div>
+
+              {item.currencies && item.currencies.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {item.currencies.slice(0, 3).map((currency, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2 py-0.5 text-xs rounded-full bg-neon-cyan/20 text-neon-cyan font-semibold"
+                    >
+                      {currency.code}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-        ))}
+        )))
+        }
       </div>
     </section>
   );
