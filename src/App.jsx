@@ -14,6 +14,7 @@ import LanguageSwitcher from './components/LanguageSwitcher';
 import BlockExplorer from './components/BlockExplorer';
 import MarketMonitor from './components/MarketMonitor';
 import IndexDetail from './components/IndexDetail';
+import NewsWidget from './components/NewsWidget';
 import { useLanguage } from './context/LanguageContext';
 import { translations } from './utils/translations';
 
@@ -1055,6 +1056,9 @@ function AppContent() {
             <CurrencyConverter cryptoData={cryptoData} fiatRates={fiatRates} />
           )}
         </div>
+
+        {/* Crypto News */}
+        <NewsWidget />
       </main>
       )}
 
