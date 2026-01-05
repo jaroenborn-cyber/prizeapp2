@@ -3,218 +3,173 @@ import axios from 'axios';
 const COINGECKO_BASE_URL = 'https://api.coingecko.com/api/v3';
 const EXCHANGE_RATE_BASE_URL = 'https://api.exchangerate-api.com/v4/latest';
 
-// Cache configuration
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
-const cache = {
-  topCryptos: { data: null, timestamp: null },
-  fiatRates: {},
-  cryptoDetails: {},
-  historicalData: {}
-};
+// Rate limiting configuration
+const RATE_LIMIT = 2000; // ms between requests (safe: 60000/30 = 2000ms)
+let lastRequestTime = 0;
 
-// Function to clear cache (useful for debugging)
-export const clearCache = () => {
-  cache.topCryptos = { data: null, timestamp: null };
-  cache.fiatRates = {};
-  cache.cryptoDetails = {};
-  cache.historicalData = {};
-  console.log('Cache cleared');
-};
-
-// Helper function to check if cache is still valid
-const isCacheValid = (timestamp) => {
-  if (!timestamp) return false;
-  return Date.now() - timestamp < CACHE_DURATION;
-};
-
-// Helper function to get from cache or fetch
-const getCachedOrFetch = async (cacheKey, fetchFunction, ...args) => {
-  const cacheEntry = cache[cacheKey];
+// Rate limiter to prevent hitting API limits
+const rateLimiter = async (fn) => {
+  const now = Date.now();
+  const timeSinceLastRequest = now - lastRequestTime;
   
-  if (cacheEntry && isCacheValid(cacheEntry.timestamp)) {
-    console.log(`Using cached data for ${cacheKey}`);
-    return cacheEntry.data;
+  if (timeSinceLastRequest < RATE_LIMIT) {
+    await new Promise(resolve => 
+      setTimeout(resolve, RATE_LIMIT - timeSinceLastRequest)
+    );
   }
   
-  console.log(`Fetching fresh data for ${cacheKey}`);
-  const data = await fetchFunction(...args);
-  cache[cacheKey] = { data, timestamp: Date.now() };
-  return data;
+  lastRequestTime = Date.now();
+  return fn();
 };
+
+// Cache configuration per endpoint
+const CACHE_CONFIG = {
+  markets: { duration: 300000, maxSize: 100 }, // 5 min
+  'simple/price': { duration: 60000, maxSize: 250 }, // 1 min (live updates)
+  trending: { duration: 600000, maxSize: 1 }, // 10 min (static)
+  details: { duration: 300000, maxSize: 50 }, // 5 min
+  historical: { duration: 300000, maxSize: 100 }, // 5 min
+  fiatRates: { duration: 300000, maxSize: 10 } // 5 min
+};
+
+// Cached API class with smart caching and rate limiting
+class CachedAPI {
+  constructor() {
+    this.cache = new Map();
+    // Clear old cache every hour
+    setInterval(() => this.clearOldCache(), 3600000);
+  }
+
+  async getCachedData(endpoint, params = {}) {
+    const cacheKey = `${endpoint}:${JSON.stringify(params)}`;
+    const cached = this.cache.get(cacheKey);
+    const config = CACHE_CONFIG[endpoint.split('/')[0]] || CACHE_CONFIG.markets;
+    
+    if (cached && Date.now() - cached.timestamp < config.duration) {
+      console.log(`Using cached data for ${endpoint}`);
+      return cached.data;
+    }
+
+    console.log(`Fetching fresh data for ${endpoint}`);
+    const data = await rateLimiter(() => 
+      axios.get(`${COINGECKO_BASE_URL}/${endpoint}`, { params })
+        .then(r => r.data)
+        .catch(error => {
+          // Return stale cache on error if available
+          if (cached) {
+            console.log(`API failed, using stale cache for ${endpoint}`);
+            return cached.data;
+          }
+          throw error;
+        })
+    );
+
+    this.cache.set(cacheKey, { data, timestamp: Date.now() });
+    
+    // Enforce max cache size per endpoint type
+    this.enforceCacheSize(endpoint.split('/')[0], config.maxSize);
+    
+    return data;
+  }
+
+  enforceCacheSize(endpointType, maxSize) {
+    const keys = Array.from(this.cache.keys()).filter(k => k.startsWith(endpointType));
+    if (keys.length > maxSize) {
+      // Remove oldest entries
+      keys
+        .sort((a, b) => this.cache.get(a).timestamp - this.cache.get(b).timestamp)
+        .slice(0, keys.length - maxSize)
+        .forEach(key => this.cache.delete(key));
+    }
+  }
+
+  clearOldCache() {
+    const now = Date.now();
+    for (const [key, value] of this.cache.entries()) {
+      if (now - value.timestamp > 3600000) { // 1 hour
+        this.cache.delete(key);
+      }
+    }
+    console.log('Old cache entries cleared');
+  }
+
+  clearCache() {
+    this.cache.clear();
+    console.log('Cache cleared');
+  }
+}
+
+const cryptoAPI = new CachedAPI();
+
+// Export clear cache for debugging
+export const clearCache = () => cryptoAPI.clearCache();
 
 // CoinGecko API functions
 export const getTopCryptos = async (limit = 10) => {
-  const fetchFunction = async () => {
-    try {
-      const response = await axios.get(`${COINGECKO_BASE_URL}/coins/markets`, {
-        params: {
-          vs_currency: 'usd',
-          order: 'market_cap_desc',
-          per_page: limit,
-          page: 1,
-          sparkline: true,
-          price_change_percentage: '24h,7d'
-        }
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching top cryptos:', error);
-      // If API fails and we have cached data, return it even if expired
-      if (cache.topCryptos.data) {
-        console.log('API failed, using stale cache');
-        return cache.topCryptos.data;
-      }
-      throw error;
-    }
-  };
-  
-  return getCachedOrFetch('topCryptos', fetchFunction);
+  return cryptoAPI.getCachedData('coins/markets', {
+    vs_currency: 'usd',
+    order: 'market_cap_desc',
+    per_page: limit,
+    page: 1,
+    sparkline: true,
+    price_change_percentage: '24h,7d'
+  });
 };
 
 export const getCryptoDetails = async (coinId) => {
-  const cacheKey = `cryptoDetails_${coinId}`;
-  
-  const fetchFunction = async () => {
-    try {
-      const response = await axios.get(`${COINGECKO_BASE_URL}/coins/${coinId}`, {
-        params: {
-          localization: false,
-          tickers: false,
-          community_data: false,
-          developer_data: false,
-          sparkline: true
-        }
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching crypto details:', error);
-      // If API fails and we have cached data, return it even if expired
-      if (cache.cryptoDetails[coinId]) {
-        console.log(`API failed, using stale cache for ${coinId}`);
-        return cache.cryptoDetails[coinId].data;
-      }
-      throw error;
-    }
-  };
-  
-  // Check if we have valid cached data for this specific coin
-  const cachedEntry = cache.cryptoDetails[coinId];
-  if (cachedEntry && isCacheValid(cachedEntry.timestamp)) {
-    console.log(`Using cached data for crypto details: ${coinId}`);
-    return cachedEntry.data;
-  }
-  
-  console.log(`Fetching fresh data for crypto details: ${coinId}`);
-  const data = await fetchFunction();
-  cache.cryptoDetails[coinId] = { data, timestamp: Date.now() };
-  return data;
+  return cryptoAPI.getCachedData(`coins/${coinId}`, {
+    localization: false,
+    tickers: false,
+    community_data: false,
+    developer_data: false,
+    sparkline: true
+  });
 };
 
 export const getHistoricalData = async (coinId, days = '7') => {
-  const cacheKey = `historicalData_${coinId}_${days}`;
-  
-  const fetchFunction = async () => {
-    try {
-      // Determine the interval based on the days parameter
-      let interval = 'daily';
-      if (days === '1') {
-        interval = 'hourly';
-      }
-      
-      console.log(`Fetching chart data for ${coinId}: ${days} days with ${interval} interval`);
-      
-      const response = await axios.get(`${COINGECKO_BASE_URL}/coins/${coinId}/market_chart`, {
-        params: {
-          vs_currency: 'usd',
-          days: days
-        }
-      });
-      
-      console.log(`Received ${response.data.prices.length} data points for ${days} days chart`);
-      console.log(`First data point:`, new Date(response.data.prices[0][0]).toLocaleString());
-      console.log(`Last data point:`, new Date(response.data.prices[response.data.prices.length - 1][0]).toLocaleString());
-      
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching historical data:', error);
-      // If API fails and we have cached data, return it even if expired
-      if (cache.historicalData[cacheKey]) {
-        console.log(`API failed, using stale cache for historical data: ${coinId}`);
-        return cache.historicalData[cacheKey].data;
-      }
-      throw error;
-    }
-  };
-  
-  // Check if we have valid cached data
-  const cachedEntry = cache.historicalData[cacheKey];
-  if (cachedEntry && isCacheValid(cachedEntry.timestamp)) {
-    console.log(`Using cached data for historical data: ${coinId} (${days} days)`);
-    return cachedEntry.data;
-  }
-  
-  console.log(`Fetching fresh historical data: ${coinId} (${days} days)`);
-  const data = await fetchFunction();
-  cache.historicalData[cacheKey] = { data, timestamp: Date.now() };
-  return data;
+  return cryptoAPI.getCachedData(`coins/${coinId}/market_chart`, {
+    vs_currency: 'usd',
+    days: days
+  });
 };
 
 export const searchCrypto = async (query) => {
-  try {
-    const response = await axios.get(`${COINGECKO_BASE_URL}/search`, {
-      params: { query }
-    });
-    return response.data.coins;
-  } catch (error) {
-    console.error('Error searching crypto:', error);
-    throw error;
-  }
+  return rateLimiter(() => 
+    axios.get(`${COINGECKO_BASE_URL}/search`, { params: { query } })
+      .then(r => r.data.coins)
+  );
 };
 
 export const getCryptoPrice = async (coinId, vsCurrency = 'usd') => {
-  try {
-    const response = await axios.get(`${COINGECKO_BASE_URL}/simple/price`, {
-      params: {
-        ids: coinId,
-        vs_currencies: vsCurrency
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching crypto price:', error);
-    throw error;
-  }
+  return cryptoAPI.getCachedData('simple/price', {
+    ids: coinId,
+    vs_currencies: vsCurrency
+  });
 };
 
-// Fiat Exchange Rate API functions
+// Fiat Exchange Rate API functions with rate limiting
 export const getFiatRates = async (baseCurrency = 'USD') => {
-  const cacheKey = `fiatRates_${baseCurrency}`;
+  const cacheKey = `fiatRates:${baseCurrency}`;
+  const cached = cryptoAPI.cache.get(cacheKey);
+  const config = CACHE_CONFIG.fiatRates;
   
-  const fetchFunction = async () => {
-    try {
-      const response = await axios.get(`${EXCHANGE_RATE_BASE_URL}/${baseCurrency}`);
-      return response.data.rates;
-    } catch (error) {
-      console.error('Error fetching fiat rates:', error);
-      // If API fails and we have cached data, return it even if expired
-      if (cache.fiatRates[baseCurrency]) {
-        console.log(`API failed, using stale cache for fiat rates: ${baseCurrency}`);
-        return cache.fiatRates[baseCurrency].data;
-      }
-      throw error;
-    }
-  };
-  
-  // Check if we have valid cached data for this currency
-  const cachedEntry = cache.fiatRates[baseCurrency];
-  if (cachedEntry && isCacheValid(cachedEntry.timestamp)) {
-    console.log(`Using cached data for fiat rates: ${baseCurrency}`);
-    return cachedEntry.data;
+  if (cached && Date.now() - cached.timestamp < config.duration) {
+    return cached.data;
   }
-  
-  console.log(`Fetching fresh data for fiat rates: ${baseCurrency}`);
-  const data = await fetchFunction();
-  cache.fiatRates[baseCurrency] = { data, timestamp: Date.now() };
+
+  const data = await rateLimiter(() =>
+    axios.get(`${EXCHANGE_RATE_BASE_URL}/${baseCurrency}`)
+      .then(r => r.data.rates)
+      .catch(error => {
+        if (cached) {
+          console.log(`Fiat API failed, using stale cache for ${baseCurrency}`);
+          return cached.data;
+        }
+        throw error;
+      })
+  );
+
+  cryptoAPI.cache.set(cacheKey, { data, timestamp: Date.now() });
   return data;
 };
 

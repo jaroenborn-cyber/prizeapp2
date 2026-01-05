@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
 const LanguageContext = createContext();
+LanguageContext.displayName = 'LanguageContext';
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState(() => {
@@ -17,8 +18,11 @@ export const LanguageProvider = ({ children }) => {
     setLanguage(newLanguage);
   };
 
+  // Memoize value to prevent unnecessary re-renders
+  const value = useMemo(() => ({ language, setLanguage, toggleLanguage }), [language]);
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { getTopCryptos, getFiatRates, getCryptoDetails } from './services/api';
 import binanceService from './services/binance';
@@ -11,12 +11,15 @@ import SearchBar from './components/SearchBar';
 import SkeletonLoader from './components/SkeletonLoader';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import LanguageSwitcher from './components/LanguageSwitcher';
-import BlockExplorer from './components/BlockExplorer';
-import MarketMonitor from './components/MarketMonitor';
-import IndexDetail from './components/IndexDetail';
 import NewsWidget from './components/NewsWidget';
+import ErrorBoundary from './components/ErrorBoundary';
 import { useLanguage } from './context/LanguageContext';
 import { translations } from './utils/translations';
+
+// Lazy load heavy components
+const BlockExplorer = lazy(() => import('./components/BlockExplorer'));
+const MarketMonitor = lazy(() => import('./components/MarketMonitor'));
+const IndexDetail = lazy(() => import('./components/IndexDetail'));
 
 function AppContent() {
   const { language } = useLanguage();
@@ -791,9 +794,13 @@ function AppContent() {
       </header>
 
       {activeTab === 'explorer' ? (
-        <BlockExplorer />
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><SkeletonLoader count={3} type="card" /></div>}>
+          <BlockExplorer />
+        </Suspense>
       ) : activeTab === 'markets' ? (
-        <MarketMonitor />
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><SkeletonLoader count={3} type="card" /></div>}>
+          <MarketMonitor />
+        </Suspense>
       ) : (
       <main className="w-full px-3 sm:px-4 py-6 sm:py-8">
         {error && (
@@ -1097,14 +1104,23 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<AppContent />} />
-        <Route path="/block-explorer" element={<AppContent />} />
-        <Route path="/market-monitor" element={<AppContent />} />
-        <Route path="/market-monitor/:symbol" element={<IndexDetail />} />
-      </Routes>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <Routes>
+          <Route path="/" element={<AppContent />} />
+          <Route path="/block-explorer" element={<AppContent />} />
+          <Route path="/market-monitor" element={<AppContent />} />
+          <Route 
+            path="/market-monitor/:symbol" 
+            element={
+              <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><SkeletonLoader count={3} type="card" /></div>}>
+                <IndexDetail />
+              </Suspense>
+            } 
+          />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 }
 

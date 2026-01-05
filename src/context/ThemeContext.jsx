@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
 const ThemeContext = createContext();
+ThemeContext.displayName = 'ThemeContext';
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
@@ -26,8 +27,11 @@ export const ThemeProvider = ({ children }) => {
     setTheme(newTheme);
   };
 
+  // Memoize value to prevent unnecessary re-renders
+  const value = useMemo(() => ({ theme, setTheme, toggleTheme }), [theme]);
+
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
