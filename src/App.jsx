@@ -20,6 +20,7 @@ import { translations } from './utils/translations';
 const BlockExplorer = lazy(() => import('./components/BlockExplorer'));
 const MarketMonitor = lazy(() => import('./components/MarketMonitor'));
 const IndexDetail = lazy(() => import('./components/IndexDetail'));
+const NewsPage = lazy(() => import('./components/NewsPage'));
 
 function AppContent() {
   const { language } = useLanguage();
@@ -780,6 +781,12 @@ function AppContent() {
             >
               📊 {t.marketMonitor || 'Markets'}
             </button>
+            <button
+              onClick={() => navigate('/news')}
+              className="px-4 sm:px-6 py-2 sm:py-3 font-semibold transition-all whitespace-nowrap text-sm sm:text-base text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 black-white:text-gray-600 black-white:hover:text-black white-black:text-gray-400 white-black:hover:text-white"
+            >
+              📰 {language === 'nl' ? 'Nieuws' : 'News'}
+            </button>
           </div>
           
           {/* Search Bar */}
@@ -1117,6 +1124,14 @@ function App() {
             element={
               <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><SkeletonLoader count={3} type="card" /></div>}>
                 <IndexDetail />
+              </Suspense>
+            } 
+          />
+          <Route 
+            path="/news" 
+            element={
+              <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><SkeletonLoader count={3} type="card" /></div>}>
+                <NewsPage />
               </Suspense>
             } 
           />

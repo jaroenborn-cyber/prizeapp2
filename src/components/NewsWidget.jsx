@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
+import { saveNewsToBackend, getNewsArchive } from '../services/newsApi';
 
 const CACHE_KEY = 'crypto_news_cache';
-const ARCHIVE_KEY = 'crypto_news_archive';
 const CACHE_DURATION = 8 * 60 * 60 * 1000; // 8 hours in milliseconds
 
 function NewsWidget() {
@@ -92,35 +93,23 @@ function NewsWidget() {
     }
   };
 
-  const loadArchive = () => {
+  const loadArchive = async () => {
     try {
-      const stored = localStorage.getItem(ARCHIVE_KEY);
-      if (stored) {
-        const archiveData = JSON.parse(stored);
-        setArchive(archiveData);
-      }
+      const archiveData = await getNewsArchive('all', 'date', 100, 0);
+      setArchive(archiveData);
     } catch (error) {
-      console.error('Failed to load archive:', error);
+      console.error('Failed to load archive from backend:', error);
+      setArchive([]);
     }
   };
 
-  const updateArchive = (newItems) => {
+  const updateArchive = async (newItems) => {
     try {
-      const existing = localStorage.getItem(ARCHIVE_KEY);
-      let archiveData = existing ? JSON.parse(existing) : [];
+      // Save to backend
+      await saveNewsToBackend(newItems);
       
-      // Add new items that aren't already in archive
-      newItems.forEach(item => {
-        if (!archiveData.find(a => a.id === item.id)) {
-          archiveData.unshift(item);
-        }
-      });
-      
-      // Keep last 100 items
-      archiveData = archiveData.slice(0, 100);
-      
-      localStorage.setItem(ARCHIVE_KEY, JSON.stringify(archiveData));
-      setArchive(archiveData);
+      // Reload archive from backend
+      await loadArchive();
     } catch (error) {
       console.error('Failed to update archive:', error);
     }
@@ -176,15 +165,23 @@ function NewsWidget() {
             {language === 'nl' ? '🔥 Trending Crypto' : '🔥 Trending Crypto'}
           </span>
         </h2>
-        <button
-          onClick={() => setShowArchive(!showArchive)}
-          className="px-3 py-1.5 text-sm rounded-lg bg-slate-800 dark:bg-slate-800 light:bg-slate-200 black-white:bg-gray-200 white-black:bg-gray-800 text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black white-black:text-white hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-300 black-white:hover:bg-gray-300 white-black:hover:bg-gray-700 transition-colors"
-        >
-          {showArchive 
-            ? (language === 'nl' ? '← Terug' : '← Back')
-            : (language === 'nl' ? `Archief (${archive.length})` : `Archive (${archive.length})`)
-          }
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setShowArchive(!showArchive)}
+            className="px-3 py-1.5 text-sm rounded-lg bg-slate-800 dark:bg-slate-800 light:bg-slate-200 black-white:bg-gray-200 white-black:bg-gray-800 text-slate-300 dark:text-slate-300 light:text-slate-700 black-white:text-black white-black:text-white hover:bg-slate-700 dark:hover:bg-slate-700 light:hover:bg-slate-300 black-white:hover:bg-gray-300 white-black:hover:bg-gray-700 transition-colors"
+          >
+            {showArchive 
+              ? (language === 'nl' ? '← Terug' : '← Back')
+              : (language === 'nl' ? `Archief (${archive.length})` : `Archive (${archive.length})`)
+            }
+          </button>
+          <Link 
+            to="/news"
+            className="px-3 py-1.5 text-sm rounded-lg bg-gradient-to-r from-neon-cyan to-neon-purple text-white font-semibold hover:shadow-lg hover:shadow-neon-cyan/20 transition-all"
+          >
+            {language === 'nl' ? '📰 Alle Nieuws' : '📰 All News'}
+          </Link>
+        </div>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
