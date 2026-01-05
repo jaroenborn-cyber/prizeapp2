@@ -32,6 +32,7 @@ function AppContent() {
   const getInitialTab = () => {
     if (location.pathname === '/block-explorer') return 'explorer';
     if (location.pathname === '/market-monitor') return 'markets';
+    if (location.pathname === '/news') return 'news';
     return 'crypto';
   };
   
@@ -44,6 +45,8 @@ function AppContent() {
       navigate('/block-explorer');
     } else if (tab === 'markets') {
       navigate('/market-monitor');
+    } else if (tab === 'news') {
+      navigate('/news');
     } else {
       navigate('/');
     }
@@ -782,7 +785,7 @@ function AppContent() {
               📊 {t.marketMonitor || 'Markets'}
             </button>
             <button
-              onClick={() => navigate('/news')}
+              onClick={() => handleTabChange('news')}
               className="px-4 sm:px-6 py-2 sm:py-3 font-semibold transition-all whitespace-nowrap text-sm sm:text-base text-slate-400 hover:text-slate-200 dark:text-slate-400 dark:hover:text-slate-200 light:text-slate-600 light:hover:text-slate-800 black-white:text-gray-600 black-white:hover:text-black white-black:text-gray-400 white-black:hover:text-white"
             >
               📰 {language === 'nl' ? 'Nieuws' : 'News'}
@@ -809,6 +812,10 @@ function AppContent() {
       ) : activeTab === 'markets' ? (
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><SkeletonLoader count={3} type="card" /></div>}>
           <MarketMonitor />
+        </Suspense>
+      ) : activeTab === 'news' ? (
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><SkeletonLoader count={3} type="card" /></div>}>
+          <NewsPage />
         </Suspense>
       ) : (
       <main className="w-full px-3 sm:px-4 py-6 sm:py-8">
@@ -1119,19 +1126,12 @@ function App() {
           <Route path="/" element={<AppContent />} />
           <Route path="/block-explorer" element={<AppContent />} />
           <Route path="/market-monitor" element={<AppContent />} />
+          <Route path="/news" element={<AppContent />} />
           <Route 
             path="/market-monitor/:symbol" 
             element={
               <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><SkeletonLoader count={3} type="card" /></div>}>
                 <IndexDetail />
-              </Suspense>
-            } 
-          />
-          <Route 
-            path="/news" 
-            element={
-              <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><SkeletonLoader count={3} type="card" /></div>}>
-                <NewsPage />
               </Suspense>
             } 
           />
