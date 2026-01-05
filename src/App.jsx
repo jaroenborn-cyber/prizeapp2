@@ -72,14 +72,8 @@ function AppContent() {
     // Load favorites and recently viewed from localStorage
     const savedFavorites = JSON.parse(localStorage.getItem('favoriteCryptos') || '[]');
     
-    // Set default favorites (Bitcoin and Ethereum) for new visitors
-    if (savedFavorites.length === 0) {
-      const defaultFavorites = ['bitcoin', 'ethereum'];
-      localStorage.setItem('favoriteCryptos', JSON.stringify(defaultFavorites));
-      setFavoriteCryptos(defaultFavorites);
-    } else {
-      setFavoriteCryptos(savedFavorites);
-    }
+    // Note: favoriteCryptos will be populated with full objects after fetchData completes
+    setFavoriteCryptos(savedFavorites);
     
     const savedRecentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]').slice(0, 4);
     setRecentlyViewed(savedRecentlyViewed);
@@ -115,6 +109,14 @@ function AppContent() {
         });
         setFavoriteCryptos(updatedFavorites);
         localStorage.setItem('favoriteCryptos', JSON.stringify(updatedFavorites));
+      } else {
+        // Set default favorites (Bitcoin and Ethereum) for new visitors
+        const defaultIds = ['bitcoin', 'ethereum'];
+        const defaultFavorites = cryptos.filter(crypto => defaultIds.includes(crypto.id));
+        if (defaultFavorites.length > 0) {
+          setFavoriteCryptos(defaultFavorites);
+          localStorage.setItem('favoriteCryptos', JSON.stringify(defaultFavorites));
+        }
       }
       
       // Update recently viewed with fresh data
