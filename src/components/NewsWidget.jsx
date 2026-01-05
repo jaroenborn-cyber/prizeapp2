@@ -37,12 +37,39 @@ function NewsWidget() {
         }
       }
 
-      // Fetch fresh data from CryptoPanic API (free public endpoint)
+      // Try to load from backend first
+      const backendData = await getNewsArchive('all', 'date', 6, 0);
+      
+      if (backendData && backendData.length > 0) {
+        // Check if backend data is fresh (less than 8 hours)
+        const newestItem = backendData[0];
+        const age = Date.now() - new Date(newestItem.published_at).getTime();
+        
+        if (age < CACHE_DURATION) {
+          setNews(backendData);
+          setLoading(false);
+          
+          // Cache locally
+          localStorage.setItem(CACHE_KEY, JSON.stringify({
+            data: backendData,
+            timestamp: Date.now()
+          }));
+          return;
+        }
+      }
+
+      // Fetch fresh data from CryptoPanic API
       const response = await fetch(
-        'https://cryptopanic.com/api/v1/posts/?auth_token=ecbfcfbaa534c17b0c929b276ce4018c24370b07&public=true&kind=news&filter=rising'
+        'https://cryptopanic.com/api/free/v1/posts/?kind=news&filter=rising'
       );
       
       if (!response.ok) {
+        console.warn('CryptoPanic API failed, using backend data');
+        if (backendData && backendData.length > 0) {
+          setNews(backendData);
+          setLoading(false);
+          return;
+        }
         throw new Error(`API error: ${response.status}`);
       }
       
@@ -50,6 +77,12 @@ function NewsWidget() {
       
       if (!result || !result.results || !Array.isArray(result.results)) {
         console.error('Invalid API response:', result);
+        // Fallback to backend
+        if (backendData && backendData.length > 0) {
+          setNews(backendData);
+          setLoading(false);
+          return;
+        }
         setNews([]);
         setLoading(false);
         return;
@@ -57,26 +90,34 @@ function NewsWidget() {
       
       // Transform CryptoPanic data
       const newsData = result.results.slice(0, 6).map((item) => ({
-        id: item.id,
+        id: String(item.id || Date.now() + Math.random()),
         title: item.title,
         url: item.url,
         source: { 
           title: item.source?.title || 'CryptoPanic',
-          domain: item.source?.domain || item.domain
+          domain: item.source?.domain || item.domain || 'cryptopanic.com'
         },
-        published_at: item.published_at,
+        published_at: item.published_at || new Date().toISOString(),
         currencies: item.currencies || [],
         votes: {
           positive: item.votes?.positive || 0,
           negative: item.votes?.negative || 0,
           important: item.votes?.important || 0
         },
-        kind: item.kind, // news, media, blog
-        metadata: item.metadata
+        kind: item.kind || 'news',
+        metadata: item.metadata || {}
       }));
       
+      // Save to backend
+      try {
+        await saveNewsToBackend(newsData);
+        console.log('News saved to backend');
+      } catch (err) {
+        console.warn('Failed to save to backend:', err);
+      }
+      
       // Update archive
-      updateArchive(newsData);
+      await updateArchive(newsData);
       
       // Cache the data
       localStorage.setItem(CACHE_KEY, JSON.stringify({
@@ -88,7 +129,17 @@ function NewsWidget() {
       setLoading(false);
     } catch (error) {
       console.error('Failed to fetch news:', error);
-      setNews([]);
+      // Final fallback: try backend one more time
+      try {
+        const fallbackData = await getNewsArchive('all', 'date', 6, 0);
+        if (fallbackData && fallbackData.length > 0) {
+          setNews(fallbackData);
+        } else {
+          setNews([]);
+        }
+      } catch {
+        setNews([]);
+      }
       setLoading(false);
     }
   };

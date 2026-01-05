@@ -1,4 +1,4 @@
-const API_BASE = 'https://jouwdomain.com/api'; // TODO: Update met je Hostinger domein
+const API_BASE = 'https://coinmarkt.nl/api';
 
 export const saveNewsToBackend = async (newsItems) => {
   try {
